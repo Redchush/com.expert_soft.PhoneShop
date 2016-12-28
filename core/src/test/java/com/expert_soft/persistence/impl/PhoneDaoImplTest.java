@@ -17,22 +17,28 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.sql.DataSource;
 import java.lang.reflect.Field;
+import java.sql.Connection;
+import java.sql.DatabaseMetaData;
+import java.sql.ResultSet;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations={
         "classpath:persistence-context.xml",
-        "classpath:test-dataSource-context.xml"
+        "classpath:test-dataSource-context.xml",
+        "classpath:dataSource-context.xml"
+
 //        ,"classpath:test-transaction-context.xml"
 
 })
 
 @TestExecutionListeners({
-        DependencyInjectionTestExecutionListener.class
-        ,TransactionalTestExecutionListener.class
+        DependencyInjectionTestExecutionListener.class,
+//        TransactionalTestExecutionListener.class
 } )
-@Transactional
+//@Transactional
 public class PhoneDaoImplTest {
 
     @Autowired
@@ -56,18 +62,34 @@ public class PhoneDaoImplTest {
     @Test
     public void getPhone() throws Exception {
         Phone actual = dao.getPhone(1l);
-        Phone expected = (Phone) applicationContext.getBean("PhoneDaoImplTest_getPhone");
+        Phone expected = (Phone) applicationContext.getBean("phoneDaoImplTest_getPhone");
         assertEquals(expected, actual);
     }
 
-    @Test
-    public void savePhone() throws Exception {
 
+    @Test(expected = org.springframework.dao.EmptyResultDataAccessException.class)
+    public void getNotExistingPhone(){
+        dao.getPhone(Long.MAX_VALUE);
     }
 
     @Test
     public void findAll() throws Exception {
-
+        int rowCountExpected = 5;
+        List<Phone> all = dao.findAll();
+        assertEquals(rowCountExpected, all.size());
     }
+
+    @Test
+    public void savePhone() throws Exception {
+        Long idExpected = 6L;
+        Phone phoneToBeSaved = (Phone) applicationContext.getBean("phoneDaoImplTest_savePhone");
+        dao.savePhone(phoneToBeSaved);
+        Phone phone = dao.getPhone(idExpected);
+        assertEquals(idExpected, phone.getKey());
+        phoneToBeSaved.setKey(6L);
+        assertEquals(phone, phoneToBeSaved);
+    }
+
+
 
 }

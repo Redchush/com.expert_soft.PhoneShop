@@ -8,9 +8,12 @@ public class Order {
 
     private Long key;
     private List<OrderItem> orderItems;
-    private BigDecimal subtotal; // a sum of order item prices
+
     private BigDecimal deliveryPrice;
+
+    private BigDecimal subtotal; // a sum of order item prices
     private BigDecimal totalPrice;
+
     private String firstName;
     private String lastName;
     private String deliveryAddress;

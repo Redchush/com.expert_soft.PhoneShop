@@ -18,17 +18,62 @@
         <property name="dataSource" ref="dataSource" />
     </bean>
 
-    <!-- <start id="bean.jdbcTemplate" /> -->
     <bean id="jdbcTemplate"
           class="org.springframework.jdbc.core.JdbcTemplate">
         <constructor-arg ref="dataSource" />
     </bean>
 
-    <bean id="PhoneDaoImplTest_getPhone"
+
+    <!--beans in to check-->
+    <bean id="phoneDaoImplTest_getPhone"
           class="com.expert_soft.model.Phone">
         <property name="key" value="1"/>
         <property name="model" value="fly"/>
         <property name="price" value="111111"/>
     </bean>
-    <!-- <end id="bean.jdbcTemplate" /> -->
+
+    <bean id="phoneDaoImplTest_savePhone"
+          class="com.expert_soft.model.Phone">
+        <property name="model" value="iphone"/>
+        <property name="price" value="1000000"/>
+    </bean>
+
+
+    <bean id="orderItem_firstClient" class="com.expert_soft.model.OrderItem">
+        <property name="phone" ref="phoneDaoImplTest_getPhone"/>
+        <property name="quantity" value="1"/>
+        <property name="key" value="1"/>
+    </bean>
+
+
+
+    <bean id="orderDaoImplTest_getOrder"
+          class="com.expert_soft.model.Order">
+        <property name="key" value="1"/>
+        <property name="firstName" value="klara"/>
+        <property name="lastName" value="karlovna"/>
+        <property name="deliveryPrice" value="10"/>
+        <property name="deliveryAddress" value="karlovy vary"/>
+        <property name="contactPhoneNo" value="+375 29 111 77 77"/>
+        <property name="orderItems">
+            <list value-type="com.expert_soft.model.OrderItem">
+                <ref bean="orderItem_firstClient"/>
+            </list>
+        </property>
+
+    </bean>
+
+    <!--(1, 10, 'klara', 'karlovna', 'karlovy vary', '+375 29 111 77 77'),-->
+
+
+    <!--<bean id="orderDaoImplTest_saveOrder"-->
+    <!--class="com.expert_soft.model.Order">-->
+    <!--<property name="key" value="1"/>-->
+    <!--<property name="model" value="fly"/>-->
+    <!--<property name="price" value="111111"/>-->
+    <!--</bean>-->
+
+
+
+
 </beans>

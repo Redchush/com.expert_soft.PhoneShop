@@ -3,13 +3,21 @@ package com.expert_soft.model;
 
 public class OrderItem {
 
-
+    private Long key;
     private Phone phone;
     private Order order;
     private Long quantity;
 
     public Phone getPhone() {
         return phone;
+    }
+
+    public Long getKey() {
+        return key;
+    }
+
+    public void setKey(Long key) {
+        this.key = key;
     }
 
     public void setPhone(Phone phone) {
@@ -32,6 +40,7 @@ public class OrderItem {
         this.quantity = quantity;
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -43,6 +52,9 @@ public class OrderItem {
 
         OrderItem orderItem = (OrderItem) o;
 
+        if (key != null ? !key.equals(orderItem.key) : orderItem.key != null) {
+            return false;
+        }
         if (phone != null ? !phone.equals(orderItem.phone) : orderItem.phone != null) {
             return false;
         }
@@ -55,9 +67,24 @@ public class OrderItem {
 
     @Override
     public int hashCode() {
-        int result = phone != null ? phone.hashCode() : 0;
+        int result = key != null ? key.hashCode() : 0;
+        result = 31 * result + (phone != null ? phone.hashCode() : 0);
         result = 31 * result + (order != null ? order.hashCode() : 0);
         result = 31 * result + (quantity != null ? quantity.hashCode() : 0);
         return result;
     }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("OrderItem{");
+
+        sb.append("key=").append(key);
+        sb.append(", phone=").append(phone);
+        sb.append(", order=").append(order);
+        sb.append(", quantity=").append(quantity);
+        sb.append('}');
+        return sb.toString();
+    }
+
+
 }
