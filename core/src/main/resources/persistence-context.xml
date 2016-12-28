@@ -26,14 +26,19 @@
   </bean>
 
   <!--collectors-->
-  <bean id="phone_mapper" 
+  <bean id="phone_mapper"
         class="com.expert_soft.persistence.impl.util.Collectors$PhoneRowMapper"
         lazy-init="true"/>
-  
-  <bean id="order_extractor" 
-        class="com.expert_soft.persistence.impl.util.Collectors$OrderResultSetExtractor"
+
+  <bean id="order_mapper"
+        class="com.expert_soft.persistence.impl.util.Collectors$OrderRowMapper"
+        lazy-init="true"/>
+
+  <bean id="single_order_extractor"
+        class="com.expert_soft.persistence.impl.util.Collectors$SingleOrderResultSetExtractor"
         lazy-init="true">
-    <property name="phoneRowMapper" ref="phone_mapper"/>    
+    <constructor-arg ref="phone_mapper"/>
+    <constructor-arg ref="order_mapper"/>
   </bean>
 
 

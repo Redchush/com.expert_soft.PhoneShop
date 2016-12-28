@@ -85,9 +85,17 @@ public class PhoneDaoImplTest {
         Phone phoneToBeSaved = (Phone) applicationContext.getBean("phoneDaoImplTest_savePhone");
         dao.savePhone(phoneToBeSaved);
         Phone phone = dao.getPhone(idExpected);
+
         assertEquals(idExpected, phone.getKey());
         phoneToBeSaved.setKey(6L);
         assertEquals(phone, phoneToBeSaved);
+    }
+
+    @Test(expected = org.springframework.dao.DuplicateKeyException.class)
+    public void saveNotUniquePhone(){
+        Phone expected = (Phone) applicationContext.getBean("phoneDaoImplTest_getPhone");
+        expected.setKey(null);
+        dao.savePhone(expected);
     }
 
 
