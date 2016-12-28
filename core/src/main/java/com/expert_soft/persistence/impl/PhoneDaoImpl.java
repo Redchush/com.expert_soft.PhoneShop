@@ -15,7 +15,16 @@ import java.util.List;
 @Repository("PhoneDao")
 public class PhoneDaoImpl implements PhoneDao {
 
+    private static final String INSERT_ONE_QUERY =
+            "INSERT INTO phones (model, price) VALUES (?, ?)";
+
+    private static final String GET_ALL_QUERY =
+            "SELECT phones.id, phones.model, phones.price FROM phones";
+
+    private static final String GET_ONE_QUERY = GET_ALL_QUERY + " WHERE id = ?";
+
     private JdbcTemplate jdbcTemplate;
+
     private RowMapper<Phone> phoneRowMapper;
 
     @Autowired
@@ -31,22 +40,17 @@ public class PhoneDaoImpl implements PhoneDao {
 
     @Override
     public Phone getPhone(Long key) {
-        return this.jdbcTemplate.queryForObject("select id, model, price from phones where id = ?",
-                new Object[]{key},
-                phoneRowMapper);
+        return this.jdbcTemplate.queryForObject(GET_ONE_QUERY, new Object[]{key}, phoneRowMapper);
     }
 
     @Override
     public void savePhone(Phone phone) {
-        this.jdbcTemplate.update(
-                "insert into phones (model, price) values (?, ?)",
-                phone.getModel(), phone.getPrice());
+        this.jdbcTemplate.update(INSERT_ONE_QUERY,phone.getModel(), phone.getPrice());
     }
 
     @Override
     public List<Phone> findAll() {
-       return this.jdbcTemplate.query("select id, model, price from phones",
-               phoneRowMapper);
+       return this.jdbcTemplate.query(GET_ALL_QUERY, phoneRowMapper);
     }
 
 }

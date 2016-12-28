@@ -25,7 +25,16 @@
               value="${db.password}" />
   </bean>
 
-  <bean id="phone_mapper" class="com.expert_soft.persistence.impl.util.Collectors$PhoneRowMapper"/>
+  <!--collectors-->
+  <bean id="phone_mapper" 
+        class="com.expert_soft.persistence.impl.util.Collectors$PhoneRowMapper"
+        lazy-init="true"/>
+  
+  <bean id="order_extractor" 
+        class="com.expert_soft.persistence.impl.util.Collectors$OrderResultSetExtractor"
+        lazy-init="true">
+    <property name="phoneRowMapper" ref="phone_mapper"/>    
+  </bean>
 
 
 

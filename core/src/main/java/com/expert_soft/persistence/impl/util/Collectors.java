@@ -19,9 +19,11 @@ import java.util.Map;
  *
  */
 public class Collectors {
+    
 
 
     public static class PhoneRowMapper implements RowMapper<Phone> {
+        
         public Phone mapRow(ResultSet rs, int rowNum) throws SQLException {
             Phone phone = new Phone();
             phone.setKey(rs.getLong(1));
@@ -32,6 +34,13 @@ public class Collectors {
     }
 
     public static class OrderResultSetExtractor implements ResultSetExtractor<Order> {
+        
+        private PhoneRowMapper phoneRowMapper;
+
+        public void setPhoneRowMapper(PhoneRowMapper phoneRowMapper) {
+            this.phoneRowMapper = phoneRowMapper;
+        }
+
         @Override
         public Order extractData(ResultSet rs) throws SQLException, DataAccessException {
 
