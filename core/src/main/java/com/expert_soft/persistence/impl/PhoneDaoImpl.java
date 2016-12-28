@@ -2,7 +2,6 @@ package com.expert_soft.persistence.impl;
 
 import com.expert_soft.model.Phone;
 import com.expert_soft.persistence.PhoneDao;
-import com.expert_soft.persistence.impl.util.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;

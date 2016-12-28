@@ -7,6 +7,7 @@
                  http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
 
+
   <bean id="propertyConfigurer"
         class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
     <property name="location" value="db.properties" />
@@ -23,6 +24,9 @@
     <property name="password"
               value="${db.password}" />
   </bean>
+
+  <bean id="phone_mapper" class="com.expert_soft.persistence.impl.util.Collectors$PhoneRowMapper"/>
+
 
 
   <!--<bean id="jdbcTemplate"-->
