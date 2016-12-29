@@ -84,8 +84,9 @@ public class PhoneDaoImplTest {
         Long idExpected = 6L;
         Phone phoneToBeSaved = (Phone) applicationContext.getBean("phoneDaoImplTest_savePhone");
         dao.savePhone(phoneToBeSaved);
-        Phone phone = dao.getPhone(idExpected);
+        Thread.sleep(500);
 
+        Phone phone = dao.getPhone(idExpected);
         assertEquals(idExpected, phone.getKey());
         phoneToBeSaved.setKey(6L);
         assertEquals(phone, phoneToBeSaved);

@@ -58,7 +58,9 @@ public class OrderItem {
         if (phone != null ? !phone.equals(orderItem.phone) : orderItem.phone != null) {
             return false;
         }
-        if (order != null ? !order.equals(orderItem.order) : orderItem.order != null) {
+        if (order != null ? (order.getKey() != null && key == null) ||
+                            !order.getKey().equals(orderItem.order.getKey())
+                          : orderItem.order.getKey() != null) {
             return false;
         }
         return quantity != null ? quantity.equals(orderItem.quantity) : orderItem.quantity == null;
@@ -69,7 +71,9 @@ public class OrderItem {
     public int hashCode() {
         int result = key != null ? key.hashCode() : 0;
         result = 31 * result + (phone != null ? phone.hashCode() : 0);
-        result = 31 * result + (order != null ? order.hashCode() : 0);
+        result = 31 * result + (order != null ? (order.getKey() != null ?  order.getKey().hashCode()
+                                                                        : 0)
+                                              : 0);
         result = 31 * result + (quantity != null ? quantity.hashCode() : 0);
         return result;
     }
@@ -80,7 +84,7 @@ public class OrderItem {
 
         sb.append("key=").append(key);
         sb.append(", phone=").append(phone);
-        sb.append(", order=").append(order);
+        sb.append(", order key=").append(order == null ? null : order.getKey());
         sb.append(", quantity=").append(quantity);
         sb.append('}');
         return sb.toString();

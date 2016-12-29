@@ -51,7 +51,7 @@ public class ConnectionTest {
     @Autowired
     private PhoneDao dao;
 
-    @Test
+//    @Test
     public void setDataSource() throws Exception {
         DataSource dataSource = jdbcTemplate.getDataSource();
         DatabaseMetaData metaData;

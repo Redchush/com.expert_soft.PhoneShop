@@ -40,7 +40,8 @@
 
     <!--orderDaoTest-->
 
-    <bean id="orderItem_firstClient" class="com.expert_soft.model.OrderItem" scope="prototype">
+    <bean id="orderItem_firstClient" class="com.expert_soft.model.OrderItem"
+          scope="prototype">
         <property name="phone" ref="phoneDaoImplTest_getPhone"/>
         <property name="quantity" value="1"/>
         <property name="key" value="1"/>
@@ -49,7 +50,9 @@
 
     <!--(1, 10, 'klara', 'karlovna', 'karlovy vary', '+375 29 111 77 77'),-->
     <bean id="orderDaoImplTest_getOrder_1"
-          class="com.expert_soft.model.Order" scope="prototype">
+          class="com.expert_soft.model.Order" scope="prototype"
+          init-method="initOrderInItems"
+    >
         <property name="key" value="1"/>
         <property name="firstName" value="klara"/>
         <property name="lastName" value="karlovna"/>
@@ -57,12 +60,12 @@
         <property name="deliveryAddress" value="karlovy vary"/>
         <property name="contactPhoneNo" value="+375 29 111 77 77"/>
         <property name="orderItems">
-            <list value-type="com.expert_soft.model.OrderItem">
+            <set value-type="com.expert_soft.model.OrderItem">
                 <ref bean="orderItem_firstClient"/>
-            </list>
+            </set>
         </property>
-
     </bean>
+
 
 
     <bean id="phone_2"
@@ -86,10 +89,13 @@
     </bean>
 
 
-    <!--(2, 20, 'kenny', 'poor', 'south park', '+375 29 222 77 77'),-->
+    <!--(2, 20, 'kenny', 'poor', 'south park', '+375 29 222 77 77'),
+      init-method="initOrderInItems"
+    -->
 
     <bean id="orderDaoImplTest_getOrder_2"
           class="com.expert_soft.model.Order"
+
           scope="prototype">
         <property name="key" value="2"/>
         <property name="firstName" value="kenny"/>
@@ -98,12 +104,11 @@
         <property name="deliveryAddress" value="south park"/>
         <property name="contactPhoneNo" value="+375 29 222 77 77"/>
         <property name="orderItems">
-            <list value-type="com.expert_soft.model.OrderItem">
+            <set value-type="com.expert_soft.model.OrderItem">
                 <ref bean="orderItem_secondClient_1"/>
                 <ref bean="orderItem_secondClient_2"/>
-            </list>
+            </set>
         </property>
-
     </bean>
 
 

@@ -1,13 +1,18 @@
 package com.expert_soft.model;
 
 
+import org.springframework.beans.factory.InitializingBean;
+
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class Order {
 
     private Long key;
-    private List<OrderItem> orderItems;
+    private Set<OrderItem> orderItems;
 
     private BigDecimal deliveryPrice;
 
@@ -20,6 +25,10 @@ public class Order {
     private String contactPhoneNo;
 
 
+    public Order() {
+        orderItems = new HashSet<>();
+    }
+
     public Long getKey() {
         return key;
     }
@@ -28,11 +37,11 @@ public class Order {
         this.key = key;
     }
 
-    public List<OrderItem> getOrderItems() {
+    public Set<OrderItem> getOrderItems() {
         return orderItems;
     }
 
-    public void setOrderItems(List<OrderItem> orderItems) {
+    public void setOrderItems(Set<OrderItem> orderItems) {
         this.orderItems = orderItems;
     }
 
@@ -106,6 +115,9 @@ public class Order {
         if (key != null ? !key.equals(order.key) : order.key != null) {
             return false;
         }
+        if (orderItems != null ? !orderItems.equals(order.orderItems) : order.orderItems != null) {
+            return false;
+        }
         if (deliveryPrice != null ? !deliveryPrice.equals(order.deliveryPrice) : order.deliveryPrice != null) {
             return false;
         }
@@ -125,6 +137,7 @@ public class Order {
     @Override
     public int hashCode() {
         int result = key != null ? key.hashCode() : 0;
+        result = 31 * result + (orderItems != null ? orderItems.hashCode() : 0);
         result = 31 * result + (deliveryPrice != null ? deliveryPrice.hashCode() : 0);
         result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
         result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
@@ -132,4 +145,27 @@ public class Order {
         result = 31 * result + (contactPhoneNo != null ? contactPhoneNo.hashCode() : 0);
         return result;
     }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Order{");
+
+        sb.append("key=").append(key);
+        sb.append(", orderItems=").append(orderItems);
+        sb.append(", deliveryPrice=").append(deliveryPrice);
+        sb.append(", subtotal=").append(subtotal);
+        sb.append(", totalPrice=").append(totalPrice);
+        sb.append(", firstName='").append(firstName).append('\'');
+        sb.append(", lastName='").append(lastName).append('\'');
+        sb.append(", deliveryAddress='").append(deliveryAddress).append('\'');
+        sb.append(", contactPhoneNo='").append(contactPhoneNo).append('\'');
+        sb.append('}');
+        return sb.toString();
+    }
+
+    public void initOrderInItems(){
+        orderItems.forEach(s-> s.setOrder(this));
+    }
+
+
 }

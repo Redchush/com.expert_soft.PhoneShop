@@ -2,11 +2,12 @@
 
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-                 http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+                 http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
 
-
+  <tx:annotation-driven transaction-manager="transactionManager"/>
+  <context:component-scan base-package="com.expert_soft.persistence.impl" />
 
   <bean id="propertyConfigurer"
         class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
@@ -41,21 +42,34 @@
     <constructor-arg ref="order_mapper"/>
   </bean>
 
+  <bean id="multiple_order_extractor"
+        class="com.expert_soft.persistence.impl.util.Collectors$MultipleOrderResultSetExtractor"
+        lazy-init="true">
+    <constructor-arg ref="single_order_extractor"/>
+  </bean>
+
+  <bean id="transactionManager"
+        class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+    <property name="dataSource" ref="dataSource" />
+  </bean>
+
+
+
 
 
   <!--<bean id="jdbcTemplate"-->
-     <!--class="org.springframework.jdbc.core.JdbcTemplate">-->
-     <!--<constructor-arg ref="dataSource" />-->
+  <!--class="org.springframework.jdbc.core.JdbcTemplate">-->
+  <!--<constructor-arg ref="dataSource" />-->
   <!--</bean>-->
 
-  <context:component-scan base-package="com.expert_soft.persistence.impl" />
+
 
   <!--<bean id="orderDao" lazy-init="true"-->
-      <!--class="com.expert_soft.persistence.impl.OrderDaoImpl">-->
+  <!--class="com.expert_soft.persistence.impl.OrderDaoImpl">-->
   <!--</bean>-->
 
   <!--<bean id="phoneDao" lazy-init="true"-->
-        <!--class="com.expert_soft.persistence.impl.PhoneDaoImpl">-->
+  <!--class="com.expert_soft.persistence.impl.PhoneDaoImpl">-->
   <!--</bean>-->
 
 </beans>

@@ -5,14 +5,18 @@ import com.expert_soft.persistence.PhoneDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-@Repository("PhoneDao")
+@Repository("phoneDao")
 public class PhoneDaoImpl implements PhoneDao {
 
     private static final String INSERT_ONE_QUERY =
@@ -24,7 +28,6 @@ public class PhoneDaoImpl implements PhoneDao {
     private static final String GET_ONE_QUERY = GET_ALL_QUERY + " WHERE id = ?";
 
     private JdbcTemplate jdbcTemplate;
-
     private RowMapper<Phone> phoneRowMapper;
 
     @Autowired
