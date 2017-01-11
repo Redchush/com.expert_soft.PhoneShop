@@ -1,0 +1,136 @@
+<%@ taglib prefix="c" uri="http://www.springframework.org/tags" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <title>Phonify product list</title>
+
+  <link href="<c:url value="/resources/css/bootstrap.min.css"/>" rel="stylesheet">
+  <link href="<c:url value="/resources/css/main.css"/>" rel="stylesheet">
+
+</head>
+
+<body>
+<!--use phf class to change default bootstrap css-->
+<nav class="navbar navbar-default">
+  <div class="container">
+    <a class="navbar-brand" href="index.html"><span class="glyphicon glyphicon-phone"></span>Phonify</a>
+    <button class="btn btn-default pnf pull-right" type="button">My cart: 0 items 0$</button>
+    <div class="clearfix"></div>
+  </div>
+</nav>
+
+
+<!-- Page Content -->
+<div class="container">
+  <div class="row">
+    <div class="col-lg-12 pnf">
+      <h1>Thank for your order</h1>
+    </div>
+    <table class="table table-responsive">
+      <thead class="pnf">
+      <tr>
+        <th>Model</th>
+        <th>Color</th>
+        <th>Display size</th>
+        <th>Price</th>
+        <th>Quantity</th>
+        <th>Action</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td>Model</td>
+        <td>Color</td>
+        <td>Display size</td>
+        <td>Price</td>
+        <td>1</td>
+        <td>200</td>
+      </tr>
+      <tr>
+        <td>Model</td>
+        <td>Color</td>
+        <td>Display size</td>
+        <td>Price</td>
+        <td>1</td>
+        <td>200</td>
+      </tr>
+      <tr>
+        <td>Model</td>
+        <td>Color</td>
+        <td>Display size</td>
+        <td>Price</td>
+        <td>1</td>
+        <td>200</td>
+      </tr>
+      </tbody>
+      <tfoot class="emptyCelled">
+      <tr>
+        <td colspan="4"></td>
+        <td>Subtotal</td>
+        <td>750</td>
+      </tr>
+      <tr>
+        <td colspan="4"></td>
+        <td>Delivery</td>
+        <td>750</td>
+      </tr>
+      <tr>
+        <td colspan="4"></td>
+        <td>TOTAL</td>
+        <td>750</td>
+      </tr>
+
+
+      </tfoot>
+    </table>
+
+  </div>
+  <div class="row">
+    <div class="form-horizontal pnf">
+      <div class="form-group">
+        <label class="col-sm-2">First name</label>
+        <div class="col-sm-5">Andrew</div>
+      </div>
+      <div class="form-group">
+        <label class="col-xs-2">Last name</label>
+        <div class="col-sm-5">Watson</div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-sm-2" >Address</label>
+        <div class="col-sm-5">My adress</div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-2" >Phone</label>
+        <div class="col-sm-5"> myPhone</div>
+      </div>
+
+      <div class="form-group">
+        <div class="col-sm-7">
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci animi architecto dicta ducimus esse facilis fugit id magnam, minima modi nesciunt pariatur quam recusandae reprehenderit saepe sint, totam vitae voluptate?
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="col-sm-3">
+          <button type="submit" class="btn btn-default btn-block pnf">Back to Shopping</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script src="<c:url value="/resources/js/jquery.js"/>"></script>
+<script src="<c:url value="/resources/js/bootstrap.min.js"/>" ></script>
+
+</body>
+</html>
