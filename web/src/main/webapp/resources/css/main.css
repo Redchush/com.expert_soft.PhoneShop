@@ -1,0 +1,68 @@
+.navbar-default{
+    background-color: white;
+    border: none;
+}
+
+.navbar-brand{
+    font-size: 30px;
+}
+
+.navbar .btn-default{
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.navbar-default .container{
+    border-bottom: 2px solid #5e5e5e;
+}
+.col-lg-12.pnf{
+    padding-left: 0;
+}
+.btn-default.pnf{
+    background-color: #DDE2E3;
+    color: #72747A;
+}
+.btn-default.pnf:hover{
+    background-color:#D1D9DC;
+}
+
+thead.pnf{
+    background-color:#DDE2E3;
+    color: #72747A;
+}
+.table>tbody>tr>td, .table>tbody>tr>th,
+.table>tfoot>tr>td, .table>tfoot>tr>th,
+.table>thead>tr>td, .table>thead>tr>th{
+    border: 1px solid #72747A;
+    border-top: 1px;
+    vertical-align: middle;
+}
+table.fit, table.fit td, table.fit th{
+    white-space: nowrap;
+    width: 1%;
+    min-width: 100px;
+}
+
+h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+footer {
+    margin: 50px 0;
+}
+
+.form-inline{
+    margin-top: 30px;
+}
+
+.emptyCelled tr, .emptyCelled td[colspan] {
+    border: none;
+}
+
+.form-horizontal.pnf label{
+    text-align: left;
+}
+/*.form-horizontal.pnf .btn-default.pnf{*/
+    /*padding-left: 40px;*/
+    /*padding-right: 40px;*/
+/*}*/

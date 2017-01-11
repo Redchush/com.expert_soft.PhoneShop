@@ -57,6 +57,7 @@
         <td>Price</td>
         <td>val</td>
       </tr>
+
       <tr>
         <td>Camera</td>
         <td>val</td>
