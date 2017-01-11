@@ -7,8 +7,8 @@
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
   <jdbc:embedded-database id="dataSource" type="HSQL" >
-     <jdbc:script location="classpath:schema.sql" />
-     <jdbc:script location="classpath:data.sql"/>
+     <jdbc:script location="classpath:db/schema.sql" />
+     <jdbc:script location="classpath:db/data.sql"/>
   </jdbc:embedded-database>
 
 </beans>

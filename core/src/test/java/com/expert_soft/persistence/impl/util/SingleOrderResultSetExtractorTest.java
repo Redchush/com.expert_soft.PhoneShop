@@ -1,7 +1,5 @@
 package com.expert_soft.persistence.impl.util;
 
-import com.expert_soft.model.Order;
-import com.expert_soft.model.Phone;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,14 +10,11 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
-import static org.hamcrest.Matchers.contains;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.*;
 
-import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.junit.Assert.*;
 
 
@@ -32,9 +27,7 @@ import static org.junit.Assert.*;
 
 @TestExecutionListeners( {
         DependencyInjectionTestExecutionListener.class,
-
 })
-
 
 public class SingleOrderResultSetExtractorTest {
 

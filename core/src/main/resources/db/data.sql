@@ -2,13 +2,14 @@ TRUNCATE TABLE ORDER_ITEMS AND COMMIT ;
 TRUNCATE TABLE PHONES AND COMMIT ;
 TRUNCATE TABLE ORDERS AND COMMIT ;
 
-insert into phones(id, model, price) VALUES
-  ('1', 'fly', 111111),
-  ('2', 'samsung', 222222),
-  ('3', 'hts', 333333),
-  ('4', 'globo', 444444),
-  ('5', 'iphone', 99999);
+insert into phones(id, model, color, displaySize, width, length,  price) VALUES
+  ('1', 'fly', 'white', 11, NULL ,NULL , 111111),
+  ('2', 'samsung', 'white', 22,NULL ,NULL , 222222),
+  ('3', 'hts', 'white', 33, NULL ,NULL ,333333),
+  ('4', 'globo', 'white', 44, NULL ,NULL ,444444),
+  ('5', 'iphone', 'white', 55, NULL ,NULL ,99999);
 ;
+
 
 insert into orders(id, delivery_price, first_name, last_name, delivery_address,
                    contact_phone_no) VALUES
@@ -39,30 +40,3 @@ insert into order_items(id, phone_id, order_id, quantity) VALUES
   (12, 5 , 6 , 10);
 ;
 
-
---
--- create table phones (
---   id BIGINT primary key,
---   model varchar(254) IDENTITY not null ,
---   price INT not null
--- );
---
--- create table order_items (
---   id BIGINT identity primary key,
---   phone_id BIGINT not null,
---   order_id BIGINT not null,
---   quantity SMALLINT not null,
---   foreign key (phone_id) references phones(id),
---   foreign key (order_id) references phones(id)
--- );
---
--- create table orders (
---   id BIGINT primary key,
---   delivery_price INT not null,
---
---   first_name varchar(100) not null,
---   last_name varchar(100) not null,
---   delivery_address VARCHAR(250) not null,
---   contact_phone_no VARCHAR(250) not null
---
--- );

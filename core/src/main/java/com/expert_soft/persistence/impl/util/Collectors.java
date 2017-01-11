@@ -23,9 +23,15 @@ public class Collectors {
 
         public Phone mapRow(ResultSet rs, int rowNum) throws SQLException {
             Phone phone = new Phone();
-            phone.setKey(rs.getLong(1));
-            phone.setModel(rs.getString("model"));
-            phone.setPrice(rs.getBigDecimal("price"));
+            phone.setKey(rs.getLong("phones.id"));
+            phone.setModel(rs.getString("phones.model"));
+            phone.setPrice(rs.getBigDecimal("phones.price"));
+            phone.setColor(rs.getString("phones.color"));
+            phone.setDisplaySize(rs.getInt("phones.displaySize"));
+            Integer actualWidth = rs.getInt("phones.width") == 0 ? null : rs.getInt("phones.width");
+            Integer actualLength = rs.getInt("phones.length") == 0 ? null : rs.getInt("phones.length");
+            phone.setWidth(actualWidth);
+            phone.setLength(actualLength);
             return phone;
         }
     }
@@ -62,38 +68,31 @@ public class Collectors {
             this.orderRowMapper = orderRowMapper;
         }
 
-
-
         @Override
         public Order extractData(ResultSet rs) throws SQLException, DataAccessException {
-
-            Map<Long, OrderItem> items = new HashMap<>();
-            OrderItem orderItem = null;
-            Order order = null;
+            List<OrderItem> items = new ArrayList<>();
+            Order result = null;
             while (rs.next()) {
-                if(order == null) {
-                   order = orderRowMapper.mapRow(rs, rs.getRow());
+                if(result == null) {
+                    result = orderRowMapper.mapRow(rs, rs.getRow());
                 }
-                if (order.getKey() != rs.getLong("orders.id")){
+                long currentOrderId = rs.getLong("orders.id");
+                if (result.getKey() != currentOrderId){
                     break;
                 }
                 Long itemId = rs.getLong("order_items.id");
-                orderItem = items.get(itemId);
-
-                if (orderItem == null) {
-                    orderItem = new OrderItem();
-                    orderItem.setKey(itemId);
-                    Phone phone = phoneRowMapper.mapRow(rs, rs.getRow());
-                    orderItem.setPhone(phone);
-                    orderItem.setOrder(order);
-                    orderItem.setQuantity(rs.getLong("order_items.quantity"));
-                    items.put(itemId, orderItem);
-                }
+                OrderItem orderItem = new OrderItem();
+                orderItem.setKey(itemId);
+                Phone phone = phoneRowMapper.mapRow(rs, rs.getRow());
+                orderItem.setPhone(phone);
+                orderItem.setOrder(result);
+                orderItem.setQuantity(rs.getLong("order_items.quantity"));
+                items.add(orderItem);
             }
-            if (order != null){
-                order.setOrderItems(new HashSet<>(items.values()));
+            if (result != null){
+                result.setOrderItems(new HashSet<>(items));
             }
-            return order;
+            return result;
         }
     }
 
@@ -108,20 +107,15 @@ public class Collectors {
 
         @Override
         public List<Order> extractData(ResultSet rs) throws SQLException, DataAccessException {
-            Map<Long, Order> result = new HashMap<>();
+            List<Order> result = new ArrayList<>();
             while (!rs.isAfterLast()) {
                 Order orderReturned = singleResultSetExtractor.extractData(rs);
-                Order orderCollectedYet = result.get(orderReturned.getKey());
-
-                if (orderCollectedYet == null) {
-                    result.put(orderReturned.getKey(), orderReturned);
-                } else {
-                    orderCollectedYet.getOrderItems().addAll(orderReturned.getOrderItems());
+                result.add(orderReturned);
+                if (!rs.isAfterLast()){
                     rs.previous();
                 }
             }
-
-            return new ArrayList<>(result.values());
+            return result;
         }
     }
 }

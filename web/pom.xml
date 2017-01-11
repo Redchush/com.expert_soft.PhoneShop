@@ -3,24 +3,26 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
-    <groupId>com.expertsoft.student.phone_shop</groupId>
-    <artifactId>web</artifactId>
-    <version>1.0-RELEASE</version>
-    <name>Phone Shop Web</name>
-    <packaging>war</packaging>
-
-
-
     <parent>
-        <groupId>com.expertsoft.student.phone_shop</groupId>
-        <artifactId> PhoneShop</artifactId>
+        <groupId>com.expertsoft.phone_shop</groupId>
+        <artifactId>PhoneShop</artifactId>
         <version>1.0-RELEASE</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <dependencies>
+    <artifactId>web</artifactId>
+    <name>Phone Shop Web</name>
+    <packaging>war</packaging>
 
+    <dependencies>
+        <!--inner dependency-->
+        <dependency>
+            <groupId>com.expertsoft.phone_shop</groupId>
+            <artifactId>core</artifactId>
+            <version>1.0-RELEASE</version>
+        </dependency>
+
+        <!--outer dependency-->
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>servlet-api</artifactId>
@@ -34,10 +36,16 @@
             <version>2.2.1-b03</version>
         </dependency>
 
-         <dependency>
+        <dependency>
             <groupId>javax.servlet.jsp.jstl</groupId>
             <artifactId>javax.servlet.jsp.jstl-api</artifactId>
             <version>1.2.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>jstl</groupId>
+            <artifactId>jstl</artifactId>
+            <version>1.2</version>
         </dependency>
 
         <dependency>
@@ -60,15 +68,62 @@
 
         <dependency>
             <groupId>${spring.group}</groupId>
-            <artifactId>spring-test</artifactId>
+            <artifactId>spring-aspects</artifactId>
             <version>${spring.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>com.expertsoft.student.phone_shop</groupId>
-            <artifactId>core</artifactId>
-            <version>1.0-RELEASE</version>
+            <groupId>${spring.group}</groupId>
+            <artifactId>spring-aop</artifactId>
+            <version>${spring.version}</version>
         </dependency>
 
+
+        <dependency>
+            <groupId>javax.inject</groupId>
+            <artifactId>javax.inject</artifactId>
+            <version>1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>${spring.group}</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
     </dependencies>
+
+    <build>
+        <finalName>PhoneShopWeb</finalName>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <configuration>
+                        <source>1.8</source>
+                        <target>1.8</target>
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-war-plugin</artifactId>
+                    <version>3.0.0</version>
+                    <configuration>
+                        <failOnMissingWebXml>false</failOnMissingWebXml>
+                        <webResources>
+                            <resource>
+                                <directory>${project.basedir}\src\main\webapp</directory>
+                                <directory>${project.basedir}\src\main\resources</directory>
+                                <includes>
+                                    <include>**/*.*</include>
+                                </includes>
+                            </resource>
+                        </webResources>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+
 </project>

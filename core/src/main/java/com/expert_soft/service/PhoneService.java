@@ -9,5 +9,7 @@ import java.util.List;
 
 public interface PhoneService {
 
-    List<Phone> getAllPhones();
+    List<Phone> findAll();
+    Phone getPhone(Long id);
+    void savePhone(Phone phone);
 }

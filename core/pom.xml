@@ -4,14 +4,10 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.expertsoft.student.phone_shop</groupId>
     <artifactId>core</artifactId>
     <version>1.0-RELEASE</version>
     <name>Phone Shop Core</name>
     <packaging>war</packaging>
-
-
-
     <parent>
         <groupId>com.expertsoft.student.phone_shop</groupId>
         <artifactId>PhoneShop</artifactId>
@@ -51,6 +47,8 @@
             <version>2.3.1</version>
             <scope>test</scope>
         </dependency>
+
+
 
 
     </dependencies>

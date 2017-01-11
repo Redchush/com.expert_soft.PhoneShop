@@ -42,7 +42,7 @@
     <constructor-arg ref="order_mapper"/>
   </bean>
 
-  <bean id="multiple_order_extractor"
+  <bean id="list_order_extractor"
         class="com.expert_soft.persistence.impl.util.Collectors$MultipleOrderResultSetExtractor"
         lazy-init="true">
     <constructor-arg ref="single_order_extractor"/>
