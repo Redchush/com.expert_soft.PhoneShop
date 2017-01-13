@@ -1,26 +1,19 @@
 package com.expert_soft.persistence.impl;
 
 import com.expert_soft.model.Order;
-import com.expert_soft.model.OrderItem;
-import com.expert_soft.model.Phone;
 import com.expert_soft.persistence.OrderDao;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import org.springframework.transaction.annotation.Transactional;
-import util.StandardTransactionalTestConfig;
-
-import javax.sql.DataSource;
 
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertEquals;
@@ -30,7 +23,7 @@ import static org.junit.Assert.assertTrue;
 @ContextConfiguration(locations={
         "classpath:persistence-context.xml",
         "classpath:test-dataSource-context.xml",
-        "classpath:dataSource-context.xml"
+        "classpath:test-data.xml"
 })
 @TestExecutionListeners({
         DependencyInjectionTestExecutionListener.class,
@@ -40,13 +33,7 @@ import static org.junit.Assert.assertTrue;
 public class OrderDaoImplTest {
 
     @Autowired
-    private JdbcTemplate jdbcTemplate;
-
-    @Autowired
     private OrderDao dao;
-
-    @Autowired
-    private DataSource dataSource;
 
     @Autowired
     private ApplicationContext applicationContext;
@@ -55,8 +42,7 @@ public class OrderDaoImplTest {
 
     @Test
     public void setDataSource() throws Exception {
-        DataSource dataSource = jdbcTemplate.getDataSource();
-        assertEquals(dataSource, dataSource);
+
     }
 
     @Test
@@ -75,7 +61,7 @@ public class OrderDaoImplTest {
     public void saveOrder() throws Exception {
 
         Long orderKeyExpected = initialSize + 1L;
-        Order expected = (Order) applicationContext.getBean("orderDaoImplTest_saveOrder_1");
+        Order expected = (Order) applicationContext.getBean("saveOrder_1");
         dao.saveOrder(expected);
 
         Order actual = dao.getOrder(orderKeyExpected);

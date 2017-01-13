@@ -1,12 +1,8 @@
 package com.expert_soft.model;
 
 
-import org.springframework.beans.factory.InitializingBean;
-
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 public class Order {
@@ -68,6 +64,8 @@ public class Order {
     public void setTotalPrice(BigDecimal totalPrice) {
         this.totalPrice = totalPrice;
     }
+
+
 
     public String getFirstName() {
         return firstName;

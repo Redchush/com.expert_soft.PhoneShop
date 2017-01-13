@@ -1,13 +1,12 @@
 package com.expert_soft.persistence.impl;
 
 
-
 import com.expert_soft.model.Order;
 import com.expert_soft.model.OrderItem;
 import com.expert_soft.persistence.OrderDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.jdbc.core.*;
+import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -18,16 +17,14 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Set;
 
 @Repository("OrderDao")
 @Transactional(isolation = Isolation.SERIALIZABLE)
 public class OrderDaoImpl implements OrderDao {
+
 
     private static final String INSERT_ONE_ORDER_QUERY =
             "INSERT INTO orders (delivery_price, first_name, last_name, delivery_address,\n" +

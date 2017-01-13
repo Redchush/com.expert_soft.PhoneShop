@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                 http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+                 http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+    <!--beans in to check-->
+    <!--phoneDao-->
+
+    <!--getPhone-->
+    <bean id="phone_id_1"
+          class="com.expert_soft.model.Phone" scope="prototype">
+        <property name="key" value="1"/>
+        <property name="model" value="fly"/>
+        <property name="color" value="white"/>
+        <property name="displaySize" value="11"/>
+        <property name="price" value="111111"/>
+    </bean>
+    <bean id="phone_id_2"
+          class="com.expert_soft.model.Phone" scope="prototype">
+        <property name="key" value="2"/>
+        <property name="model" value="samsung"/>
+        <property name="color" value="white"/>
+        <property name="displaySize" value="22"/>
+        <property name="price" value="222222"/>
+    </bean>
+
+    <!--savePhone-->
+    <bean id="phone_to_save_1" class="com.expert_soft.model.Phone"
+          parent="phone_id_1" scope="prototype">
+        <property name="model" value="theBestPhone"/>
+    </bean>
+
+    <!--orderDao-->
+    <!--order id=1-->
+    <bean id="orderItem_firstOrder" class="com.expert_soft.model.OrderItem"
+          scope="prototype">
+        <property name="phone" ref="phone_id_1"/>
+        <property name="quantity" value="1"/>
+        <property name="order" ref="orderDaoImplTest_getOrder_1"/>
+        <property name="key" value="1"/>
+    </bean>
+
+    <util:set id="firstOrderSet" value-type="com.expert_soft.model.OrderItem">
+        <ref bean="orderItem_firstOrder"/>
+    </util:set>
+
+    <bean id="orderDaoImplTest_getOrder_1"
+          class="com.expert_soft.model.Order" scope="prototype">
+        <property name="key" value="1"/>
+        <property name="firstName" value="klara"/>
+        <property name="lastName" value="karlovna"/>
+        <property name="deliveryPrice" value="10"/>
+        <property name="deliveryAddress" value="karlovy vary"/>
+        <property name="contactPhoneNo" value="+375 29 111 77 77"/>
+        <property name="orderItems" ref="firstOrderSet"/>
+
+    </bean>
+
+    <!--order id=2-->
+    <bean id="orderItem_secondOrder_1" class="com.expert_soft.model.OrderItem" scope="prototype">
+        <property name="phone" ref="phone_id_1"/>
+        <property name="quantity" value="1"/>
+        <property name="key" value="2"/>
+        <property name="order" ref="orderDaoImplTest_getOrder_2"/>
+    </bean>
+
+    <bean id="orderItem_secondOrder_2" class="com.expert_soft.model.OrderItem" scope="prototype">
+        <property name="phone" ref="phone_id_2"/>
+        <property name="quantity" value="1"/>
+        <property name="key" value="3"/>
+        <property name="order" ref="orderDaoImplTest_getOrder_2"/>
+    </bean>
+
+    <util:set id="secondOrderSet">
+        <ref bean="orderItem_secondOrder_1"/>
+        <ref bean="orderItem_secondOrder_2"/>
+    </util:set>
+
+    <bean id="orderDaoImplTest_getOrder_2" class="com.expert_soft.model.Order"
+          scope="prototype">
+        <property name="key" value="2"/>
+        <property name="firstName" value="kenny"/>
+        <property name="lastName" value="poor"/>
+        <property name="deliveryPrice" value="20"/>
+        <property name="deliveryAddress" value="south park"/>
+        <property name="contactPhoneNo" value="+375 29 222 77 77"/>
+        <property name="orderItems" ref="secondOrderSet"/>
+    </bean>
+
+    <!--savePhone-->
+
+    <bean id="orderItem_firstOrder_save_1" parent="orderItem_firstOrder">
+        <property name="key" value="13"/>
+        <property name="order" ref="saveOrder_1"/>
+    </bean>
+    <bean id="orderItem_firstOrder_save_2" parent="orderItem_firstOrder_save_1">
+        <property name="key" value="14"/>
+    </bean>
+
+    <util:set id="firstOrderSet_save" value-type="com.expert_soft.model.OrderItem">
+        <ref bean="orderItem_firstOrder_save_1"/>
+        <ref bean="orderItem_firstOrder_save_2"/>
+    </util:set>
+
+    <bean id="saveOrder_1" parent="orderDaoImplTest_getOrder_1">
+        <property name="key" value="7"/>
+        <property name="orderItems" ref="firstOrderSet_save"/>
+    </bean>
+
+    <bean id="saveOrder_2" parent="orderDaoImplTest_getOrder_2">
+        <property name="key" value="8"/>
+    </bean>
+
+</beans>

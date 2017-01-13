@@ -7,14 +7,13 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import org.springframework.transaction.annotation.Transactional;
-import util.StandardTransactionalTestConfig;
 
 import javax.sql.DataSource;
 import java.util.List;
@@ -25,17 +24,15 @@ import static org.junit.Assert.assertEquals;
 @ContextConfiguration(locations={
         "classpath:persistence-context.xml",
         "classpath:test-dataSource-context.xml",
-        "classpath:dataSource-context.xml"
+        "classpath:test-data.xml"
 })
+@TestPropertySource(locations = "classpath:dbTest.properties")
 @TestExecutionListeners({
         DependencyInjectionTestExecutionListener.class,
         TransactionalTestExecutionListener.class
 })
 @Transactional
 public class PhoneDaoImplTest {
-
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
 
     @Autowired
     private DataSource dataSource;
@@ -48,14 +45,13 @@ public class PhoneDaoImplTest {
 
     @Test
     public void setDataSource() throws Exception {
-        DataSource dataSource = jdbcTemplate.getDataSource();
-        assertEquals(dataSource, dataSource);
+
     }
 
     @Test
     public void getPhone() throws Exception {
         Phone actual = dao.getPhone(1L);
-        Phone expected = (Phone) applicationContext.getBean("phoneDaoImplTest_getPhone_1");
+        Phone expected = (Phone) applicationContext.getBean("phone_id_1");
         assertEquals(expected, actual);
     }
 
@@ -76,7 +72,7 @@ public class PhoneDaoImplTest {
     @Ignore
     public void savePhone() throws Exception {
         Long idExpected = 6L;
-        Phone phoneToBeSaved = (Phone) applicationContext.getBean("phoneDaoImplTest_savePhone");
+        Phone phoneToBeSaved = (Phone) applicationContext.getBean("phone_to_save_1");
         dao.savePhone(phoneToBeSaved);
 
         Phone phone = dao.getPhone(idExpected);
@@ -87,7 +83,7 @@ public class PhoneDaoImplTest {
 
     @Test(expected = org.springframework.dao.DuplicateKeyException.class)
     public void saveNotUniquePhone(){
-        Phone expected = (Phone) applicationContext.getBean("phoneDaoImplTest_getPhone_1");
+        Phone expected = (Phone) applicationContext.getBean("phone_id_1");
         expected.setKey(null);
         dao.savePhone(expected);
     }

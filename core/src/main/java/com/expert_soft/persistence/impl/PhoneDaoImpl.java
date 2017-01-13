@@ -2,6 +2,7 @@ package com.expert_soft.persistence.impl;
 
 import com.expert_soft.model.Phone;
 import com.expert_soft.persistence.PhoneDao;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.RowMapper;
@@ -18,6 +19,8 @@ import java.util.List;
 @Repository("phoneDao")
 @Transactional(isolation = Isolation.SERIALIZABLE)
 public class PhoneDaoImpl implements PhoneDao {
+
+    private static final Logger LOGGER = Logger.getLogger(PhoneDaoImpl.class);
 
     private static final String INSERT_ONE_QUERY =
             "INSERT INTO phones (model, color, displaySize, width, length,  price) " +
@@ -45,6 +48,7 @@ public class PhoneDaoImpl implements PhoneDao {
 
     @Override
     public Phone getPhone(Long key) {
+        LOGGER.debug("NOTE: logger_1");
         return this.jdbcTemplate.getJdbcOperations()
                    .queryForObject(GET_ONE_QUERY, new Object[]{key}, phoneRowMapper);
     }
@@ -56,7 +60,7 @@ public class PhoneDaoImpl implements PhoneDao {
 
     @Override
     public List<Phone> findAll() {
-       return this.jdbcTemplate.query(GET_ALL_QUERY, phoneRowMapper);
+        return this.jdbcTemplate.query(GET_ALL_QUERY, phoneRowMapper);
     }
 
     private MapSqlParameterSource getParameterSource(Phone phone){

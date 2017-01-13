@@ -40,6 +40,10 @@ public class OrderItem {
         this.quantity = quantity;
     }
 
+    public Long getUniqueKey(){
+        return phone.getKey();
+    }
+
 
     @Override
     public boolean equals(Object o) {
