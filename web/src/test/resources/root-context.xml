@@ -3,8 +3,8 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<!--<import  resource="classpath:dataSource-context.xml" />-->
-	<!--<import  resource="classpath:persistence-context.xml" />-->
-	<!--<import  resource="classpath:service-context.xml" />-->
-	<import  resource="classpath:core-root-context.xml" />
+	<import  resource="classpath:dataSource-context.xml" />
+	<import  resource="classpath:persistence-context.xml" />
+	<import  resource="classpath:service-context.xml" />
+	<!--<import  resource="classpath:core-root-context.xml" />-->
 </beans>

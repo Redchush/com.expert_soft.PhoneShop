@@ -9,7 +9,6 @@
         <version>1.0-RELEASE</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-
     <artifactId>web</artifactId>
     <name>Phone Shop Web</name>
     <packaging>war</packaging>
@@ -90,10 +89,30 @@
             <artifactId>spring-test</artifactId>
             <version>${spring.version}</version>
         </dependency>
+
+        <!--json-->
+        <dependency>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-core-asl</artifactId>
+            <version>1.9.13</version>
+        </dependency>
+
+        <!--solve missing javax.servlet.SessionCookieConfig-->
+        <dependency>
+            <groupId>org.apache.tomcat.embed</groupId>
+            <artifactId>tomcat-embed-core</artifactId>
+            <version>8.5.2</version>
+        </dependency>
+
     </dependencies>
 
     <build>
         <finalName>PhoneShopWeb</finalName>
+        <testResources>
+            <testResource>
+                <directory>src/test/resources</directory>
+            </testResource>
+        </testResources>
         <pluginManagement>
             <plugins>
                 <plugin>

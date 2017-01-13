@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration PUBLIC "-//log4j/log4j Configuration//EN" "log4j.dtd">
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+
+    <appender name="Appender1" class="org.apache.log4j.ConsoleAppender">
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%-7p %d [%t] %c %x - %m%n"/>
+        </layout>
+    </appender>
+    <logger name="org.springframework" additivity="false">
+        <level value="error"/>
+        <appender-ref ref="Appender1"/>
+    </logger>
+    <root>
+        <priority value="info"/>
+        <appender-ref ref="Appender1" />
+    </root>
+    <!--<logger name="org.springframework.beans">-->
+        <!--<level value="info"/>-->
+        <!--<appender-ref ref="Appender1"/>-->
+    <!--</logger>-->
+    <!--<logger name="org.springframework.web">-->
+        <!--<level value="info"/>-->
+        <!--<appender-ref ref="Appender1"/>-->
+    <!--</logger>-->
+    <!--<logger name="org.springframework.context">-->
+        <!--<level value="info"/>-->
+        <!--<appender-ref ref="Appender1"/>-->
+    <!--</logger>-->
+    <!--<logger name="com.expert_soft">-->
+        <!--<level value="debug"/>-->
+        <!--<appender-ref ref="Appender1"/>-->
+    <!--</logger>-->
+
+
+
+    <!--loggers for testing-->
+    <appender name="TestAppender" class="org.apache.log4j.ConsoleAppender">
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="[%p] $color-0;0;31{%c}: %m%n"/>
+        </layout>
+    </appender>
+    <logger name="com.expert_soft.controller.ProductControllerTest" additivity="false">
+        <appender-ref ref="TestAppender"/>
+    </logger>
+
+
+</log4j:configuration>

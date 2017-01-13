@@ -1,3 +1,4 @@
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
@@ -33,7 +34,7 @@
     <div class="col-lg-12 pnf">
       <h1>Phones</h1>
     </div>
-    <form class="form-inline">
+    <form class="form-inline" method="get">
       <table class="table table-striped">
         <thead class="pnf">
         <tr>
@@ -46,35 +47,19 @@
         </tr>
        </thead>
         <tbody>
-          <c:forEach var="${request}" begin="1" end="5">
-             Item <c:out value="${i}"/><p>
+          <c:forEach var="phone" items="${requestScope.phones}" >
+            <tr>
+              <td><a href="/product/${phone.id}">${phone.model}</a></td>
+              <%--<td><form:form method="POST" commandName="user" action="product"></form:form></td>--%>
+              <td>${phone.color}</td>
+              <td>${phone.displaySize}</td>
+              <td>${phone.price}</td>
+              <td><input class="input-sm" value="1" title="quantity"></td>
+              <td>
+                <form:button class="btn btn-default btn-sm pnf" type="submit">Add to cart</form:button>
+              </td>
+            </tr>
           </c:forEach>
-        <tr>
-          <td>Model</td>
-          <td>Color</td>
-          <td>Display size</td>
-          <td>Price</td>
-          <td><input type="text" class="input-sm" value="1" title="quantity"></td>
-          <td>
-            <button class="btn btn-default btn-sm pnf" type="button">Add to cart</button>
-          </td>
-        </tr>
-        <tr>
-          <td>Model</td>
-          <td>Color</td>
-          <td>Display size</td>
-          <td>Price</td>
-          <td><input type="text" class="input-sm" value="1" title="quantity"></td>
-          <td> <button class="btn btn-default btn-sm pnf" type="button">Add to cart</button></td>
-        </tr>
-        <tr>
-          <td>Model</td>
-          <td>Color</td>
-          <td>Display size</td>
-          <td>Price</td>
-          <td><input type="text" class="input-sm" value="1" title="quantity"></td>
-          <td> <button class="btn btn-default btn-sm pnf" type="button">Add to cart</button></td>
-        </tr>
         </tbody>
       </table>
     </form>
