@@ -8,6 +8,7 @@
         </layout>
     </appender>
 
+
     <logger name="org.springframework" additivity="false">
         <level value="userInfo"/>
         <appender-ref ref="Appender1"/>
@@ -24,10 +25,10 @@
         <!--<level value="debug"/>-->
         <!--<appender-ref ref="Appender1"/>-->
     <!--</logger>-->
-    <!--<logger name="org.springframework.context">-->
-        <!--<level value="debug"/>-->
-        <!--<appender-ref ref="Appender1"/>-->
-    <!--</logger>-->
+    <logger name="org.springframework.context" additivity="false">
+        <level value="debug"/>
+        <appender-ref ref="Appender1"/>
+    </logger>
     <!--<logger name="com.expert_soft">-->
         <!--<level value="debug"/>-->
         <!--<appender-ref ref="Appender1"/>-->

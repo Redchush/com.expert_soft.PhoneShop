@@ -80,17 +80,20 @@ public class OrderDaoImpl implements OrderDao {
     @Override
     public List<Order> findAll() {
         return this.jdbcTemplate.getJdbcOperations()
-                                .query(con -> con.prepareStatement(GET_ALL_QUERY, ResultSet.TYPE_SCROLL_SENSITIVE,
+                                .query(con -> con.prepareStatement(GET_ALL_QUERY,
+                                        ResultSet.TYPE_SCROLL_SENSITIVE,
                                         ResultSet.CONCUR_READ_ONLY), listOrderExtractor);
     }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
-    public void saveOrder(Order order) {
+    public Long saveOrder(Order order) {
         KeyHolder holder = new GeneratedKeyHolder();
+
         this.jdbcTemplate.update(INSERT_ONE_ORDER_QUERY, getParameterSource(order), holder);
         Number key = holder.getKey();
         saveOrderItems(order.getOrderItems(), key.longValue());
+        return key.longValue();
     }
 
     @Transactional(propagation = Propagation.MANDATORY)
@@ -117,4 +120,6 @@ public class OrderDaoImpl implements OrderDao {
         source.addValue("quantity", item.getQuantity());
         return source;
     }
+
+
 }

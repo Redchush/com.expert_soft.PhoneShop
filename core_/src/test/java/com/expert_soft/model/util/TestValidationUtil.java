@@ -1,6 +1,9 @@
 package com.expert_soft.model.util;
 
 
+import com.expert_soft.model.UserInfoValidationTest;
+import org.apache.log4j.Logger;
+
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
@@ -11,6 +14,7 @@ import static org.junit.Assert.assertEquals;
 
 public class TestValidationUtil {
 
+    private static final Logger LOGGER = Logger.getLogger(UserInfoValidationTest.class);
     private Validator validator;
 
     public TestValidationUtil() {
@@ -19,6 +23,7 @@ public class TestValidationUtil {
 
     public TestValidationUtil(Validator validator) {
         this.validator = validator;
+
     }
 
     public Validator getValidator() {
@@ -60,10 +65,16 @@ public class TestValidationUtil {
      */
     public<T> void executeOneAndExpectMessage(T obj, Object invalidValueExp, String msgExp){
         ConstraintViolation<T> violation = executeOneInvalidField(obj, invalidValueExp);
-        assertEquals(msgExp, violation.getMessage());
+        assertEquals(getErrorMsg(violation, invalidValueExp), msgExp, violation.getMessage());
     }
 
     public <T> String getTestFailMsg(Set<ConstraintViolation<T>> violations){
         return String.format("Violations:%s\n%s", violations.size(),violations);
     }
+
+    private String getErrorMsg(ConstraintViolation<?> violation, Object value){
+        return String.format("Validation msg %s \nfailed on value %s", violation, value);
+    }
+
+
 }

@@ -4,13 +4,45 @@ package com.expert_soft.persistence;
 
 
 import com.expert_soft.model.Phone;
+import org.springframework.dao.DuplicateKeyException;
+import org.springframework.dao.EmptyResultDataAccessException;
 
+import java.util.Collection;
 import java.util.List;
 
 public interface PhoneDao {
 
-    Phone getPhone(Long key);
-    void savePhone(Phone phone);
+    /**
+     *
+     * @param key
+     * @throws EmptyResultDataAccessException - if phone with this key not found
+     */
+    Phone getPhone(Long key) throws EmptyResultDataAccessException;
+
+    /**
+     *
+     * @param keys - keys of possible phones
+     * @return if keys is null or keys is empty - return empty collection.
+     * Otherwise return stored in persistence list of phones.
+     */
+    List<Phone> getPhones(Long... keys) throws EmptyResultDataAccessException;;
+
+    /**
+     *
+     * @param keys - keys of possible phones
+     * @return if keys is null or keys is empty - return empty collection.
+     * Otherwise return stored in persistence list of phones.
+     */
+    List<Phone> getPhones(Collection<Long> keys) throws EmptyResultDataAccessException;;
+
+    /**
+     *
+     * @param phone - phone to be saved in persistence
+     * @return
+     * @throws DuplicateKeyException if phone has not unique model value
+     */
+    void savePhone(Phone phone) throws DuplicateKeyException;
+
     List<Phone> findAll();
 
 }

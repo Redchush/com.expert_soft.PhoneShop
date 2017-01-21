@@ -1,17 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-                 http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+                 http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
 
   <bean id="validator"
         class="com.expert_soft.model.util.TestValidationUtil"
         factory-method="createValidator"/>
 
-  <bean id="valid_util" class="com.expert_soft.model.util.TestValidationUtil">
+  <bean id="valid_util"
+        class="com.expert_soft.model.util.TestValidationUtil">
     <constructor-arg type="javax.validation.Validator" ref="validator"/>
   </bean>
+
+  <util:properties id="valid_msg" location="classpath:ValidationMessages.properties"/>
 
 </beans>

@@ -29,6 +29,11 @@
         <appender-ref ref="Appender1"/>
     </logger>
 
+    <logger name="org.hibernate.validator" additivity="false">
+        <level value="info"/>
+        <appender-ref ref="Appender1"/>
+    </logger>
+
     <root>
         <priority value="debug" />
         <appender-ref ref="Appender1" />

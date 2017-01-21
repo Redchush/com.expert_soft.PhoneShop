@@ -1,17 +1,22 @@
 package com.expert_soft.model;
 
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.stereotype.Component;
+
 import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 
-
+@Component
+@PropertySource("classpath:config/application.properties")
 public class Order {
 
     private Long key;
     private Set<OrderItem> orderItems;
 
-    private BigDecimal deliveryPrice;
+    private @Value("${delivery.price}") BigDecimal deliveryPrice;
     private BigDecimal subtotal; // a sum of order item prices
     private BigDecimal totalPrice;
 
@@ -108,6 +113,22 @@ public class Order {
 
     public void setAdditionalInfo(String additionalInfo) {
         userInfo.setAdditionalInfo(additionalInfo);
+    }
+
+    public BigDecimal reculculateSubtotal(Calculator calculator){
+        return calculator.calculateSubtotal(orderItems);
+    }
+
+    public BigDecimal calculateTotal(){
+        return subtotal.add(deliveryPrice);
+    }
+
+    public Order calculateFull(Calculator calculator){
+        BigDecimal subtotal = reculculateSubtotal(calculator);
+        setSubtotal(subtotal);
+        BigDecimal total = calculateTotal();
+        setTotalPrice(total);
+        return this;
     }
 
     @Override

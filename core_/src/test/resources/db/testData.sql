@@ -3,22 +3,22 @@ TRUNCATE TABLE PHONES AND COMMIT ;
 TRUNCATE TABLE ORDERS AND COMMIT ;
 
 insert into phones(id, model, color, displaySize, width, length, camera, price) VALUES
-  ('1', 'fly', 'white', 11, NULL ,NULL ,NULL, 111111),
-  ('2', 'samsung', 'white', 22,NULL ,NULL , NULL, 222222),
-  ('3', 'hts', 'white', 33, NULL ,NULL , NULL, 333333),
-  ('4', 'globo', 'white', 44, NULL ,NULL , NULL, 444444),
+  ('1', 'fly', 'white', 11, NULL ,NULL ,NULL, 11111),
+  ('2', 'samsung', 'white', 22,NULL ,NULL , NULL, 22222),
+  ('3', 'hts', 'white', 33, NULL ,NULL , NULL, 33333),
+  ('4', 'globo', 'white', 44, NULL ,NULL , NULL, 44444),
   ('5', 'iphone', 'white', 55, NULL ,NULL , NULL, 99999);
 ;
 
 
 insert into orders(id, delivery_price, first_name, last_name, delivery_address,
                    contact_phone_no, additional_info) VALUES
-  (1, 10, 'klara', 'karlovna', 'karlovy vary', '+375 29 111 77 77', NULL ),
-  (2, 20, 'kenny', 'poor', 'south park', '+375 29 222 77 77', NULL),
-  (3, 30, 'winny', 'winz', 'south park', '+375 29 333 77 77', NULL),
-  (4, 40, 'lenny', 'linz', 'south park', '+375 29 444 77 77', NULL),
-  (5, 50, 'anny', 'anz', 'south park', '+375 29 555 77 77', NULL),
-  (6, 50, 'wanny', 'anz', 'south park', '+375 29 666 77 77', NULL);
+  (1, 5, 'klara', 'karlovna', 'karlovy vary', '+375 29 111 77 77', NULL ),
+  (2, 5, 'kenny', 'poor', 'south park', '+375 29 222 77 77', NULL),
+  (3, 5, 'winny', 'winz', 'south park', '+375 29 333 77 77', NULL),
+  (4, 5, 'lenny', 'linz', 'south park', '+375 29 444 77 77', NULL),
+  (5, 5, 'anny', 'anz', 'south park', '+375 29 555 77 77', NULL),
+  (6, 5, 'wanny', 'anz', 'south park', '+375 29 666 77 77', NULL);
 ;
 
 insert into order_items(id, phone_id, order_id, quantity) VALUES

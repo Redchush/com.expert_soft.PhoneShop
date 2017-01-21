@@ -28,11 +28,9 @@ public class Collectors {
             Phone phone = new Phone();
             phone.setKey(rs.getLong("phones.id"));
             phone.setModel(rs.getString("phones.model"));
-            BigDecimal bigDecimal = rs.getBigDecimal("phones.price");
-            BigDecimal resultPrice = bigDecimal.divide(new BigDecimal(100), 2,
-                                     BigDecimal.ROUND_CEILING);
-            phone.setPrice(resultPrice);
+            BigDecimal price = rs.getBigDecimal("phones.price");
 
+            phone.setPrice(DataConverter.getPhonePriceForModel(price));
             phone.setColor(rs.getString("phones.color"));
             phone.setDisplaySize(rs.getInt("phones.displaySize"));
             phone.setWidth(getNullIfNull(rs, "phones.width"));
@@ -96,7 +94,7 @@ public class Collectors {
                 Phone phone = phoneRowMapper.mapRow(rs, rs.getRow());
                 orderItem.setPhone(phone);
                 orderItem.setOrder(result);
-                orderItem.setQuantity(rs.getLong("order_items.quantity"));
+                orderItem.setQuantity(rs.getInt("order_items.quantity"));
                 items.add(orderItem);
             }
             if (result != null){

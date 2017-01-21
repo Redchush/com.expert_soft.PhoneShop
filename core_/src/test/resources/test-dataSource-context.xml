@@ -14,7 +14,7 @@
 
     <bean id="propertyConfigurer"
           class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-        <property name="location" value="dbTest.properties" />
+        <property name="location" value="config/application.properties" />
     </bean>
 
     <!--<bean id="txMgr"-->
@@ -25,6 +25,10 @@
     <bean id="template"
           class="org.springframework.jdbc.core.JdbcTemplate">
         <constructor-arg ref="schema"/>
+    </bean>
+
+    <bean id="rowResponsible" class="util.CountRowResponsible">
+        <constructor-arg ref="template"/>
     </bean>
 
 

@@ -15,64 +15,34 @@ import java.util.Arrays;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations={
-        "classpath:test-data.xml",
+        "classpath:core_test-bean.xml",
         "classpath:specific/validation_context.xml"
 })
 
 public class UserInfoValidationTest {
-
-
     private static final Logger LOGGER = Logger.getLogger(UserInfoValidationTest.class);
 
-    @Autowired
-    private ApplicationContext apCtx;
-
-    @Autowired
-    private Validator validator;
-
-    @Autowired
-    private TestValidationUtil util;
+    @Autowired  ApplicationContext apCtx;
+    @Autowired  Validator validator;
+    @Autowired  TestValidationUtil util;
 
     private Order order;
     private UserInfo userInfo;
 
     @Before
     public void setUp() throws Exception {
-        order = (Order) apCtx.getBean("order_2");
+        order = (Order) apCtx.getBean("order_2_db");
         userInfo = order.getUserInfo();
     }
 
-    @Test
-    public void getFirstName() throws Exception {
-        /*not implemented*/
-    }
-    @Test
-    public void getAdditionalInfo() throws Exception {
-       /*not implemented*/
-    }
-    @Test
-    public void getLastName() throws Exception {
-  /*not implemented*/
-    }
 
-    @Test
-    public void getDeliveryAddress() throws Exception {
-        /*not implemented*/
-    }
-
-    @Test
-    public void getContactPhoneNo() throws Exception {
-         /*not implemented*/
-    }
 
     @Test
     public void setFirstName() throws Exception {
-
         String number = "11111";
         String expNumberMsg = "The first name must contains only english characters and '.' sign";
         userInfo.setFirstName(number);
         util.executeOneAndExpectMessage(userInfo, number, expNumberMsg);
-
 
         String oneSign = "z";
         String expectedMsg = "The first name must be between 3 and 100 chars long";
@@ -116,6 +86,29 @@ public class UserInfoValidationTest {
         String largeInfo = new String(chars);
         userInfo.setAdditionalInfo(largeInfo);
         util.executeOneInvalidField(userInfo, largeInfo);
+    }
+
+    @Test
+    public void getFirstName() throws Exception {
+        /*not implemented*/
+    }
+    @Test
+    public void getAdditionalInfo() throws Exception {
+       /*not implemented*/
+    }
+    @Test
+    public void getLastName() throws Exception {
+  /*not implemented*/
+    }
+
+    @Test
+    public void getDeliveryAddress() throws Exception {
+        /*not implemented*/
+    }
+
+    @Test
+    public void getContactPhoneNo() throws Exception {
+         /*not implemented*/
     }
 
 

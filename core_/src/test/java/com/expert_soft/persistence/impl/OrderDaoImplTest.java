@@ -2,22 +2,18 @@ package com.expert_soft.persistence.impl;
 
 import com.expert_soft.model.Order;
 import com.expert_soft.persistence.OrderDao;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
-import org.springframework.test.jdbc.JdbcTestUtils;
 import org.springframework.transaction.annotation.Transactional;
+import util.CountRowResponsible;
 
-import javax.sql.DataSource;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,7 +24,7 @@ import static org.junit.Assert.assertTrue;
 @ContextConfiguration(locations={
         "classpath:persistence-context.xml",
         "classpath:test-dataSource-context.xml",
-        "classpath:test-data.xml"
+        "classpath:core_test-bean.xml"
 })
 @TestExecutionListeners({
         DependencyInjectionTestExecutionListener.class,
@@ -44,18 +40,7 @@ public class OrderDaoImplTest {
     private ApplicationContext ac;
 
     @Autowired
-    private DataSource dataSource;
-
-    @Autowired
-    @Qualifier("template")
-    private JdbcTemplate template;
-
-    private static int initialSize;
-
-    @Before
-    public void setUp() throws Exception {
-        initialSize =  JdbcTestUtils.countRowsInTable(template, "ORDERS");
-    }
+    private CountRowResponsible rowCounter;
 
     @Test
     public void getOrder() throws Exception {
@@ -63,7 +48,7 @@ public class OrderDaoImplTest {
         Order actual_1 = dao.getOrder(expected_1.getKey());
         assertEquals(expected_1, actual_1);
 
-        Order expected_2 = (Order) ac.getBean("order_2");
+        Order expected_2 = (Order) ac.getBean("order_2_db");
         Order actual_2 = dao.getOrder(expected_2.getKey());
         assertEquals("Fails to get order with multiple orderItems", expected_2, actual_2);
     }
@@ -71,7 +56,7 @@ public class OrderDaoImplTest {
 
     @Test
     public void saveOrder() throws Exception {
-        Long orderKeyExpected = initialSize + 1L;
+        Long orderKeyExpected = rowCounter.getOrders() + 1L;
         Order expected = (Order) ac.getBean("saveOrder_1");
         dao.saveOrder(expected);
 
@@ -88,7 +73,7 @@ public class OrderDaoImplTest {
         assertEquals("Collected only: " + all.stream().map(s-> s.getKey() + "." + s.getFirstName()
                         + ":"+ s.getOrderItems().size() )
                                             .collect(Collectors.joining(" ")) + "\n ALL \n" + all,
-                initialSize, all.size());
+                rowCounter.getOrders(), all.size());
     }
 
 }

@@ -2,6 +2,7 @@ package com.expert_soft.persistence.impl;
 
 import com.expert_soft.model.Phone;
 import com.expert_soft.persistence.PhoneDao;
+import com.expert_soft.persistence.impl.util.DataConverter;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -14,6 +15,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.sql.DataSource;
 import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 @Repository("phoneDao")
@@ -32,6 +36,7 @@ public class PhoneDaoImpl implements PhoneDao {
                     "FROM phones";
 
     private static final String GET_ONE_QUERY = GET_ALL_QUERY + " WHERE id = ?";
+    private static final String GET_GROUP_QUERY = GET_ALL_QUERY + " WHERE id in (:ids)";
 
     private NamedParameterJdbcTemplate jdbcTemplate;
     private RowMapper<Phone> phoneRowMapper;
@@ -49,10 +54,28 @@ public class PhoneDaoImpl implements PhoneDao {
 
     @Override
     public Phone getPhone(Long key) {
-        LOGGER.debug("NOTE: logger_1");
         return this.jdbcTemplate.getJdbcOperations()
-                   .queryForObject(GET_ONE_QUERY, new Object[]{key}, phoneRowMapper);
+                                .queryForObject(GET_ONE_QUERY, new Object[]{key}, phoneRowMapper);
     }
+
+    @Override
+    public List<Phone> getPhones(Long... keys){
+        if (keys == null || keys.length == 0){
+            return Collections.emptyList();
+        }
+        return this.jdbcTemplate.query(GET_GROUP_QUERY,
+                getParameterSource(keys), phoneRowMapper);
+    }
+
+    @Override
+    public List<Phone> getPhones(Collection<Long> keys) {
+        if (keys == null || keys.size() == 0){
+            return Collections.emptyList();
+        }
+        return this.jdbcTemplate.query(GET_GROUP_QUERY,
+                getParameterSource(keys), phoneRowMapper);
+    }
+
 
     @Override
     public void savePhone(Phone phone) {
@@ -72,7 +95,19 @@ public class PhoneDaoImpl implements PhoneDao {
         result.addValue("width", phone.getWidth());
         result.addValue("length", phone.getLength());
         result.addValue("camera", phone.getCamera());
-        result.addValue("price", phone.getPrice());
+        result.addValue("price", DataConverter.getPhonePriceForPersistence(phone));
+        return result;
+    }
+
+    private MapSqlParameterSource getParameterSource(Long[] ids){
+        MapSqlParameterSource result = new MapSqlParameterSource();
+        result.addValue("ids", Arrays.asList(ids));
+        return result;
+    }
+
+    private MapSqlParameterSource  getParameterSource(Collection<Long> keys) {
+        MapSqlParameterSource result = new MapSqlParameterSource();
+        result.addValue("ids", keys);
         return result;
     }
 

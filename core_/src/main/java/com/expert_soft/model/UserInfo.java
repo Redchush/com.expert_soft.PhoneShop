@@ -7,7 +7,6 @@ import javax.validation.constraints.Size;
 
 public class UserInfo {
 
-
     @NotNull
     @Size(min = 3, max = 100, message = "{userInfo.firstName.size}")
     @Pattern(regexp = "[a-z.]+", message = "The first name {common.englishPattern}")

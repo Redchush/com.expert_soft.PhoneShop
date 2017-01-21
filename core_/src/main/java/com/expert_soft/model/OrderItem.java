@@ -3,6 +3,8 @@ package com.expert_soft.model;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 
 public class OrderItem {
 
@@ -10,9 +12,12 @@ public class OrderItem {
     private Phone phone;
     private Order order;
 
-    @Max(10)
-    @Min(1)
-    private Long quantity;
+    private BigDecimal subtotal;
+
+    @NotNull
+    @Max(value = 10, message = "{userInfo.quantity.max}")
+    @Min(value = 1, message = "{userInfo.quantity.min}")
+    private Integer quantity;
 
     public Phone getPhone() {
         return phone;
@@ -38,11 +43,11 @@ public class OrderItem {
         this.order = order;
     }
 
-    public Long getQuantity() {
+    public Integer getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(Long quantity) {
+    public void setQuantity(Integer quantity) {
         this.quantity = quantity;
     }
 
@@ -50,6 +55,17 @@ public class OrderItem {
         return phone.getKey();
     }
 
+    public BigDecimal getSubtotal() {
+        return subtotal;
+    }
+
+    public void setSubtotal(BigDecimal subtotal) {
+        this.subtotal = subtotal;
+    }
+
+    public BigDecimal recalculateSubtotal(){
+        return phone.getPrice().multiply(new BigDecimal(quantity));
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -68,11 +84,7 @@ public class OrderItem {
         if (phone != null ? !phone.equals(orderItem.phone) : orderItem.phone != null) {
             return false;
         }
-        if (order != null ? (order.getKey() != null && key == null) ||
-                            !order.getKey().equals(orderItem.order.getKey())
-                          : orderItem.order.getKey() != null) {
-            return false;
-        }
+
         return quantity != null ? quantity.equals(orderItem.quantity) : orderItem.quantity == null;
 
     }
@@ -81,9 +93,6 @@ public class OrderItem {
     public int hashCode() {
         int result = key != null ? key.hashCode() : 0;
         result = 31 * result + (phone != null ? phone.hashCode() : 0);
-        result = 31 * result + (order != null ? (order.getKey() != null ?  order.getKey().hashCode()
-                                                                        : 0)
-                                              : 0);
         result = 31 * result + (quantity != null ? quantity.hashCode() : 0);
         return result;
     }
