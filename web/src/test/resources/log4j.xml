@@ -11,20 +11,24 @@
         <level value="error"/>
         <appender-ref ref="Appender1"/>
     </logger>
+    <logger name="org.hibernate.validator.internal" additivity="false">
+        <level value="info"/>
+        <appender-ref ref="Appender1"/>
+    </logger>
     <root>
-        <priority value="info"/>
+        <priority value="userInfo"/>
         <appender-ref ref="Appender1" />
     </root>
     <!--<logger name="org.springframework.beans">-->
-        <!--<level value="info"/>-->
+        <!--<level value="userInfo"/>-->
         <!--<appender-ref ref="Appender1"/>-->
     <!--</logger>-->
     <!--<logger name="org.springframework.web">-->
-        <!--<level value="info"/>-->
+        <!--<level value="userInfo"/>-->
         <!--<appender-ref ref="Appender1"/>-->
     <!--</logger>-->
     <!--<logger name="org.springframework.context">-->
-        <!--<level value="info"/>-->
+        <!--<level value="userInfo"/>-->
         <!--<appender-ref ref="Appender1"/>-->
     <!--</logger>-->
     <!--<logger name="com.expert_soft">-->
@@ -32,6 +36,10 @@
         <!--<appender-ref ref="Appender1"/>-->
     <!--</logger>-->
 
+    <logger name="org.hibernate.validator" additivity="false">
+        <level value="info"/>
+        <appender-ref ref="Appender1"/>
+    </logger>
 
 
     <!--loggers for testing-->

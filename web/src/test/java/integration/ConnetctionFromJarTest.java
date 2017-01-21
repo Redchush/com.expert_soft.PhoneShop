@@ -6,7 +6,6 @@ import com.expert_soft.model.Phone;
 import com.expert_soft.persistence.PhoneDao;
 import com.expert_soft.service.PhoneService;
 import org.apache.log4j.Logger;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -17,12 +16,10 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.web.context.WebApplicationContext;
 
 import javax.sql.DataSource;
-import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static junit.framework.TestCase.assertNotNull;
@@ -32,8 +29,8 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
-        "classpath:root-context.xml",
-        "classpath:servlet-context.xml"
+        "classpath:test-root-context.xml",
+        "classpath:test-servlet-context.xml"
 })
 
 @WebAppConfiguration

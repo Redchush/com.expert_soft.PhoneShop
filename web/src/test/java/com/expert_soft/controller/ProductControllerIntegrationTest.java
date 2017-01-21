@@ -1,13 +1,10 @@
 package com.expert_soft.controller;
 
 import com.expert_soft.model.Phone;
-import com.expert_soft.service.PhoneService;
 import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -17,18 +14,15 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import static junit.framework.TestCase.assertNotNull;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
-        "classpath:root-context.xml",
-        "classpath:servlet-context.xml",
-        "classpath:test-data.xml"
+        "classpath:test-root-context.xml",
+        "classpath:test-servlet-context.xml",
+        "classpath:web_test-bean.xml"
 })
 
 @WebAppConfiguration
@@ -59,7 +53,5 @@ public class ProductControllerIntegrationTest {
     public void product() throws Exception {
         mockMvc.perform(get("/product/1"))
                .andExpect(model().attribute("phone", phone_id_1));
-
-
-    }
+        }
 }

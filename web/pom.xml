@@ -2,147 +2,237 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-    <parent>
-        <groupId>com.expertsoft.phone_shop</groupId>
-        <artifactId>PhoneShop</artifactId>
-        <version>1.0-RELEASE</version>
-        <relativePath>../pom.xml</relativePath>
-    </parent>
-    <artifactId>web</artifactId>
-    <name>Phone Shop Web</name>
-    <packaging>war</packaging>
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.expertsoft.phone_shop</groupId>
+    <artifactId>PhoneShop</artifactId>
+    <version>1.0-RELEASE</version>
+    <relativePath>../pom.xml</relativePath>
+  </parent>
+  <artifactId>web</artifactId>
+  <name>Phone Shop Web</name>
+  <packaging>war</packaging>
+  <properties>
+      <jackson.version>1.9.13</jackson.version>
+  </properties>
 
-    <dependencies>
-        <!--inner dependency-->
-        <dependency>
-            <groupId>com.expertsoft.phone_shop</groupId>
-            <artifactId>core</artifactId>
-            <version>1.0-RELEASE</version>
-        </dependency>
+  <dependencies>
+    <!--inner dependency-->
+    <dependency>
+      <groupId>com.expertsoft.phone_shop</groupId>
+      <artifactId>core_</artifactId>
+      <version>1.0-RELEASE</version>
+      <type>jar</type>
+    </dependency>
 
-        <!--outer dependency-->
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>servlet-api</artifactId>
-            <version>3.0-alpha-1</version>
-            <scope>provided</scope>
-        </dependency>
+    <!--outer dependency-->
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>servlet-api</artifactId>
+      <version>3.0-alpha-1</version>
+      <scope>provided</scope>
+    </dependency>
 
-        <dependency>
-            <groupId>javax.servlet.jsp</groupId>
-            <artifactId>jsp-api</artifactId>
-            <version>2.2.1-b03</version>
-        </dependency>
+    <dependency>
+      <groupId>javax.servlet.jsp</groupId>
+      <artifactId>jsp-api</artifactId>
+      <version>2.2.1-b03</version>
+    </dependency>
 
-        <dependency>
-            <groupId>javax.servlet.jsp.jstl</groupId>
-            <artifactId>javax.servlet.jsp.jstl-api</artifactId>
-            <version>1.2.1</version>
-        </dependency>
+    <dependency>
+      <groupId>javax.servlet.jsp.jstl</groupId>
+      <artifactId>javax.servlet.jsp.jstl-api</artifactId>
+      <version>1.2.1</version>
+    </dependency>
 
-        <dependency>
-            <groupId>jstl</groupId>
-            <artifactId>jstl</artifactId>
-            <version>1.2</version>
-        </dependency>
+    <dependency>
+      <groupId>jstl</groupId>
+      <artifactId>jstl</artifactId>
+      <version>1.2</version>
+    </dependency>
 
-        <dependency>
-            <groupId>${spring.group}</groupId>
-            <artifactId>spring-core</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
+    <dependency>
+      <groupId>${spring.group}</groupId>
+      <artifactId>spring-core</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
 
-        <dependency>
-            <groupId>${spring.group}</groupId>
-            <artifactId>spring-context</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
+    <dependency>
+      <groupId>${spring.group}</groupId>
+      <artifactId>spring-context</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
 
-        <dependency>
-            <groupId>${spring.group}</groupId>
-            <artifactId>spring-webmvc</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
+    <dependency>
+      <groupId>${spring.group}</groupId>
+      <artifactId>spring-webmvc</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
 
-        <dependency>
-            <groupId>${spring.group}</groupId>
-            <artifactId>spring-aspects</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
+    <dependency>
+      <groupId>${spring.group}</groupId>
+      <artifactId>spring-aspects</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
 
-        <dependency>
-            <groupId>${spring.group}</groupId>
-            <artifactId>spring-aop</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
+    <dependency>
+      <groupId>${spring.group}</groupId>
+      <artifactId>spring-aop</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>javax.inject</groupId>
+      <artifactId>javax.inject</artifactId>
+      <version>1</version>
+    </dependency>
+
+    <dependency>
+      <groupId>${spring.group}</groupId>
+      <artifactId>spring-test</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+    <!--json-->
+    <dependency>
+      <groupId>org.codehaus.jackson</groupId>
+      <artifactId>jackson-core-asl</artifactId>
+      <version>${jackson.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.codehaus.jackson</groupId>
+      <artifactId>jackson-mapper-asl</artifactId>
+      <version>${jackson.version}</version>
+    </dependency>
+
+    <!--error 406 if not exist, infinite loop with mockito if exist-->
+
+    <!--<dependency>-->
+    <!--<groupId>com.fasterxml.jackson.core</groupId>-->
+    <!--<artifactId>jackson-core</artifactId>-->
+    <!--<version>2.8.6</version>-->
+    <!--</dependency>-->
+
+    <!--<dependency>-->
+    <!--<groupId>com.fasterxml.jackson.core</groupId>-->
+    <!--<artifactId>jackson-annotations</artifactId>-->
+    <!--<version>2.8.6</version>-->
+    <!--</dependency>-->
+
+    <!--&lt;!&ndash;objectMapper not found&ndash;&gt;-->
+    <!--<dependency>-->
+    <!--<groupId>com.fasterxml.jackson.core</groupId>-->
+    <!--<artifactId>jackson-databind</artifactId>-->
+    <!--<version>2.8.6</version>-->
+    <!--</dependency>-->
 
 
-        <dependency>
-            <groupId>javax.inject</groupId>
-            <artifactId>javax.inject</artifactId>
-            <version>1</version>
-        </dependency>
+    <!--&lt;!&ndash;ava.lang.NoClassDefFoundError: com/fasterxml/jackson/core/util/DefaultIndenter since 2.5!!&ndash;&gt;-->
+    <!--<dependency>-->
+    <!--<groupId>io.joynr.java.core</groupId>-->
+    <!--<artifactId>clustercontroller-standalone</artifactId>-->
+    <!--<version>0.15.1</version>-->
+    <!--</dependency>-->
 
-        <dependency>
-            <groupId>${spring.group}</groupId>
-            <artifactId>spring-test</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
 
-        <!--json-->
-        <dependency>
-            <groupId>org.codehaus.jackson</groupId>
-            <artifactId>jackson-core-asl</artifactId>
-            <version>1.9.13</version>
-        </dependency>
+    <!--solve missing javax.servlet.SessionCookieConfig-->
+    <dependency>
+      <groupId>org.apache.tomcat.embed</groupId>
+      <artifactId>tomcat-embed-core</artifactId>
+      <version>8.5.2</version>
+    </dependency>
 
-        <!--solve missing javax.servlet.SessionCookieConfig-->
-        <dependency>
-            <groupId>org.apache.tomcat.embed</groupId>
-            <artifactId>tomcat-embed-core</artifactId>
-            <version>8.5.2</version>
-        </dependency>
 
-    </dependencies>
+  </dependencies>
 
-    <build>
-        <finalName>PhoneShopWeb</finalName>
-        <testResources>
-            <testResource>
-                <directory>src/test/resources</directory>
-            </testResource>
-        </testResources>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-compiler-plugin</artifactId>
-                    <configuration>
-                        <source>1.8</source>
-                        <target>1.8</target>
-                    </configuration>
-                </plugin>
+  <build>
+    <finalName>phonify_web</finalName>
+    <testResources>
+      <testResource>
+        <directory>src/test/resources</directory>
+      </testResource>
+    </testResources>
 
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-war-plugin</artifactId>
-                    <version>3.0.0</version>
-                    <configuration>
-                        <failOnMissingWebXml>false</failOnMissingWebXml>
-                        <webResources>
-                            <resource>
-                                <directory>${project.basedir}\src\main\webapp</directory>
-                                <directory>${project.basedir}\src\main\resources</directory>
-                                <includes>
-                                    <include>**/*.*</include>
-                                </includes>
-                            </resource>
-                        </webResources>
-                    </configuration>
-                </plugin>
-            </plugins>
-        </pluginManagement>
-    </build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-dependency-plugin</artifactId>
+          <version>3.0.0</version>
+          <!--<exclude>${project.groupId}:core-1.0-RELEASE</exclude>-->
+          <executions>
+            <execution>
+              <id>purge-local-dependencies</id>
+              <phase>process-sources</phase>
+              <goals>
+                <goal>purge-local-repository</goal>
+              </goals>
+              <configuration>
+                <excludes>
+                  <exclude>${spring.group}</exclude>
+                  <exclude>javax.servlet</exclude>
+                </excludes>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <version>2.19.1</version>
+          <!--<configuration>-->
+          <!--<additionalClasspathElements>-->
+          <!--<additionalClasspathElement>path/to/additional/resources                                            </additionalClasspathElement>-->
+          <!--</additionalClasspathElements>-->
+          <!--</configuration>-->
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>${maven.compiler-plugin.version}</version>
+          <configuration>
+            <source>${jdk.version}</source>
+            <target>${jdk.version}</target>
+          </configuration>
+
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-war-plugin</artifactId>
+          <version>3.0.0</version>
+          <configuration>
+            <failOnMissingWebXml>false</failOnMissingWebXml>
+            <webResources>
+              <resource>
+                <directory>${project.basedir}\src\main\webapp</directory>
+                <directory>${project.basedir}\src\main\resources</directory>
+                <includes>
+                  <include>**/*.*</include>
+                </includes>
+              </resource>
+            </webResources>
+          </configuration>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.tomcat.maven</groupId>
+          <artifactId>tomcat7-maven-plugin</artifactId>
+          <version>2.2</version>
+          <configuration>
+            <!--<url>http://localhost:8080/manager/**text**/deploy</url>-->
+            <server>TomcatServer</server>
+            <url>http://localhost:8080/manager</url>
+            <path>/phonify</path>
+            <!--<url>http://localhost:8080/manager/text</url>-->
+            <username>admin</username>
+            <password>admin</password>
+          </configuration>
+        </plugin>
+
+      </plugins>
+    </pluginManagement>
+  </build>
 
 </project>

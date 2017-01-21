@@ -8,20 +8,13 @@
         </layout>
     </appender>
 
-    <logger name="org.springframework.beans">
-        <level value="debug"/>
+    <logger name="org.springframework" additivity="false">
+        <level value="info"/>
         <appender-ref ref="Appender1"/>
     </logger>
-    <logger name="org.springframework.web">
-        <level value="debug"/>
-        <appender-ref ref="Appender1"/>
-    </logger>
-    <logger name="org.springframework.context">
-        <level value="debug"/>
-        <appender-ref ref="Appender1"/>
-    </logger>
-    <logger name="com.expert_soft">
-        <level value="debug"/>
+
+    <logger name="org.hibernate.validator" additivity="false">
+        <level value="info"/>
         <appender-ref ref="Appender1"/>
     </logger>
 

@@ -58,10 +58,23 @@ footer {
 .emptyCelled tr, .emptyCelled td[colspan] {
     border: none;
 }
-
 .form-horizontal.pnf label{
     text-align: left;
 }
+#msg{
+    margin-top: 60px;
+}
+.holder{
+    display: none;
+}
+
+.table > thead > tr._deleted > td,
+.table > tbody > tr._deleted > td,
+.table > tfoot > tr._deleted > td{
+    background-color: #C4D0D9; 
+    text-decoration: line-through;
+}
+
 /*.form-horizontal.pnf .btn-default.pnf{*/
     /*padding-left: 40px;*/
     /*padding-right: 40px;*/

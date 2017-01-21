@@ -1,4 +1,7 @@
-<%@ taglib prefix="c" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -19,76 +22,45 @@
 
 <body>
 <!--use phf class to change default bootstrap css-->
-<nav class="navbar navbar-default">
-  <div class="container">
-    <a class="navbar-brand" href="index.html"><span class="glyphicon glyphicon-phone"></span>Phonify</a>
-    <button class="btn btn-default pnf pull-right" type="button">My cart: 0 items 0$</button>
-    <div class="clearfix"></div>
-  </div>
-</nav>
-
-
-<!-- Page Content -->
+<c:import url="/WEB-INF/views/part/header_without_cart.jsp"/>
 <div class="container">
   <div class="row">
     <div class="col-lg-12 pnf">
       <h1>Thank for your order</h1>
     </div>
     <table class="table table-responsive">
-      <thead class="pnf">
-      <tr>
-        <th>Model</th>
-        <th>Color</th>
-        <th>Display size</th>
-        <th>Price</th>
-        <th>Quantity</th>
-        <th>Action</th>
-      </tr>
-      </thead>
+      <%@ include file="part/product/product_thead.jsp" %>
       <tbody>
-      <tr>
-        <td>Model</td>
-        <td>Color</td>
-        <td>Display size</td>
-        <td>Price</td>
-        <td>1</td>
-        <td>200</td>
-      </tr>
-      <tr>
-        <td>Model</td>
-        <td>Color</td>
-        <td>Display size</td>
-        <td>Price</td>
-        <td>1</td>
-        <td>200</td>
-      </tr>
-      <tr>
-        <td>Model</td>
-        <td>Color</td>
-        <td>Display size</td>
-        <td>Price</td>
-        <td>1</td>
-        <td>200</td>
-      </tr>
+      <c:forEach var="phone" items="${requestScope.phones}">
+        <tr>
+          <td>Model</td>
+          <td>Color</td>
+          <td>Display size</td>
+          <td>Price</td>
+          <td>1</td>
+          <td>200</td>
+        </tr>
+      </c:forEach>
       </tbody>
       <tfoot class="emptyCelled">
       <tr>
         <td colspan="4"></td>
         <td>Subtotal</td>
-        <td>750</td>
+        <td><td><fmt:formatNumber value="${requestScope.order.subtotal}"
+                                  type="currency" currencySymbol="$"/></td>
       </tr>
       <tr>
         <td colspan="4"></td>
         <td>Delivery</td>
-        <td>750</td>
+        <td><fmt:formatNumber value="${requestScope.order.deliveryPrice}"
+                              type="currency" currencySymbol="$"/></td>
       </tr>
       <tr>
         <td colspan="4"></td>
-        <td>TOTAL</td>
-        <td>750</td>
+        <td><spring:message code="order.total"/> </td>
+        <td><fmt:formatNumber value="${requestScope.order.totalPrice}"
+                              type="currency" currencySymbol="$"/></td>
       </tr>
-
-
       </tfoot>
     </table>
 
@@ -96,26 +68,35 @@
   <div class="row">
     <div class="form-horizontal pnf">
       <div class="form-group">
-        <label class="col-sm-2">First name</label>
-        <div class="col-sm-5">Andrew</div>
+        <label class="col-sm-2"><spring:message code="order.userInfo.firstName"/></label>
+        <div class="col-sm-5">
+          <c:out value="${requestScope.order.userInfo.firstName}" escapeXml="true"/>
+        </div>
       </div>
       <div class="form-group">
-        <label class="col-xs-2">Last name</label>
-        <div class="col-sm-5">Watson</div>
+        <label class="col-xs-2"><spring:message code="order.userInfo.lastName"/></label>
+        <div class="col-sm-5">
+        <c:out value="${requestScope.order.userInfo.lastName}"  escapeXml="true"/>
+        </div>
       </div>
 
       <div class="form-group">
-        <label class="col-sm-2" >Address</label>
-        <div class="col-sm-5">My adress</div>
+        <label class="col-sm-2" ><spring:message code="order.userInfo.address"/></label>
+        <div class="col-sm-5">
+        <c:out value="${requestScope.order.userInfo.deliveryAddress}" escapeXml="true"/>
+        </div>
       </div>
+
       <div class="form-group">
         <label class="col-sm-2" >Phone</label>
-        <div class="col-sm-5"> myPhone</div>
+        <div class="col-sm-5">
+          <c:out value="${requestScope.order.userInfo.contactPhoneNo}" escapeXml="true"/>
+        </div>
       </div>
 
       <div class="form-group">
         <div class="col-sm-7">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci animi architecto dicta ducimus esse facilis fugit id magnam, minima modi nesciunt pariatur quam recusandae reprehenderit saepe sint, totam vitae voluptate?
+          <c:out value="${requestScope.order.userInfo.additionalInfo}" escapeXml="true"/>
         </div>
       </div>
 

@@ -18,22 +18,18 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import static junit.framework.TestCase.assertNotNull;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
-        "classpath:root-context.xml",
-        "classpath:servlet-context.xml",
-        "classpath:test-data.xml"
+        "classpath:test-root-context.xml",
+        "classpath:test-servlet-context.xml",
+        "classpath:web_test-bean.xml"
 })
 
 @WebAppConfiguration
-
 public class ProductControllerTest {
 
     private static final Logger logger = Logger.getLogger(ProductController.class);
@@ -44,7 +40,7 @@ public class ProductControllerTest {
     @InjectMocks
     private ProductController controller;
 
-    @Mock
+    @Mock(answer = Answers.RETURNS_DEEP_STUBS)
     private PhoneService sampleService;
 
     private MockMvc mockMvc;

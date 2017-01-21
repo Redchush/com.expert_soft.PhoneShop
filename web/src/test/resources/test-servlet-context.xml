@@ -30,10 +30,12 @@
     <!--</beans:bean>-->
 
     <!--&lt;!&ndash; Configure bean to convert JSON to POJO and vice versa &ndash;&gt;-->
-    <!--<beans:bean id="jsonMessageConverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">-->
+    <!--<beans:bean id="jsonMessageConverter"-->
+                <!--class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">-->
     <!--</beans:bean>-->
 
-    <!--<beans:bean id="xmlMessageConverter" class="org.springframework.http.converter.xml.Jaxb2RootElementHttpMessageConverter">-->
+    <!--<beans:bean id="xmlMessageConverter"-->
+                <!--class="org.springframework.http.converter.xml.Jaxb2RootElementHttpMessageConverter">-->
     <!--</beans:bean>-->
 
 
