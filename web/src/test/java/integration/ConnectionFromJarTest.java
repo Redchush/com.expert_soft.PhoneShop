@@ -16,6 +16,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.web.context.WebApplicationContext;
 
 import javax.sql.DataSource;
+import java.net.MalformedURLException;
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -35,7 +36,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 @WebAppConfiguration
 
-public class ConnetctionFromJarTest {
+public class ConnectionFromJarTest {
 
     private static final Logger logger = Logger.getLogger(ProductController.class);
 
@@ -60,11 +61,13 @@ public class ConnetctionFromJarTest {
     }
 
     @Test
-    public void dataSource() throws SQLException {
+    public void dataSource() throws SQLException, MalformedURLException {
         logger.debug("Starting test on dataSource");
         DataSource dataSource = (DataSource) context.getBean("schema");
         DatabaseMetaData metaData = dataSource.getConnection().getMetaData();
         logger.debug("URL :: " + metaData.getURL());
+
+        logger.debug("Path: " + metaData.getURL());
         logger.debug("Tables:");
         ResultSet tables = metaData.getTables("PUBLIC", null, null, null);
         List<String> tablesNames = new ArrayList<>();

@@ -23,15 +23,20 @@
 
 <body>
 <c:import url="/WEB-INF/views/part/header_with_cart.jsp"/>
-<c:set var="cartItems" value="${sessionScope.cart.itemsMap}" />
+<c:set var="cartItems" value="${reqCart.itemsMap}" />
 
 <span id="restore_msg" class="holder"><spring:message code="button.restore"/></span>
 <span id="delete_msg" class="holder"><spring:message code="button.delete"/></span>
+<span id="delete_msg" class="holder"><spring:message code="button.delete"/></span>
+
 
 <div class="container">
   <div class="row">
     <div class="col-lg-12 pnf">
       <h1>Cart</h1>
+      <c:if test="${not empty requestScope.msg}">
+        <h5>${requestScope.msg}</h5>
+      </c:if>
     </div>
     <p>
       <a href="<c:url value="/products"/> ">
@@ -46,11 +51,12 @@
 
     <spring:url value="/update" var="userActionUrl" />
 
-    <form:form class="form-inline" modelAttribute="cart" method="post" action="${userActionUrl}">
+    <form:form class="form-inline"
+               modelAttribute="cartItems" method="post" action="${userActionUrl}">
       <table class="table table-striped">
         <%@ include file="part/product/product_thead.jsp" %>
         <tbody>
-        <c:forEach var="itemEntry" items="${cartItems}">
+        <c:forEach var="itemEntry" items="${cartItems}" varStatus="index">
 
           <c:set var="phone" value="${itemEntry.value.phone}" scope="page"/>
           <fmt:formatNumber var="currentDisplay" value="${(phone.displaySize)/10}"
@@ -58,16 +64,22 @@
           <fmt:formatNumber var="currentPrice" value="${phone.price}" type="currency"
                             currencySymbol="$"/>
           <tr>
-            <td><c:out value="${phone.model}"/> </td>
+            <td><c:out value="${phone.model}"/></td>
             <td><c:out value="${phone.color}"/> </td>
             <td><c:out value="${currentDisplay}''"/></td>
             <td><c:out value="${currentPrice}"/></td>
-            <td>
-              <form:input path="itemsMap[${itemEntry.key}]" type="text" class="input-sm"
-                          value="${itemEntry.value.quantity}" title="quantity"/></td>
+          <td>
+            <spring:bind path="[${index}].quantity">
+              <form:input path="[${index}]" class="input-sm"
+                          value="${itemEntry.value.quantity}" title="quantity"/>
+              <form:errors path="[${index}].quantity" class="control-label" />
+
+            </spring:bind>
+          </td>
             <td>
               <label class="btn btn-default btn-sm pnf" data-action = "delete">
-                <input type="checkbox" name="deleteId" value="${phone.key}" autocomplete="off" checked="false" hidden>
+                <input type="checkbox" name="deleteId" value="${phone.key}" autocomplete="off"
+                       checked="false" hidden>
                 <span><spring:message code="button.delete"/></span>
               </label>
             </td>

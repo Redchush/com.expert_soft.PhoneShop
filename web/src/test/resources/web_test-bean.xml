@@ -7,9 +7,9 @@
                  http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
                  http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
-  <!--    <bean id="template" class="org.springframework.jdbc.core.JdbcTemplate" autowire="constructor"/>
-    <bean id="jdbcUtils" class="org.springframework.test.jdbc.JdbcTestUtils"/>-->
 
+  <util:properties id="valid_msg"
+                   location="classpath:ValidationMessages.properties"/>
   <!--beans in to check-->
   <!--phoneDao-->
 
@@ -42,8 +42,8 @@
   <bean id="orderItem_firstOrder_new"
         class="com.expert_soft.model.OrderItem"
         scope="prototype">
-    <property name="phone" ref="phone_id_1"/>
-    <property name="quantity" value="1"/>
+    <constructor-arg  ref="phone_id_1"/>
+    <constructor-arg  value="1"/>
   </bean>
 
   <bean id="orderItem_firstOrder_db"
@@ -68,7 +68,7 @@
     <property name="key" value="1"/>
     <property name="firstName" value="klara"/>
     <property name="lastName" value="karlovna"/>
-    <property name="deliveryPrice" value="10"/>
+    <property name="deliveryPrice" value="5"/>
     <property name="deliveryAddress" value="karlovy vary"/>
     <property name="contactPhoneNo" value="+375 29 111 77 77"/>
     <property name="orderItems" ref="firstOrderSet_db"/>
@@ -77,8 +77,8 @@
 
   <!--order id=2-->
   <bean id="orderItem_secondOrder_1_new" class="com.expert_soft.model.OrderItem" scope="prototype">
-    <property name="phone" ref="phone_id_1"/>
-    <property name="quantity" value="1"/>
+    <constructor-arg ref="phone_id_1"/>
+    <constructor-arg value="1"/>
   </bean>
 
   <bean id="orderItem_secondOrder_1_db" class="com.expert_soft.model.OrderItem"
@@ -88,8 +88,8 @@
   </bean>
 
   <bean id="orderItem_secondOrder_2_new" class="com.expert_soft.model.OrderItem" scope="prototype">
-    <property name="phone" ref="phone_id_2"/>
-    <property name="quantity" value="1"/>
+    <constructor-arg ref="phone_id_2"/>
+    <constructor-arg value="1"/>
   </bean>
 
   <bean id="orderItem_secondOrder_2_db" class="com.expert_soft.model.OrderItem"
@@ -163,17 +163,24 @@
     <property name="totalPrice" value="338.33"/>
   </bean>
 
-  <bean id="curriculum_order_2" class="com.expert_soft.model.excluded.CartCurriculum">
-    <property name="cartSize" value="2"/>
-    <property name="cartSubtotal" value="#{order_2_new_calculated.subtotal}"/>
-    <property name="cartMap">
-      <util:map>
-        <entry key="1" value="1"/>
-        <entry key="2" value="1"/>
-      </util:map>
-    </property>
+  <bean id="order_new" class="com.expert_soft.model.Order"/>
+
+
+  <util:map id="map_cart_2" map-class="java.util.concurrent.ConcurrentHashMap"
+            key-type="java.lang.Long"
+            value-type="com.expert_soft.model.OrderItem">
+    <entry key="1" value-ref="orderItem_secondOrder_1_new"/>
+    <entry key="2" value-ref="orderItem_secondOrder_1_new"/>
+  </util:map>
+
+  <bean id="cart_1" class="com.expert_soft.model.Cart">
+    <property name="cartSize" value="1"/>
+    <property name="subtotal" value="#{phone_id_1.price}"/>
   </bean>
 
-  <bean id="order_new" class="com.expert_soft.model.Order"/>
+  <bean id="cart_2" class="com.expert_soft.model.Cart">
+    <property name="cartSize" value="2"/>
+    <property name="subtotal" value="#{order_2_new_calculated.subtotal}"/>
+  </bean>
 
 </beans>

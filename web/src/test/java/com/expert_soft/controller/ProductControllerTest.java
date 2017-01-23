@@ -63,6 +63,13 @@ public class ProductControllerTest {
                .andExpect(model().attributeExists("phone"))
                .andExpect(view().name("productDetails"));
     }
+
+    @Test
+    public void product_Invalid() throws Exception {
+        mockMvc.perform(get("/product/blabla"))
+               .andExpect(status().isBadRequest())
+               .andExpect(view().name("/error/productNotFound"));
+    }
     @Test
     public void products() throws Exception {
         mockMvc.perform(get("/products"))
@@ -70,6 +77,8 @@ public class ProductControllerTest {
                .andExpect(model().attributeExists("phones"))
                .andExpect(view().name("productList"));
     }
+
+
 
 
 }

@@ -25,16 +25,16 @@ $(function() {
         var phoneId = _$quantityInput.val();
         var quantity = $(this).find('input[name=quantity]').val();
 
+        var model = $("span[data-save=" + phoneId + "]").html();
+        console.log("Model" + model);
+
         phoneId = jQuery.trim(phoneId);
         quantity = jQuery.trim(quantity);
 
-        sendAjaxToCart(phoneId, quantity, _$quantityInput);
+        sendAjaxToCart(phoneId, quantity, _$quantityInput, model);
     });
 
-
-
-    
-    function sendAjaxToCart(phoneId, quantity, _$input) {
+    function sendAjaxToCart(phoneId, quantity, _$input, model) {
         $.ajax({
             url: 'add_to_cart',
             dataType: "json",
@@ -45,16 +45,20 @@ $(function() {
             success: function(data) {
                  console.log("data : " + data);
                  changeCartCurriculum(data.result.cartSize,
-                                      data.result.cartSubtotal, 
+                                      data.result.cartSubtotal,
                                       data.msg);
                  _$input.val(1);
+
             },
             error: function (data) {
-                _$output.html(data);
+                _$output.html("The phone " + model + "can't be saved in cart\n." + data);
                 _$output.show();
+                _$input.val(1);
+
             },
             timeout: function () {
-                _$output.html("Sorry, your request can't be executed")
+                _$output.html("Sorry, your request can't be executed");
+                _$input.val(1);
             }
         });
 

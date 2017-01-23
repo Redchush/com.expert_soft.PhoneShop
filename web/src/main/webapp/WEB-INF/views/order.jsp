@@ -21,7 +21,6 @@
 </head>
 <body>
 <c:import url="/WEB-INF/views/part/header_without_cart.jsp"/>
-<c:set var="items" value="${requestScope.order.orderItems}"/>
 
 <div class="container">
   <div class="row">
@@ -35,7 +34,7 @@
     <table class="table table-responsive">
       <%@ include file="part/product/product_thead.jsp" %>
       <tbody>
-      <c:forEach  var="item" items="${items}">
+      <c:forEach  var="item" items="${order.orderItems}">
         <tr>
           <td>${item.phone.model}</td>
           <td>${item.phone.color}</td>
@@ -50,17 +49,17 @@
       <tr>
         <td colspan="4"></td>
         <td><spring:message code="order.subtotal"/></td>
-        <td>750</td>
+        <td>${order.subtotal}</td>
       </tr>
       <tr>
         <td colspan="4"></td>
         <td><spring:message code="order.deliveryPrice"/></td>
-        <td>${requestScope.deliveryPrice}</td>
+        <td>${order.deliveryPrice}</td>
       </tr>
       <tr>
         <td colspan="4"></td>
         <td><spring:message code="order.total"/></td>
-        <td>750</td>
+        <td>${order.totalPrice}</td>
       </tr>
       </tfoot>
     </table>
@@ -70,38 +69,64 @@
     <spring:url value="/doOrder" var="userActionUrl" />
 
     <form:form class="form-horizontal pnf" modelAttribute="userInfo"
-               method="POST" action="${userActionUrl}">
+               method="POST" action="${userActionUrl}" htmlEscape="true">
       <div class="form-group">
         <label class="control-label col-sm-2" for="f_name">First name</label>
         <div class="col-sm-5">
-          <form:input path="firstName" class="form-control" id="f_name"
-                      placeholder="First name"/>
+          <spring:bind path="firstName">
+            <form:input path="firstName" cssErrorClass="has-error" cssClass="form-control"
+                        id="f_name"
+                        placeholder="First name"
+             > ${prevUserInfo.firstName}</form:input>
+            <form:errors path="firstName" cssClass="control-label has-error"/>
+          </spring:bind>
         </div>
       </div>
       <div class="form-group">
         <label class="control-label col-xs-2" for="l_name">Last name</label>
         <div class="col-sm-5">
-          <form:input path="lastName" class="form-control" id="l_name"
-                      placeholder="Last name"/>
+          <spring:bind path="lastName">
+            <form:input path="lastName" cssErrorClass="has-error" cssClass="form-control"
+                        id="l_name"
+                        placeholder="Last name"
+            >${prevUserInfo.lastName}</form:input>
+            <form:errors path="lastName" cssClass="control-label has-error"/>
+          </spring:bind>
+
         </div>
       </div>
 
       <div class="form-group">
         <label class="control-label col-sm-2" for="address">Address</label>
         <div class="col-sm-5">
-          <form:input path="deliveryAddress" class="form-control" id="address" placeholder="Address"/>
+          <spring:bind path="deliveryAddress">
+            <form:input path="deliveryAddress" cssErrorClass="has-error" cssClass="form-control"
+                        id="address" placeholder="Address"
+            >${prevUserInfo.deliveryAddress}</form:input>
+            <form:errors path="deliveryAddress" cssClass="control-label has-error"/>
+          </spring:bind>
         </div>
       </div>
       <div class="form-group">
         <label class="control-label col-sm-2" for="phone">Phone</label>
         <div class="col-sm-5">
-          <form:input path="contactPhoneNo" class="form-control" id="phone" placeholder="Phone"/>
+          <spring:bind path="contactPhoneNo">
+            <form:input path="contactPhoneNo" cssErrorClass="has-error" cssClass="form-control"
+                        id="phone" placeholder="Phone"
+            >${prevUserInfo.contactPhoneNo}</form:input>
+            <form:errors path="contactPhoneNo" cssClass="control-label has-error"/>
+          </spring:bind>
         </div>
       </div>
 
       <div class="form-group">
         <div class="col-sm-7">
-          <textarea class="form-control" placeholder="Additional information" id="add_info"></textarea>
+          <spring:bind path="additionalInfo">
+            <form:textarea path="additionalInfo" cssErrorClass="has-error" cssClass="form-control"
+                        id="add_info" placeholder="Additional information"
+            >${prevUserInfo.additionalInfo}</form:textarea>
+            <form:errors path="additionalInfo" cssClass="control-label has-error"/>
+          </spring:bind>
         </div>
       </div>
 

@@ -11,13 +11,14 @@
     <a href="<c:url value="/cart"/>">
       <button id="cart_info" class="btn btn-default pnf pull-right">
       <c:choose>
-        <c:when test="${empty sessionScope.cartCurriculum}">
+        <c:when test="${empty sessionScope.cart}">
           <spring:message code="button.clientCart" htmlEscape="false" arguments="0 0"/>
         </c:when>
         <c:otherwise>
-          <fmt:formatNumber var="sub" value="${sessionScope.cartCurriculum.cartSubtotal}" type="currency" currencySymbol=""/><spring:message
+          <fmt:formatNumber var="sub" value="${sessionScope.cart.cartSubtotal}"
+                            type="currency" currencySymbol=""/><spring:message
                 code="button.clientCart" htmlEscape="false"
-                arguments="${sessionScope.cartCurriculum.cartSize} ${sub}"/>
+                arguments="${sessionScope.cart.cartSize} ${sub}"/>
         </c:otherwise>
       </c:choose></button>
      </a>

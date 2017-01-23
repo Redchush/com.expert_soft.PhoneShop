@@ -126,7 +126,7 @@
     <!--</dependency>-->
 
 
-    <!--&lt;!&ndash;ava.lang.NoClassDefFoundError: com/fasterxml/jackson/core/util/DefaultIndenter since 2.5!!&ndash;&gt;-->
+    <!--&lt;!&ndash;ava.lang.NoClassDefFoundError: com/fasterxml/jackson/core/com.expert_soft.util/DefaultIndenter since 2.5!!&ndash;&gt;-->
     <!--<dependency>-->
     <!--<groupId>io.joynr.java.core</groupId>-->
     <!--<artifactId>clustercontroller-standalone</artifactId>-->

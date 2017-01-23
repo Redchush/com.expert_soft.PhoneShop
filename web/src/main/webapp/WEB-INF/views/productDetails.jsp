@@ -14,7 +14,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>Phonify <c:out value="${requestScope.phone.model}"/> details</title>
+  <title>Phonify <c:out value="${phone.model}"/> details</title>
   <link href="<c:url value="/resources/css/bootstrap.min.css"/>" rel="stylesheet">
   <link href="<c:url value="/resources/css/main.css"/>" rel="stylesheet">
 </head>
@@ -28,20 +28,20 @@
                code="button.backToMain"/></button>
     </a>
     <div class="col-lg-12 pnf">
-      <h1><c:out value="${requestScope.phone.model}"/> </h1>
+      <h1><span data-save="${phone.key}"><c:out value="${phone.model}"/></span></h1>
     </div>
     <table class="table table-striped fit">
       <tbody>
       <tr>
         <td><spring:message code="product.displaySize"/></td>
-        <td><fmt:formatNumber value="${requestScope.phone.displaySize/10}"
+        <td><fmt:formatNumber value="${phone.displaySize/10}"
                               maxFractionDigits="1"/>
             <spring:message code="product.displaySize.dimension"/></td>
       </tr>
       <tr>
         <td><spring:message code="product.length"/></td>
-        <td><c:out value="${requestScope.phone.length}" default="unknown" escapeXml="true"/>
-           <c:if test="${not empty requestScope.phone.length}">
+        <td><c:out value="${phone.length}" default="unknown" escapeXml="true"/>
+           <c:if test="${not empty phone.length}">
              <spring:message code="product.dimension.mm"/>
            </c:if>
         </td>

@@ -32,7 +32,8 @@
         <c:forEach var="phone" items="${requestScope.phones}">
           <tr>
             <td>
-              <a href="<c:url value="/product/${phone.key}"/>">${phone.model}</a>
+              <a href="<c:url value="/product/${phone.key}"/>"><span
+                      data-save="${phone.key}">${phone.model}</span></a>
             </td>
             <td>${phone.color}</td>
             <td><fmt:formatNumber value="${phone.displaySize/10}" type="number"

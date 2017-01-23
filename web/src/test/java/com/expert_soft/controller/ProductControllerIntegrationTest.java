@@ -16,6 +16,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -50,8 +51,22 @@ public class ProductControllerIntegrationTest {
     }
 
     @Test
-    public void product() throws Exception {
+    public void product_Valid() throws Exception {
         mockMvc.perform(get("/product/1"))
                .andExpect(model().attribute("phone", phone_id_1));
-        }
+    }
+
+    @Test
+    public void product_Invalid() throws Exception {
+        mockMvc.perform(get("/product/100"))
+               .andExpect(status().isNotFound());
+
+        mockMvc.perform(get("/product/-1"))
+               .andExpect(status().isBadRequest());
+
+    }
+
+
+
+
 }

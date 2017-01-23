@@ -10,7 +10,10 @@ public class AjaxResponseCart implements Serializable {
 
     private String msg;
     private String code;
-    private com.expert_soft.model.excluded.CartCurriculum result;
+
+    private Cart result;
+
+    public AjaxResponseCart() {}
 
     public String getMsg() {
         return msg;
@@ -28,11 +31,11 @@ public class AjaxResponseCart implements Serializable {
         this.code = code;
     }
 
-    public com.expert_soft.model.excluded.CartCurriculum getResult() {
+    public Cart getResult() {
         return result;
     }
 
-    public void setResult(com.expert_soft.model.excluded.CartCurriculum result) {
+    public void setResult(Cart result) {
         this.result = result;
     }
 

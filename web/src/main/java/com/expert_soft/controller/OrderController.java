@@ -5,10 +5,12 @@ import com.expert_soft.model.Cart;
 import com.expert_soft.model.Order;
 import com.expert_soft.model.UserInfo;
 import com.expert_soft.service.OrderService;
+import com.expert_soft.validator.group.G_Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -33,7 +34,7 @@ public class OrderController {
 
     @RequestMapping(value = "/order", method = RequestMethod.GET)
     public ModelAndView order(@ModelAttribute("cart") Cart cart){
-        Order order = orderService.buildOrder(cart);
+        Order order = orderService.buildOrder(cart, true);
         Map<String, Object> map = new HashMap<>();
         map.put("order", order);
         map.put("userInfo", new UserInfo());
@@ -41,16 +42,16 @@ public class OrderController {
     }
 
     @RequestMapping(value = "/doOrder", method = RequestMethod.POST)
-    public String order(@Valid @ModelAttribute("cart") Cart cart,
-                        @ModelAttribute("userInfo") UserInfo info,
+    public String order(@ModelAttribute("cart") Cart cart,
+                        @Validated(G_Order.Info.class) @ModelAttribute("userInfo") UserInfo info,
                         BindingResult validation,
                         ModelMap model,
                         SessionStatus status){
         if (validation.hasErrors()){
-            model.addAttribute("info", info);
+            model.addAttribute("prevUserInfo", info);
             return "order";
         }
-        Order order = orderService.buildOrder(cart, info);
+        Order order = orderService.buildOrder(cart, info, false);
         Long orderId = orderService.saveOrder(order);
         status.setComplete();
         return "redirect:order/confirm?orderId=" + orderId;
@@ -63,12 +64,5 @@ public class OrderController {
         Order order = orderService.getOrder(orderId);
         return new ModelAndView("orderConfirm", "order", order);
     }
-
-    public void changeQuantity(){
-
-    }
-
-
-
 
 }

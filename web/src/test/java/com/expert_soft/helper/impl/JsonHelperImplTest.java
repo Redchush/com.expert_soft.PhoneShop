@@ -2,7 +2,7 @@ package com.expert_soft.helper.impl;
 
 import com.expert_soft.helper.JsonHelper;
 import com.expert_soft.model.AjaxResponseCart;
-import com.expert_soft.model.excluded.CartCurriculum;
+import com.expert_soft.model.Cart;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
@@ -22,9 +22,10 @@ import static org.junit.Assert.assertNull;
         "classpath:web_test-bean.xml",
         "classpath:helper_context.xml"
 })
+
 public class JsonHelperImplTest {
 
-    @Autowired @Qualifier("curriculum_order_2") CartCurriculum curriculum;
+    @Autowired @Qualifier("cart_2") Cart cart;
     @Autowired JsonHelper helper;
 
     @Test
@@ -32,7 +33,7 @@ public class JsonHelperImplTest {
         AjaxResponseCart expected = new AjaxResponseCart();
         expected.setCode("200");
         expected.setMsg("success");
-        expected.setResult(curriculum);
+        expected.setResult(cart);
 
         String write = helper.write(expected);
         System.out.println(write);
@@ -42,13 +43,13 @@ public class JsonHelperImplTest {
         AjaxResponseCart actual = mapper.readValue(write, AjaxResponseCart.class);
         JsonNode jsonNode = mapper.readTree(write);
         JsonNode result = jsonNode.get("result");
-        JsonNode cartMap = result.get("cartMap");
+        JsonNode cartMap = result.get("itemsMap");
 
-        assertNull(cartMap);
+        assertNull("Fail to exclude map. Result" + write, cartMap);
         assertEquals(expected.getCode(), actual.getCode());
         assertEquals(expected.getMsg(), actual.getMsg());
         assertEquals(expected.getResult().getCartSize(), actual.getResult().getCartSize());
-        assertEquals(expected.getResult().getCartSubtotal(), actual.getResult().getCartSubtotal());
+        assertEquals(expected.getResult().getSubtotal(), actual.getResult().getSubtotal());
 
     }
 

@@ -1,11 +1,10 @@
 package com.expert_soft.helper;
 
 
+import com.expert_soft.exception.service.ajax.AjaxException;
 import com.expert_soft.model.AjaxResponseCart;
-
-import java.io.IOException;
 
 public interface JsonHelper {
 
-    String write(AjaxResponseCart cart) throws IOException;
+    String write(AjaxResponseCart cart) throws AjaxException;
 }

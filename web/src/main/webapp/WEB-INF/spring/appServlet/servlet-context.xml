@@ -39,10 +39,10 @@
 
     <!--<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">-->
     <!--<property name="messageConverters">-->
-    <!--<util:list id="beanList">-->
+    <!--<com.expert_soft.util:list id="beanList">-->
     <!--<ref bean="stringHttpMessageConverter"/>-->
     <!--<ref bean="marshallingHttpMessageConverter"/>-->
-    <!--</util:list>-->
+    <!--</com.expert_soft.util:list>-->
     <!--</property-->
     <!--</bean>-->
 
