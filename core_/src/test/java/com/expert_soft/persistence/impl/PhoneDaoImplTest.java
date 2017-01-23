@@ -3,6 +3,7 @@ package com.expert_soft.persistence.impl;
 import com.expert_soft.model.Phone;
 import com.expert_soft.model.UserInfoValidationTest;
 import com.expert_soft.persistence.PhoneDao;
+import com.expert_soft.util.CountRowResponsible;
 import org.apache.log4j.Logger;
 import org.hamcrest.collection.IsEmptyCollection;
 import org.junit.Ignore;
@@ -18,7 +19,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import org.springframework.transaction.annotation.Transactional;
-import util.CountRowResponsible;
 
 import java.util.Arrays;
 import java.util.HashSet;

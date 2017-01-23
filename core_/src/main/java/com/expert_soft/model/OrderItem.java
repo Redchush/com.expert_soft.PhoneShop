@@ -1,6 +1,10 @@
 package com.expert_soft.model;
 
 
+import com.expert_soft.validator.group.G_Cart;
+import com.expert_soft.validator.group.G_Order;
+
+import javax.validation.Valid;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -9,15 +13,27 @@ import java.math.BigDecimal;
 public class OrderItem {
 
     private Long key;
-    private Phone phone;
+
+    private @Valid Phone phone;
     private Order order;
 
     private BigDecimal subtotal;
 
-    @NotNull
-    @Max(value = 10, message = "{userInfo.quantity.max}")
-    @Min(value = 1, message = "{userInfo.quantity.min}")
+    @NotNull(message = "{orderItem.quantity.notNull}",
+            groups = {G_Cart.Item.class, G_Order.Save.class})
+    @Max(value = 10, message = "{orderItem.quantity.max}",
+                     groups = G_Cart.Item.class)
+    @Min(value = 1, message = "{orderItem.quantity.min}",
+            groups = {G_Cart.Item.class, G_Order.Save.class})
     private Integer quantity;
+
+    public OrderItem() {}
+
+    @Valid
+    public OrderItem(Phone phone, Integer quantity) {
+        this.phone = phone;
+        this.quantity = quantity;
+    }
 
     public Phone getPhone() {
         return phone;

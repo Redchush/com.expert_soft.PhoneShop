@@ -5,88 +5,82 @@ import com.expert_soft.model.Calculator;
 import com.expert_soft.model.Cart;
 import com.expert_soft.model.OrderItem;
 import com.expert_soft.model.Phone;
-import com.expert_soft.model.excluded.CartCurriculum;
 import com.expert_soft.persistence.PhoneDao;
 import com.expert_soft.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.validation.ConstraintViolationException;
+import javax.validation.executable.ExecutableType;
+import javax.validation.executable.ValidateOnExecution;
 import java.math.BigDecimal;
-import java.util.Collection;
-import java.util.concurrent.ConcurrentMap;
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
+@ValidateOnExecution(type = ExecutableType.IMPLICIT)
 public class CartServiceImpl implements CartService {
 
     private PhoneDao phoneDao;
     private Calculator calculator;
 
-    @Autowired
+    @Override @Autowired
     public void setPhoneDao(PhoneDao phoneDao) {
         this.phoneDao = phoneDao;
     }
-
-    @Autowired
+    @Override @Autowired
     public void setCalculator(Calculator calculator) {
         this.calculator = calculator;
     }
 
     @Override
-    public boolean addToCart(Cart cart, Phone phone, Integer quantity) {
-        OrderItem possiblySameItem = getItem(phone.getKey(), cart);
+    public boolean addToCart(Cart cart, OrderItem item) {
+        OrderItem possiblySameItem = cart.getItem(item.getPhone().getKey());
         if (possiblySameItem == null){
-            putItem(createOrderItem(phone, quantity), cart);
+            cart.putItem(item);
             return true;
         } else {
-            Integer totalQuantity = possiblySameItem.getQuantity() + quantity;
-            possiblySameItem.setQuantity(totalQuantity);
-            putItem(phone.getKey(), possiblySameItem, cart);
+            Integer newQuantity = possiblySameItem.getQuantity() + item.getQuantity();
+            item.setQuantity(newQuantity);
+            cart.putItem(item);
             return false;
         }
     }
 
     @Override
-    public Phone addToCart(Cart cart, Long phoneId, Integer quantity) {
+    public Phone deepAddToCart(Cart cart, Long phoneId, Integer quantity){
         Phone phone = phoneDao.getPhone(phoneId);
-        addToCart(cart, phone, quantity);
+        OrderItem newOrderItem = null;
+        newOrderItem = createNewOrderItem(phone, quantity);
+        addToCart(cart, newOrderItem);
         return phone;
     }
-
-    public void addToCart(CartCurriculum curriculum, Long phoneId, Integer quantity){
-    }
-
     @Override
     public OrderItem deleteFromCart(Cart cart, Long phoneId) {
-        return removeByPhoneKey(phoneId, cart);
+        return cart.removeByPhoneKey(phoneId);
     }
-
     @Override
     public Cart deleteFromCart(Cart cart, Long[] phoneIdArray){
-        ConcurrentMap<Long, OrderItem> itemsMap = cart.getItemsMap();
         for (Long phoneId : phoneIdArray) {
-            itemsMap.remove(phoneId);
+            cart.removeByPhoneKey(phoneId);
         }
         return cart;
     }
 
     @Override
     public OrderItem changeQuantity(Cart cart, Long phoneId, Integer newQuantity) {
-        OrderItem item = getItem(phoneId, cart);
-        if (newQuantity.equals(item.getQuantity())){
-            return removeByPhoneKey(phoneId, cart);
-        } else {
-            item.setQuantity(newQuantity);
-            putItem(item, cart);
-            return item;
-        }
+        OrderItem item = cart.getItem(phoneId);
+        OrderItem newItem = new OrderItem(item.getPhone(), newQuantity);
+        cart.putItem(phoneId, newItem);
+        return item;
     }
 
-    private OrderItem createOrderItem(Phone phone, Integer quantity){
-        OrderItem result = new OrderItem();
-        result.setPhone(phone);
-        result.setQuantity(quantity);
-        return result;
+    @Override
+    public void changeQuantity(Cart cart, List<OrderItem> changes) {
+        for (OrderItem item :changes){
+            changeQuantity(cart, item.getPhone().getKey(), item.getQuantity());
+        }
     }
 
     @Override
@@ -97,43 +91,40 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public CartCurriculum buildCurriculum(Cart cart){
-        CartCurriculum result = new CartCurriculum();
-        result.setCartSize(cart.totalItemsCount());
-        result.setCartSubtotal(cart.recalculateSubtotal(calculator));
-        return result;
+    public Cart calculateAndSetSize(Cart cart){
+        cart.setCartSize(cart.totalItemsCount());
+        return cart;
     }
 
-    private void putItem(OrderItem item, Cart cart){
-        cart.getItemsMap().put(item.getUniqueKey(), item);
+    @Override
+    public void deeplyCheckCart(Cart cart) {
+        List<Long> phonesInCart = cart.getAllItems().stream().map(OrderItem::getKey)
+                                      .collect(Collectors.toList());
+
+        List<Phone> phones = phoneDao.getPhones(phonesInCart);
+        boolean needRecalculate = false;
+        for (Phone phone: phones){
+            OrderItem orderItem = cart.getItem(phone.getKey());
+            if (!phone.equals(orderItem.getPhone())){
+                needRecalculate = true;
+            }
+        }
+        if (needRecalculate){
+            calculateAndSetSubtotal(cart);
+        }
+
     }
 
-    private void putItem(Long phoneId, OrderItem item, Cart cart){
-        cart.getItemsMap().put(phoneId, item);
+    @Override
+    public OrderItem createNewOrderItem(Phone phone, Integer quantity)
+            throws ConstraintViolationException {
+        return new OrderItem(phone, quantity);
     }
 
-    private void removeItem(OrderItem item, Cart cart){
-        cart.getItemsMap().remove(item.getUniqueKey());
-    }
 
-    private OrderItem removeByPhoneKey(Long phoneKey, Cart cart){
-        return cart.getItemsMap().remove(phoneKey);
-    }
 
-    private boolean contains(OrderItem item, Cart cart){
-        return cart.getItemsMap().containsKey(item.getUniqueKey());
-    }
-
-    private OrderItem getItem(OrderItem item, Cart cart){
-        return getItem(item.getPhone().getKey(), cart);
-    }
-
-    private OrderItem getItem(Long phoneKey, Cart cart){
-        return cart.getItemsMap().get(phoneKey);
-    }
-
-    private Collection<OrderItem> getAllItems(Cart cart){
-        return cart.getItemsMap().values();
-    }
+//    private OrderItem getItem(OrderItem item, Cart cart){
+//        return getItem(item.getPhone().getKey(), cart);
+//    }
 
 }

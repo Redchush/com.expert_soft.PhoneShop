@@ -16,7 +16,7 @@ import java.util.HashSet;
 import java.util.List;
 
 /**
- * util class encapsulate classes which deal with assembling model entities from ResultSet,
+ * com.expert_soft.util class encapsulate classes which deal with assembling model entities from ResultSet,
  * such as mappers, extractors and other classes from Spring JDBC API
  *
  */
@@ -98,7 +98,7 @@ public class Collectors {
                 items.add(orderItem);
             }
             if (result != null){
-                result.setOrderItems(new HashSet<>(items));
+                result.setOrderItems(new HashSet<OrderItem>(items));
             }
             return result;
         }

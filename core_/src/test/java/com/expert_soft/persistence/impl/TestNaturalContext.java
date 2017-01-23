@@ -15,7 +15,13 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 
 import javax.sql.DataSource;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.hamcrest.CoreMatchers.hasItems;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations={
@@ -44,6 +50,12 @@ public class TestNaturalContext {
         try(Connection connection = schema.getConnection();) {
             String url =  connection.getMetaData().getURL();
             logger.info("DataSource in use with URL " + url);
+             ResultSet tables = connection.getMetaData().getTables("PUBLIC", null, null, null);
+            List<String> tablesNames = new ArrayList<>();
+            while (tables.next()){
+                tablesNames.add(tables.getString(3));
+           }
+            assertThat(tablesNames, hasItems("ORDERS", "ORDER_ITEMS", "PHONES"));
         } catch (SQLException e) {
             e.printStackTrace();
         }

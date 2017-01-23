@@ -2,6 +2,8 @@ package com.expert_soft.service.impl;
 
 import com.expert_soft.model.*;
 import com.expert_soft.service.OrderService;
+import com.expert_soft.util.CountRowResponsible;
+import com.expert_soft.util.DataBuilder;
 import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,8 +16,6 @@ import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
-import util.CountRowResponsible;
-import util.DataBuilder;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -69,7 +69,7 @@ public class OrderServiceImplTest {
     public void setUp() throws Exception {
         emptyCart = new Cart();
         order = (Order) ac.getBean("order_2_new_calculated");
-        HashSet<OrderItem> orderItems = new HashSet<>(Arrays.asList(firstItem, secondItem));
+        HashSet<OrderItem> orderItems = new HashSet<OrderItem>(Arrays.asList(firstItem, secondItem));
         order.setOrderItems(orderItems);
         fullCart = DataBuilder.buildCartWithoutSubtotal(order);
     }
@@ -112,7 +112,7 @@ public class OrderServiceImplTest {
         order.setUserInfo(new UserInfo());
 
         fullCart.setSubtotal(order.getSubtotal());
-        Order order_actual = service.buildOrder(fullCart);
+        Order order_actual = service.buildOrder(fullCart, false);
 
         assertEquals(order.getOrderItems(), order_actual.getOrderItems());
         assertEquals(order, order_actual);
@@ -124,8 +124,8 @@ public class OrderServiceImplTest {
         order.setUserInfo(new UserInfo());
         fullCart.setSubtotal(order.getSubtotal());
 
-        Order order_actual_1 = service.buildOrder(fullCart);
-        Order order_actual_2 = service.buildOrder(fullCart, new UserInfo());
+        Order order_actual_1 = service.buildOrder(fullCart, false);
+        Order order_actual_2 = service.buildOrder(fullCart, new UserInfo(), false);
 
         assertEquals(order_actual_2, order_actual_1);
     }

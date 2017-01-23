@@ -1,17 +1,40 @@
 package com.expert_soft.model;
 
 
+import com.expert_soft.validator.group.G_Cart;
+import com.expert_soft.validator.group.G_Phone;
+
+import javax.validation.constraints.*;
 import java.math.BigDecimal;
 
 public class Phone {
 
+//    groups = G_Cart.Item.class
+    @NotNull(message = "{common.key}", groups = G_Cart.Item.class)
+    @Min(value = 1, message = "{common.key}", groups = G_Cart.Item.class)
     private Long key;
+
+    @NotNull(groups = G_Phone.Save.class)
+    @Size(max = 254, groups = G_Phone.Save.class)
     private String model;
+
+    @NotNull(groups = G_Phone.Save.class)
     private String color;
+
+    @NotNull(groups = G_Phone.Save.class)
+    @Max(value = 200, groups = G_Phone.Save.class)
     private Integer displaySize;
+
+    @Max(value = 200, groups = G_Phone.Save.class)
     private Integer width;
+
+    @Max(value = 200, groups = G_Phone.Save.class)
     private Integer length;
+
+    @NotNull(groups = G_Phone.Save.class)
+    @DecimalMin(value = "0.0", groups = G_Phone.Save.class)
     private BigDecimal price;
+
     private Integer camera;
 
     public Long getKey() {

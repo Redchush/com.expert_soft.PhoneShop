@@ -14,9 +14,10 @@ import org.springframework.stereotype.Service;
 import java.util.Collection;
 import java.util.List;
 
+
+
 @Service
 public class PhoneServiceImpl implements PhoneService {
-
 
     private PhoneDao dao;
 
@@ -32,7 +33,7 @@ public class PhoneServiceImpl implements PhoneService {
 
     @Override
     public List<Phone> getPhones(Long... keys)  {
-           return dao.getPhones(keys);
+        return dao.getPhones(keys);
     }
 
     @Override
@@ -45,7 +46,10 @@ public class PhoneServiceImpl implements PhoneService {
         try{
             return dao.getPhone(id);
         } catch (EmptyResultDataAccessException e){
-            throw new NoSuchEntityException("Sorry, but phones in question don't exist", e);
+            NoSuchEntityException ex =
+                    new NoSuchEntityException("Sorry, but phones in question don't exist", e);
+            ex.setFailedEntity("phone with key ");
+            throw ex;
         }
     }
 

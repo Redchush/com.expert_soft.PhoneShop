@@ -3,6 +3,9 @@ package com.expert_soft.exception.service;
 
 public class NoSuchEntityException extends ServiceException {
 
+
+    private String failedEntity;
+
     public NoSuchEntityException() {
     }
 
@@ -22,5 +25,13 @@ public class NoSuchEntityException extends ServiceException {
                                  boolean enableSuppression,
                                  boolean writableStackTrace) {
         super(message, cause, enableSuppression, writableStackTrace);
+    }
+
+    public String getFailedEntity() {
+        return failedEntity;
+    }
+
+    public void setFailedEntity(String failedEntity) {
+        this.failedEntity = failedEntity;
     }
 }

@@ -1,33 +1,40 @@
 package com.expert_soft.model;
 
 
+import com.expert_soft.validator.group.G_Order;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 public class UserInfo {
 
-    @NotNull
-    @Size(min = 3, max = 100, message = "{userInfo.firstName.size}")
-    @Pattern(regexp = "[a-z.]+", message = "The first name {common.englishPattern}")
+    @NotNull(groups = G_Order.Info.class)
+    @Size(min = 3, max = 100, message = "{userInfo.firstName.size}",
+            groups = G_Order.Info.class)
+    @Pattern(regexp = "[a-z.]+", message = "The first name {common.englishPattern}",
+            groups = G_Order.Info.class)
     private String firstName;
 
-    @NotNull
-    @Size(min = 3, max = 100, message = "{userInfo.lastName.size}")
-    @Pattern(regexp = "[a-z.]+", message = "The last name {common.englishPattern}")
+    @NotNull(groups = G_Order.Info.class)
+    @Size(min = 3, max = 100, message = "{userInfo.lastName.size}",   groups = G_Order.Info.class)
+    @Pattern(regexp = "[a-z.]+", message = "The last name {common.englishPattern}",
+            groups = G_Order.Info.class)
     private String lastName;
 
-    @NotNull
+    @NotNull(groups = G_Order.Info.class)
     @Size(min = 10, max = 500, message = "{userInfo.deliveryAddress.size}")
     private String deliveryAddress;
 
-    @NotNull
-    @Size(min = 6, max = 20, message = "{userInfo.contactPhoneNo.size}")
+    @NotNull(groups = G_Order.Info.class)
+    @Size(min = 6, max = 20, message = "{userInfo.contactPhoneNo.size}",   groups = G_Order.Info.class)
     @Pattern(regexp = "[/+]?[0-9 ]{6,20}",
-             message = "{userInfo.contactPhoneNo.pattern}")
+             message = "{userInfo.contactPhoneNo.pattern}",   groups = G_Order.Info.class)
     private String contactPhoneNo;
 
-    @Size(max = 500, message = "The length of additional information must not be more than 500 digits")
+    @Size(max = 500,
+            message = "The length of additional information must not be more than 500 digits",
+            groups = G_Order.Info.class)
     private String additionalInfo;
 
     public String getFirstName() {

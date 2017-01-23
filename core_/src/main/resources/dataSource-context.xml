@@ -14,7 +14,8 @@
 
 
   <bean id="schema"
-        class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        class="org.springframework.jdbc.datasource.DriverManagerDataSource"
+  >
     <property name="url"
               value="${db.url}" />
     <property name="driverClassName"
@@ -33,7 +34,7 @@
   <!--</bean>-->
 
   <jdbc:initialize-database data-source="schema">
-    <!--<jdbc:script location="classpath:db/schema.sql" />-->
+    <jdbc:script location="classpath:db/schema.sql" />
     <jdbc:script location="classpath:db/data.sql" />
   </jdbc:initialize-database>
 

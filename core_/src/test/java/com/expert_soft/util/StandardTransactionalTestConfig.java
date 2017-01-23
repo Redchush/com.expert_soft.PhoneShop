@@ -1,4 +1,4 @@
-package util;
+package com.expert_soft.util;
 
 
 import org.junit.runner.RunWith;

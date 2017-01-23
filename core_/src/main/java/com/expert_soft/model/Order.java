@@ -3,13 +3,17 @@ package com.expert_soft.model;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import javax.validation.Valid;
 import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 
+
 @Component
+@Scope("prototype")
 @PropertySource("classpath:config/application.properties")
 public class Order {
 
@@ -20,10 +24,10 @@ public class Order {
     private BigDecimal subtotal; // a sum of order item prices
     private BigDecimal totalPrice;
 
-    private UserInfo userInfo;
+    private @Valid UserInfo userInfo;
 
     public Order() {
-        orderItems = new HashSet<>();
+        orderItems = new HashSet<OrderItem>();
         userInfo = new UserInfo();
     }
 

@@ -27,7 +27,7 @@
         <constructor-arg ref="schema"/>
     </bean>
 
-    <bean id="rowResponsible" class="util.CountRowResponsible">
+    <bean id="rowResponsible" class="com.expert_soft.util.CountRowResponsible">
         <constructor-arg ref="template"/>
     </bean>
 

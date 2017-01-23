@@ -4,6 +4,7 @@ package com.expert_soft.service.impl;
 import com.expert_soft.config.AppConfigProperties;
 import com.expert_soft.model.*;
 import com.expert_soft.persistence.OrderDao;
+import com.expert_soft.persistence.PhoneDao;
 import com.expert_soft.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,13 +17,20 @@ import java.util.List;
 @Service
 public class OrderServiceImpl implements OrderService {
 
-    private OrderDao dao;
+    private OrderDao orderDao;
+    private PhoneDao phoneDao;
+
     private AppConfigProperties properties;
     private Calculator calculator;
 
     @Autowired
-    public void setDao(OrderDao dao) {
-        this.dao = dao;
+    public void setOrderDao(OrderDao orderDao) {
+        this.orderDao = orderDao;
+    }
+
+    @Autowired
+    public void setPhoneDao(PhoneDao phoneDao) {
+        this.phoneDao = phoneDao;
     }
 
     @Autowired
@@ -37,40 +45,41 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order getOrder(Long key) {
-        return dao.getOrder(key);
+        return orderDao.getOrder(key);
     }
 
     @Override
     public Long saveOrder(Order order) {
-       return dao.saveOrder(order);
+        return orderDao.saveOrder(order);
     }
 
     @Override
     public List<Order> findAll() {
-        return dao.findAll();
+        return orderDao.findAll();
     }
 
+
+
     @Override
-    public Order buildOrder(Cart cart) {
-        Order order = initOrder(cart);
+    public Order buildOrder(Cart cart, boolean deep) {
+        Order order = initOrder(cart, deep);
         order.calculateFull(calculator);
         return order;
     }
 
     @Override
-    public Order buildOrder(Cart cart, UserInfo info){
-        Order order = buildOrder(cart);
+    public Order buildOrder(Cart cart, UserInfo info, boolean deep){
+        Order order = buildOrder(cart, deep);
         order.setUserInfo(info);
         return order;
     }
 
-
-    private Order initOrder(Cart cart){
+    private Order initOrder(Cart cart, boolean deep){
         Order order = new Order();
         String property = properties.getProperty("delivery.price");
         order.setDeliveryPrice(new BigDecimal(property));
-        Collection<OrderItem> allItems = cart.getItemsMap().values();
-        order.setOrderItems(new HashSet<>(allItems));
+        Collection<OrderItem> allItems = cart.getAllItems();
+        order.setOrderItems(new HashSet<OrderItem>(allItems));
         return order;
     }
 }

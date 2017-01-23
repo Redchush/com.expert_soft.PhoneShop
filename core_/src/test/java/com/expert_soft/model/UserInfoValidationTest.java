@@ -1,6 +1,7 @@
 package com.expert_soft.model;
 
 import com.expert_soft.model.util.TestValidationUtil;
+import com.expert_soft.validator.group.G_Order;
 import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,9 +23,9 @@ import java.util.Arrays;
 public class UserInfoValidationTest {
     private static final Logger LOGGER = Logger.getLogger(UserInfoValidationTest.class);
 
-    @Autowired  ApplicationContext apCtx;
-    @Autowired  Validator validator;
-    @Autowired  TestValidationUtil util;
+    @Autowired ApplicationContext apCtx;
+    @Autowired Validator validator;
+    @Autowired TestValidationUtil util;
 
     private Order order;
     private UserInfo userInfo;
@@ -35,19 +36,17 @@ public class UserInfoValidationTest {
         userInfo = order.getUserInfo();
     }
 
-
-
     @Test
     public void setFirstName() throws Exception {
         String number = "11111";
         String expNumberMsg = "The first name must contains only english characters and '.' sign";
         userInfo.setFirstName(number);
-        util.executeOneAndExpectMessage(userInfo, number, expNumberMsg);
+        util.executeOneInvalidField(userInfo, number, expNumberMsg, G_Order.Info.class);
 
         String oneSign = "z";
         String expectedMsg = "The first name must be between 3 and 100 chars long";
         userInfo.setFirstName(oneSign);
-        util.executeOneAndExpectMessage(userInfo, oneSign, expectedMsg);
+        util.executeOneInvalidField(userInfo, oneSign, expectedMsg, G_Order.Info.class);
 
     }
 
@@ -56,27 +55,27 @@ public class UserInfoValidationTest {
         String number = "11111";
         String expNumberMsg = "The last name must contains only english characters and '.' sign";
         userInfo.setLastName(number);
-        util.executeOneAndExpectMessage(userInfo, number, expNumberMsg);
+        util.executeOneInvalidField(userInfo, number, expNumberMsg,  G_Order.Info.class);
 
 
         String oneSign = "z";
         String expectedMsg = "The last name must be between 3 and 100 chars long";
         userInfo.setLastName(oneSign);
-        util.executeOneAndExpectMessage(userInfo, oneSign, expectedMsg);
+        util.executeOneInvalidField(userInfo, oneSign, expectedMsg,  G_Order.Info.class);
     }
 
     @Test
     public void setDeliveryAddress() throws Exception {
         String minorAddr = "11111";
         userInfo.setLastName(minorAddr);
-        util.executeOneInvalidField(userInfo, minorAddr);
+        util.executeOneInvalidField(userInfo, minorAddr,  G_Order.Info.class);
     }
 
     @Test
     public void setContactPhoneNo() throws Exception {
         String characterNumber = "invalid number";
         userInfo.setContactPhoneNo(characterNumber);
-        util.executeOneInvalidField(userInfo, characterNumber);
+        util.executeOneInvalidField(userInfo, characterNumber,  G_Order.Info.class);
     }
 
     @Test
@@ -85,7 +84,7 @@ public class UserInfoValidationTest {
         Arrays.fill(chars, 's');
         String largeInfo = new String(chars);
         userInfo.setAdditionalInfo(largeInfo);
-        util.executeOneInvalidField(userInfo, largeInfo);
+        util.executeOneInvalidField(userInfo, largeInfo,  G_Order.Info.class);
     }
 
     @Test

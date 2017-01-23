@@ -39,8 +39,8 @@ public class TestValidationUtil {
         return vf.getValidator();
     }
 
+
     /**
-     *
      * @param obj - obj for validation
      * @param invalidValueExp - expected invalid value
      * @param <T> - type of object to be validated
@@ -48,6 +48,26 @@ public class TestValidationUtil {
     public<T> ConstraintViolation<T> executeOneInvalidField(T obj, Object invalidValueExp){
 
         Set<ConstraintViolation<T>> violations_one = validator.validate(obj);
+
+        assertEquals(getTestFailMsg(violations_one), 1, violations_one.size());
+        ConstraintViolation<T> next = violations_one.iterator().next();
+        Object invalidValueAct = next.getInvalidValue();
+
+        assertEquals(getTestFailMsg(violations_one), invalidValueExp, invalidValueAct);
+        return next;
+    }
+
+    /**
+     * @param obj - obj for validation
+     * @param invalidValueExp - expected invalid value
+     * @param <T> - type of object to be validated
+     */
+    public<T> ConstraintViolation<T> executeOneInvalidField(T obj,
+                                                            Object invalidValueExp,
+                                                            Class<?> group){
+
+        Set<ConstraintViolation<T>> violations_one = validator.validate(obj, group);
+
         assertEquals(getTestFailMsg(violations_one), 1, violations_one.size());
         ConstraintViolation<T> next = violations_one.iterator().next();
         Object invalidValueAct = next.getInvalidValue();
@@ -63,8 +83,14 @@ public class TestValidationUtil {
      * @param msgExp -expected message
      * @param <T> - type of object to be validated
      */
-    public<T> void executeOneAndExpectMessage(T obj, Object invalidValueExp, String msgExp){
+    public<T> void executeOneInvalidField(T obj, Object invalidValueExp, String msgExp){
         ConstraintViolation<T> violation = executeOneInvalidField(obj, invalidValueExp);
+        assertEquals(getErrorMsg(violation, invalidValueExp), msgExp, violation.getMessage());
+    }
+
+
+    public<T> void executeOneInvalidField(T obj, Object invalidValueExp, String msgExp, Class group){
+        ConstraintViolation<T> violation = executeOneInvalidField(obj, invalidValueExp, group);
         assertEquals(getErrorMsg(violation, invalidValueExp), msgExp, violation.getMessage());
     }
 
