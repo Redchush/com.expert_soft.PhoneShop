@@ -93,8 +93,15 @@ public class CartServiceIntegrationTest {
     public void addToCart_To_Much() throws Exception {
         Phone phone = new Phone();
         phone.setKey(1L);
-        OrderItem item = new OrderItem(phone, 12);
-        service.addToCart(emptyCart, item);
+        service.addToCart(emptyCart, phone, 12);
+    }
+
+    @Test(expected = ConstraintViolationException.class)
+    public void addToCart_To_Much_SUM() throws Exception {
+        Phone phone = new Phone();
+        phone.setKey(1L);
+        emptyCart.putItem(new OrderItem(phone, 9));
+        service.addToCart(emptyCart, phone, 3);
     }
 
     @Test(expected = ConstraintViolationException.class)

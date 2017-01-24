@@ -11,17 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.Valid;
-import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import javax.validation.executable.ExecutableType;
-import javax.validation.executable.ValidateOnExecution;
-import javax.validation.groups.Default;
 import java.math.BigDecimal;
 import java.util.List;
 
 @Validated(G_Cart.Item.class)
-@ValidateOnExecution(type = ExecutableType.ALL)
 public interface CartService {
 
     @Autowired
@@ -36,9 +31,7 @@ public interface CartService {
      * @param quantity - quantity of Phones
      * @return whether cart contains same phone
      */
-
-    @Validated(G_Cart.Item.class)
-    boolean addToCart(Cart cart, @Valid OrderItem item);
+    OrderItem addToCart(Cart cart, Phone phone, Integer quantity);
 
     /**
      * Add to cart phone by id with retrieving this phone from persistence
@@ -47,17 +40,11 @@ public interface CartService {
      * @param quantity
      * @return
      */
-
-    @Validated({G_Cart.Item.class, Default.class})
-    @ValidateOnExecution(type = ExecutableType.ALL)
-    Phone deepAddToCart(Cart cart,
-                        @NotNull Long phoneId,
-                        @Min(value = 1, groups = G_Cart.Item.class,
-                                message = "{orderItem.quantity.min}")
-                        @Max(value = 10, groups = G_Cart.Item.class,
-                                message = "{orderItem.quantity.max}")
-                        @NotNull (groups = G_Cart.Item.class, message = "{orderItem.quantity.notNull}")
-                                Integer quantity);
+    OrderItem deepAddToCart(Cart cart,
+                            @NotNull(message = "{common.key}", groups = G_Cart.Item.class)
+                            @Min(value = 1, message = "{common.key}", groups = G_Cart.Item.class)
+                            Long phoneId,
+                            Integer quantity);
 
     OrderItem deleteFromCart(Cart cart, Long phoneId);
 
@@ -67,7 +54,7 @@ public interface CartService {
      * @param cart - currentCart
      * @param phoneId - phoneId, which quantity mentioned to be update
      * @param newQuantity - new quantity to be set in OrderItem connected to Phone with this id
-     * @return OrderItem
+     * @return OrderItem - new orderItem, that bound to this phoneId
      */
     OrderItem changeQuantity(Cart cart, Long phoneId, Integer newQuantity);
 
@@ -84,7 +71,6 @@ public interface CartService {
     void deeplyCheckCart(Cart cart);
 
     @Validated(G_Cart.Item.class)
-    @ValidateOnExecution(type = ExecutableType.ALL)
     @Valid
-    OrderItem createNewOrderItem(Phone phone, @Max(10) Integer quantity);
+    OrderItem createNewOrderItem(Phone phone, Integer quantity);
 }

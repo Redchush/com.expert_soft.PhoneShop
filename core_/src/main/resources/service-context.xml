@@ -7,12 +7,17 @@
   <import resource="common_context.xml"/>
 
 
-  <bean id="validatorFactory" class="javax.validation.Validation"
-        factory-method="buildDefaultValidatorFactory" />
+  <!--<bean id="validatorFactory" class="javax.validation.Validation"-->
+        <!--factory-method="buildDefaultValidatorFactory" />-->
+
+  <bean id="validatorFactory"
+        class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"/>
 
   <bean id="validator"
-        factory-bean="validatorFactory" factory-method="getValidator"/>
-        <!--class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"/>-->
+        factory-bean="validatorFactory"
+        factory-method="getValidator"/>
+
+
   <bean id="methodValidationPostProcessor"
         class="org.springframework.validation.beanvalidation.MethodValidationPostProcessor">
     <property name="validator" ref="validator"/>

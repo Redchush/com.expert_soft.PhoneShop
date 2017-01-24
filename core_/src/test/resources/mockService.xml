@@ -13,6 +13,10 @@
         class="org.springframework.core.convert.support.DefaultConversionService">
   </bean>
 
+  <bean id="validator"
+        class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"/>
+
+
   <bean id="methodValidationPostProcessor"
         class="org.springframework.validation.beanvalidation.MethodValidationPostProcessor"/>
 
@@ -22,6 +26,7 @@
 
    <bean id="cartService" class="com.expert_soft.service.impl.CartServiceImpl">
      <property name="phoneDao" ref="mockDao"/>
+     <property name="validator" ref="validator"/>
    </bean>
 
   <!--<context:component-scan base-package="com.expert_soft.service.impl" />-->

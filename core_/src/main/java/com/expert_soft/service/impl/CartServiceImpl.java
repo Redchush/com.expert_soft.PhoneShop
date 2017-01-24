@@ -7,23 +7,25 @@ import com.expert_soft.model.OrderItem;
 import com.expert_soft.model.Phone;
 import com.expert_soft.persistence.PhoneDao;
 import com.expert_soft.service.CartService;
+import com.expert_soft.validator.group.G_Cart;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
-import javax.validation.executable.ExecutableType;
-import javax.validation.executable.ValidateOnExecution;
+import javax.validation.Validator;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 
 @Service
-@ValidateOnExecution(type = ExecutableType.IMPLICIT)
 public class CartServiceImpl implements CartService {
 
     private PhoneDao phoneDao;
     private Calculator calculator;
+    private Validator validator;
 
     @Override @Autowired
     public void setPhoneDao(PhoneDao phoneDao) {
@@ -34,28 +36,34 @@ public class CartServiceImpl implements CartService {
         this.calculator = calculator;
     }
 
-    @Override
-    public boolean addToCart(Cart cart, OrderItem item) {
-        OrderItem possiblySameItem = cart.getItem(item.getPhone().getKey());
-        if (possiblySameItem == null){
-            cart.putItem(item);
-            return true;
-        } else {
-            Integer newQuantity = possiblySameItem.getQuantity() + item.getQuantity();
-            item.setQuantity(newQuantity);
-            cart.putItem(item);
-            return false;
-        }
+    @Autowired
+    public void setValidator(Validator validator) {
+         this.validator = validator;
     }
 
     @Override
-    public Phone deepAddToCart(Cart cart, Long phoneId, Integer quantity){
-        Phone phone = phoneDao.getPhone(phoneId);
-        OrderItem newOrderItem = null;
-        newOrderItem = createNewOrderItem(phone, quantity);
-        addToCart(cart, newOrderItem);
-        return phone;
+    public OrderItem addToCart(Cart cart, Phone phone, Integer quantity) {
+        OrderItem possiblySameItem = cart.getItem(phone.getKey());
+        Integer newQuantity = quantity;
+        if (possiblySameItem != null){
+            newQuantity = quantity + possiblySameItem.getQuantity();
+        }
+        OrderItem result = new OrderItem(phone, newQuantity);
+        Set<ConstraintViolation<OrderItem>> validate = validator.validate(result, G_Cart.Item.class);
+        if (!validate.isEmpty()){
+            throw new ConstraintViolationException("Invalid order item", validate);
+        }
+        cart.putItem(result);
+        return result;
     }
+
+    @Override
+    public OrderItem deepAddToCart(Cart cart, Long phoneId, Integer quantity){
+        Phone phone = phoneDao.getPhone(phoneId);
+        return addToCart(cart, phone, quantity);
+    }
+
+
     @Override
     public OrderItem deleteFromCart(Cart cart, Long phoneId) {
         return cart.removeByPhoneKey(phoneId);
@@ -122,9 +130,5 @@ public class CartServiceImpl implements CartService {
     }
 
 
-
-//    private OrderItem getItem(OrderItem item, Cart cart){
-//        return getItem(item.getPhone().getKey(), cart);
-//    }
 
 }

@@ -173,15 +173,24 @@
     <entry key="2" value-ref="orderItem_secondOrder_2_new"/>
   </util:map>
 
-  <bean id="cart_1" class="com.expert_soft.model.Cart">
+  <bean id="cart_1_calculated" class="com.expert_soft.model.Cart">
     <property name="cartSize" value="1"/>
     <property name="subtotal" value="#{phone_id_1.price}"/>
   </bean>
 
-  <bean id="cart_2" class="com.expert_soft.model.Cart">
+  <bean id="cart_2_calculated" class="com.expert_soft.model.Cart">
     <property name="cartSize" value="2"/>
     <property name="subtotal" value="#{order_2_new_calculated.subtotal}"/>
-
   </bean>
+
+  <!--<bean id="foo" class="org.springframework.beans.factory.config.MapFactoryBean">-->
+    <!--<property name="targetMapClass" value="java.util.concurrent.ConcurrentHashMap"/>-->
+    <!--<property name="sourceMap">-->
+      <!--<map>-->
+        <!--<entry key="foo" value="foo"/>-->
+        <!--<entry key="bar" value="bar"/>-->
+      <!--</map>-->
+    <!--</property>-->
+  <!--</bean>-->
 
 </beans>

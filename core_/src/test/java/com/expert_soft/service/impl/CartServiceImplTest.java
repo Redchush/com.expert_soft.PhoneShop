@@ -92,34 +92,47 @@ public class CartServiceImplTest {
     public void addToCart1() throws Exception {
         Cart cart = new Cart();
         cart.putItem(firstItem.getPhone().getKey(), firstItem);
-        service.addToCart(emptyCart, firstItem);
+        service.addToCart(emptyCart, firstItem.getPhone(), firstItem.getQuantity());
 
         assertEquals(emptyCart, cart);
 
         OrderItem item = new OrderItem(firstItem.getPhone(), 1);
-        service.addToCart(emptyCart, item);
+        service.addToCart(emptyCart, item.getPhone(), item.getQuantity());
 
         assertEquals(emptyCart.getItemsMap().size(), 1);
-
         OrderItem item1 = emptyCart.getItem(firstItem.getPhone().getKey());
-
         assertEquals("Fail to calculate new quantity",
                 item1.getQuantity(),
                 new Integer(2));
+
+
     }
+
+    @Test
+    public void addToCart_TEN(){
+        Phone phone = new Phone();
+        phone.setKey(1L);
+        service.addToCart(emptyCart, phone, 4);
+        service.addToCart(emptyCart, phone, 6);
+        assertEquals(10, emptyCart.getItem(1L).getQuantity().intValue());
+
+    }
+
 
     @Test(expected = ConstraintViolationException.class)
     public void addToCart_To_Much() throws Exception {
         Phone phone = new Phone();
         phone.setKey(1L);
-        service.addToCart(emptyCart, new OrderItem(phone, 12));
+        service.addToCart(emptyCart, phone, 12);
     }
+
+
+
 
     @Test
     public void deleteFromCart() throws Exception {
         service.deleteFromCart(fullCart, 1L);
         assertEquals(fullCart.getItemsMap().size(), 1);
-
     }
 
     @Test
@@ -157,7 +170,7 @@ public class CartServiceImplTest {
 
     @Test
     public void calculateAndSetSize() throws Exception {
-        Cart expected = ac.getBean("cart_2", Cart.class);
+        Cart expected = ac.getBean("cart_2_calculated", Cart.class);
         Cart actual = service.calculateAndSetSize(fullCart);
         assertEquals("cart size invalid calculation. Cart tested: " +
                 fullCart, expected.getCartSize(), actual.getCartSize());
