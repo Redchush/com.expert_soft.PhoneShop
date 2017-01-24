@@ -35,7 +35,7 @@ public class ProductController {
     }
 
 
-    @RequestMapping(value = "/product/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/products/{id}", method = RequestMethod.GET)
     public ModelAndView product(@PathVariable(value = "id") Long id){
         Phone phone = service.getPhone(id);
         return new ModelAndView("productDetails", "phone", phone);
@@ -45,8 +45,9 @@ public class ProductController {
     @ResponseStatus(value= HttpStatus.NOT_FOUND)
     @ExceptionHandler(NoSuchEntityException.class)
     public ModelAndView notFound(HttpServletRequest req, Exception ex) {
-        logger.error(String.format("Somebody try to find unexacting entity. Url: %s \n Raised %s",
-                     req.getRequestURL(), ex));
+        logger.error(String.format("Somebody try to find non-existent entity. Url: %s \n Raised %s",
+                     req.getRequestURL() + req.getQueryString(), ex));
+
         ModelAndView mav = new ModelAndView();
         mav.addObject("url", req.getRequestURL());
         mav.addObject("object", "phone");

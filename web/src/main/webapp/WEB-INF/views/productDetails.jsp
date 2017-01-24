@@ -69,7 +69,9 @@
       </tr>
       </tbody>
     </table>
-    <form id="addToCartForm<c:out value="${phone.key}"/>" name="doAddToCartForm">
+    <c:url value="/add_to_cart" var="ajaxPath"/>
+
+    <form action="${ajaxPath}" id="addToCartForm<c:out value="${phone.key}"/>" name="doAddToCartForm">
       <input name="quantity" class="input-sm" value="1" title="quantity">
       <input name="phoneId" type="hidden" value="${phone.key}">
       <button class="btn btn-default btn-sm pnf" type="submit"

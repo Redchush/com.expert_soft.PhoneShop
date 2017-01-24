@@ -1,7 +1,9 @@
 package com.expert_soft.controller;
 
+import com.expert_soft.config.ApplicationConfiguration;
 import com.expert_soft.model.Cart;
 import com.expert_soft.service.CartService;
+import com.expert_soft.util.TestDataConfig;
 import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,12 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {
-        "classpath:test-root-context.xml",
-        "classpath:test-servlet-context.xml",
-        "classpath:web_test-bean.xml"
-})
-
+@ContextConfiguration(classes = {ApplicationConfiguration.class, TestDataConfig.class} )
 @WebAppConfiguration
 public class CartControllerTest {
 

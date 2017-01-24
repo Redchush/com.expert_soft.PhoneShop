@@ -9,11 +9,27 @@ import java.io.Serializable;
 public class AjaxResponseCart implements Serializable {
 
     private String msg;
-    private String code;
+    private Integer code;
 
+    private Boolean pattern;
     private Cart result;
 
     public AjaxResponseCart() {}
+
+    public AjaxResponseCart(String msg) {
+        this.msg = msg;
+    }
+
+    public AjaxResponseCart(String msg, Integer code) {
+        this.msg = msg;
+        this.code = code;
+    }
+
+    public AjaxResponseCart(String msg, Integer code, Cart result) {
+        this.msg = msg;
+        this.code = code;
+        this.result = result;
+    }
 
     public String getMsg() {
         return msg;
@@ -23,11 +39,11 @@ public class AjaxResponseCart implements Serializable {
         this.msg = msg;
     }
 
-    public String getCode() {
+    public Integer getCode() {
         return code;
     }
 
-    public void setCode(String code) {
+    public void setCode(Integer code) {
         this.code = code;
     }
 
@@ -39,5 +55,11 @@ public class AjaxResponseCart implements Serializable {
         this.result = result;
     }
 
+    public Boolean getPattern() {
+        return pattern;
+    }
 
+    public void setPattern(Boolean pattern) {
+        this.pattern = pattern;
+    }
 }

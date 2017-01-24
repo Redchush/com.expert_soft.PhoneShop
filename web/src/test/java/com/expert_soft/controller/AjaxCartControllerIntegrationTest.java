@@ -1,8 +1,10 @@
 package com.expert_soft.controller;
 
 
+import com.expert_soft.config.ApplicationConfiguration;
 import com.expert_soft.model.Cart;
 import com.expert_soft.model.OrderItem;
+import com.expert_soft.util.TestDataConfig;
 import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,7 +16,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -22,7 +23,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import java.util.HashMap;
 
-import static com.expert_soft.model.ServletConstants.PHONE_TO_DELETE;
+import static com.expert_soft.model.ServletConstants.PHONE_ID_TO_ADD;
 import static com.expert_soft.model.ServletConstants.QUANTITY_PARAM;
 import static org.junit.Assert.assertEquals;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -30,11 +31,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {
-        "classpath:test-root-context.xml",
-        "classpath:test-servlet-context.xml",
-        "classpath:web_test-bean.xml"
-})
+@ContextConfiguration(classes = {ApplicationConfiguration.class, TestDataConfig.class} )
 @WebAppConfiguration
 public class AjaxCartControllerIntegrationTest {
 
@@ -53,7 +50,7 @@ public class AjaxCartControllerIntegrationTest {
         MockitoAnnotations.initMocks(this);
         // Setup Spring test in standalone mode
         this.mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
-        Cart cart_1 = context.getBean("cart_1", Cart.class);
+        Cart cart_1 = context.getBean("cart_1_calculated", Cart.class);
         OrderItem orderItem =
                 context.getBean("orderItem_firstOrder_new", OrderItem.class);
         cart_1.putItem(orderItem);
@@ -67,7 +64,7 @@ public class AjaxCartControllerIntegrationTest {
 
         MockHttpServletRequestBuilder requestBuilder  =
                 MockMvcRequestBuilders.get("/add_to_cart")
-                                      .param(PHONE_TO_DELETE, "1")
+                                      .param(PHONE_ID_TO_ADD, "1")
                                       .param(QUANTITY_PARAM, "1")
                                       .sessionAttrs(sessionattr)
                                       .accept(MediaType.APPLICATION_JSON_VALUE);
@@ -79,18 +76,25 @@ public class AjaxCartControllerIntegrationTest {
         assertEquals(sessionattr.get("cart"), cart_1);
     }
 
-    @Test
-    public void addToCartInvalid() throws Exception {
-        MockHttpServletRequestBuilder requestBuilder  =
-                MockMvcRequestBuilders.get("/add_to_cart")
-                                      .param(PHONE_TO_DELETE, "1")
-                                      .param(QUANTITY_PARAM, "20")
-                                      .accept(MediaType.APPLICATION_JSON_VALUE);
 
-        MvcResult mvcResult = mockMvc.perform(requestBuilder)
-                                     .andExpect(status().is4xxClientError())
-                                     .andExpect(content()
-                                             .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-                                        .andReturn();
+    @Test
+    public void ajaxItemViolation() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/add_to_cart")
+                                     .param(PHONE_ID_TO_ADD, "-1")
+                                     .param(QUANTITY_PARAM, "5")
+                                     .accept(MediaType.APPLICATION_JSON_VALUE))
+               .andExpect(status().isUnprocessableEntity())
+               .andExpect(content()
+                       .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+               .andReturn();
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/add_to_cart")
+                                      .param(PHONE_ID_TO_ADD, "1")
+                                      .param(QUANTITY_PARAM, "20")
+                                      .accept(MediaType.APPLICATION_JSON_VALUE))
+               .andExpect(status().isUnprocessableEntity())
+               .andExpect(content()
+                       .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE));
     }
+
 }

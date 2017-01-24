@@ -8,6 +8,11 @@
         </layout>
     </appender>
 
+    <logger name="com.expert_soft.controller" additivity="false">
+        <level value="debug"/>
+        <appender-ref ref="Appender1"/>
+    </logger>
+
     <logger name="org.springframework" additivity="false">
         <level value="info"/>
         <appender-ref ref="Appender1"/>

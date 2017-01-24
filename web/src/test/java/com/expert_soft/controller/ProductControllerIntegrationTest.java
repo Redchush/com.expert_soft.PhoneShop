@@ -1,6 +1,8 @@
 package com.expert_soft.controller;
 
+import com.expert_soft.config.ApplicationConfiguration;
 import com.expert_soft.model.Phone;
+import com.expert_soft.util.TestDataConfig;
 import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,12 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {
-        "classpath:test-root-context.xml",
-        "classpath:test-servlet-context.xml",
-        "classpath:web_test-bean.xml"
-})
-
+@ContextConfiguration(classes = {ApplicationConfiguration.class, TestDataConfig.class} )
 @WebAppConfiguration
 public class ProductControllerIntegrationTest {
 
@@ -52,16 +49,16 @@ public class ProductControllerIntegrationTest {
 
     @Test
     public void product_Valid() throws Exception {
-        mockMvc.perform(get("/product/1"))
+        mockMvc.perform(get("/products/1"))
                .andExpect(model().attribute("phone", phone_id_1));
     }
 
     @Test
     public void product_Invalid() throws Exception {
-        mockMvc.perform(get("/product/100"))
+        mockMvc.perform(get("/products/100"))
                .andExpect(status().isNotFound());
 
-        mockMvc.perform(get("/product/-1"))
+        mockMvc.perform(get("/products/-1"))
                .andExpect(status().isBadRequest());
 
     }

@@ -29,11 +29,11 @@
       <table class="table table-striped">
         <%@ include file="part/product/product_thead.jsp" %>
         <tbody>
-        <c:forEach var="phone" items="${requestScope.phones}">
+        <c:forEach var="phone" items="${phones}">
           <tr>
             <td>
-              <a href="<c:url value="/product/${phone.key}"/>"><span
-                      data-save="${phone.key}">${phone.model}</span></a>
+              <a href="<c:url value="/products/${phone.key}"/>">
+                <span data-save="${phone.key}">${phone.model}</span></a>
             </td>
             <td>${phone.color}</td>
             <td><fmt:formatNumber value="${phone.displaySize/10}" type="number"

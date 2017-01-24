@@ -20,45 +20,62 @@ $(function() {
 
     $('form[name=doAddToCartForm]').submit(function (evt) {
         console.log("ajax called outForm");
+        _$output.hide();
+
         evt.preventDefault();
         var _$quantityInput = $(this).find('input[name=phoneId]');
         var phoneId = _$quantityInput.val();
         var quantity = $(this).find('input[name=quantity]').val();
 
-        var model = $("span[data-save=" + phoneId + "]").html();
-        console.log("Model" + model);
+        var modelQualifier = 'span[data-save="' + phoneId + '"]';
+        var model = $(modelQualifier).html();
+        console.log("Model: " + model);
 
         phoneId = jQuery.trim(phoneId);
         quantity = jQuery.trim(quantity);
 
-        sendAjaxToCart(phoneId, quantity, _$quantityInput, model);
+        var url = 'add_to_cart';
+        var attr =  $(this).attr('action');
+        if (typeof attr !== typeof undefined && attr !== false) {
+           url = attr;
+        }
+        sendAjaxToCart(phoneId, quantity, _$quantityInput, model, url);
     });
 
-    function sendAjaxToCart(phoneId, quantity, _$input, model) {
+    function sendAjaxToCart(phoneId, quantity, _$input, model, url) {
         $.ajax({
-            url: 'add_to_cart',
+            url: url,
             dataType: "json",
             type: "GET",
             data: (
             {phoneId :phoneId,
              quantity: quantity}),
             success: function(data) {
-                 console.log("data : " + data);
+                 console.log("msg : " + data.msg);
                  changeCartCurriculum(data.result.cartSize,
-                                      data.result.cartSubtotal,
+                                      data.result.subtotal,
                                       data.msg);
-                 _$input.val(1);
+                 _$input.val('1');
 
             },
-            error: function (data) {
-                _$output.html("The phone " + model + "can't be saved in cart\n." + data);
-                _$output.show();
-                _$input.val(1);
+            500 : function (data) {
+                _$output.html(data.msg);
+            },
+            error: function (jqXHR) {
+                // var jsonData = jQuery.parseJSON(data);
+                //
+                // var patternMsg = jsonData.msg;
+                console.log(jqXHR.responseText);
 
+                var msg = jqXHR.responseText + '';
+                var outMsg = msg.split('{model}').join(model);
+                _$output.html(outMsg);
+                _$output.show();
+                _$input.val('1');
             },
             timeout: function () {
                 _$output.html("Sorry, your request can't be executed");
-                _$input.val(1);
+                _$input.val('1');
             }
         });
 

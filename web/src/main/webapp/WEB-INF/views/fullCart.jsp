@@ -23,12 +23,10 @@
 
 <body>
 <c:import url="/WEB-INF/views/part/header_with_cart.jsp"/>
-<c:set var="cartItems" value="${reqCart.itemsMap}" />
-
+<c:set var="sessCartItems" value="${sessionScope.cart.itemsMap}" />
 <span id="restore_msg" class="holder"><spring:message code="button.restore"/></span>
 <span id="delete_msg" class="holder"><spring:message code="button.delete"/></span>
 <span id="delete_msg" class="holder"><spring:message code="button.delete"/></span>
-
 
 <div class="container">
   <div class="row">
@@ -48,32 +46,32 @@
                 code="button.order"/></button>
       </a>
     </p>
-
     <spring:url value="/update" var="userActionUrl" />
-
-    <form:form class="form-inline"
-               modelAttribute="cartItems" method="post" action="${userActionUrl}">
+    <form:form class="form-inline" modelAttribute="cartItems"
+               method="post" action="${userActionUrl}">
       <table class="table table-striped">
         <%@ include file="part/product/product_thead.jsp" %>
         <tbody>
-        <c:forEach var="itemEntry" items="${cartItems}" varStatus="index">
+        <c:forEach var="itemEntry" items="${sessCartItems}" varStatus="status">
 
           <c:set var="phone" value="${itemEntry.value.phone}" scope="page"/>
           <fmt:formatNumber var="currentDisplay" value="${(phone.displaySize)/10}"
                             maxFractionDigits="1"/>
           <fmt:formatNumber var="currentPrice" value="${phone.price}" type="currency"
                             currencySymbol="$"/>
+
           <tr>
             <td><c:out value="${phone.model}"/></td>
             <td><c:out value="${phone.color}"/> </td>
             <td><c:out value="${currentDisplay}''"/></td>
             <td><c:out value="${currentPrice}"/></td>
           <td>
-            <spring:bind path="[${index}].quantity">
-              <form:input path="[${index}]" class="input-sm"
-                          value="${itemEntry.value.quantity}" title="quantity"/>
-              <form:errors path="[${index}].quantity" class="control-label" />
+            <c:set var="ind" value="${status.index}"/>
 
+            <spring:bind path="items[${ind}].quantity">
+              <form:input path="items[${ind}].quantity" class="input-sm"
+                          value="${itemEntry.value.quantity}" title="quantity"/>
+              <form:errors path="items[${ind}].quantity" class="control-label" />
             </spring:bind>
           </td>
             <td>
@@ -94,7 +92,6 @@
         </a>
       </p>
     </form:form>
-
   </div>
 </div>
 <script src="<c:url value="/resources/js/jquery.js"/>"></script>

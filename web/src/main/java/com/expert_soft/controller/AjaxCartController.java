@@ -3,7 +3,7 @@ package com.expert_soft.controller;
 
 import com.expert_soft.exception.service.ajax.AjaxException;
 import com.expert_soft.model.Cart;
-import com.expert_soft.model.Phone;
+import com.expert_soft.model.OrderItem;
 import com.expert_soft.service.AjaxResponseService;
 import com.expert_soft.service.CartService;
 import org.apache.log4j.Logger;
@@ -15,16 +15,19 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolationException;
 
 import static com.expert_soft.model.ServletConstants.*;
+import static java.lang.String.format;
 
 @Controller
 @SessionAttributes({CART_ATTR})
 public class AjaxCartController {
 
-    private static final Logger LOGGER = Logger.getLogger(CartController.class);
+    private static final Logger LOGGER = Logger.getLogger(AjaxCartController.class);
 
     private CartService cartService;
     private AjaxResponseService responseService;
@@ -44,36 +47,81 @@ public class AjaxCartController {
             method = RequestMethod.GET)
     public @ResponseBody
     String addToCart(ModelMap model,
-                     @RequestParam(PHONE_TO_DELETE) Long phoneId,
+                     @RequestParam(PHONE_ID_TO_ADD) Long phoneId,
                      @RequestParam(QUANTITY_PARAM) Integer quantity){
         LOGGER.debug("catch ajax changed: modelMap " + model);
 
         Cart cart = getCurrentCart(model);
-        Phone phone = cartService.deepAddToCart(cart, phoneId, quantity);
+        OrderItem item = cartService.deepAddToCart(cart, phoneId, quantity);
         cartService.calculateAndSetSubtotal(cart);
         cartService.calculateAndSetSize(cart);
 
         model.put(CART_ATTR, cart);
         LOGGER.debug("cart changed: " + cart.toString());
-        return responseService.buildSuccessAndWrite(cart, phone.getModel());
+        return responseService.buildAjaxSuccess(cart, item.getPhone().getModel());
     }
 
     @ExceptionHandler(value = AjaxException.class)
     public ResponseEntity<String> ajaxIO(AjaxException e){
-        String s = responseService.buildFailToWrite();
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
-        return new ResponseEntity<String>(s, headers, HttpStatus.INTERNAL_SERVER_ERROR);
-}
-
-    @ExceptionHandler(ConstraintViolationException.class)
-    public ResponseEntity<String> orderAjaxItemViolation(ConstraintViolationException e){
-        String message = e.getConstraintViolations().iterator()
-                          .next().getMessage();
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
-        return new ResponseEntity<String>(message, headers, HttpStatus.UNPROCESSABLE_ENTITY);
+        LOGGER.error("Ajax response can't be sent to client", e);
+        String ajaxResult = responseService.buildFailToWrite();
+        return new ResponseEntity<>(ajaxResult, getJsonHeaders(), HttpStatus.OK);
     }
+
+    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
+    @ExceptionHandler(ConstraintViolationException.class)
+    public @ResponseBody String ajaxItemViolation(ConstraintViolationException e){
+        LOGGER.debug("Violation occured: " + e.getConstraintViolations());
+        String constrainMsg = e.getConstraintViolations().iterator()
+                               .next().getMessage();
+        return responseService.buildFail(constrainMsg);
+    }
+
+    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
+    @ExceptionHandler({NumberFormatException.class, MethodArgumentTypeMismatchException.class})
+    public @ResponseBody String ajaxNumberFormatViolation(HttpServletRequest req, NumberFormatException e){
+        LOGGER.debug(format("Number format exception for input %s and %s",
+                req.getParameter(PHONE_ID_TO_ADD),
+                req.getParameter(QUANTITY_PARAM)));
+        return responseService.buildInvalidFormat();
+    }
+
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler(Exception.class)
+    public @ResponseBody String ajaxUnexpectedError(HttpServletRequest req, Exception e){
+        LOGGER.error(String.format("Request: %s%s raised ", req.getRequestURL(), req.getQueryString(),
+                e), e);
+        return responseService.buildFailUnexpected();
+    }
+
+
+//    @ExceptionHandler(ConstraintViolationException.class)
+//    public ResponseEntity<String> ajaxItemViolation(ConstraintViolationException e){
+//        LOGGER.debug("Violation occured: " + e.getConstraintViolations());
+//        String constrainMsg = e.getConstraintViolations().iterator()
+//                            .next().getMessage();
+//        String ajaxResult = responseService
+//                           .buildAjaxFail(constrainMsg, HttpStatus.UNPROCESSABLE_ENTITY.value());
+//
+//        return new ResponseEntity<>(ajaxResult, getJsonHeaders(), HttpStatus.UNPROCESSABLE_ENTITY);
+//    }
+//
+//    @ExceptionHandler({NumberFormatException.class, MethodArgumentTypeMismatchException.class})
+//    public ResponseEntity<String> ajaxNumberFormatViolation(HttpServletRequest req, NumberFormatException e){
+//        LOGGER.debug(format("Number format exception for input %s and %s", req.getParameter(PHONE_ID_TO_ADD),
+//                                                                           req.getParameter(QUANTITY_PARAM)));
+//
+//        String ajaxResult = responseService.buildAjaxFailInvalidFormat(HttpStatus.UNPROCESSABLE_ENTITY.value());
+//        return new ResponseEntity<>(ajaxResult, getJsonHeaders(), HttpStatus.UNPROCESSABLE_ENTITY);
+//    }
+//
+//    @ExceptionHandler(Exception.class)
+//    public ResponseEntity<String> ajaxUnexpectedError(HttpServletRequest req, Exception e){
+//        LOGGER.error(String.format("Request: %s%s raised ", req.getRequestURL(), req.getQueryString(),
+//                e), e);
+//        String result = responseService.buildAjaxFailUnexpected();
+//        return new ResponseEntity<>(result, getJsonHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
+//    }
 
     private Cart getCurrentCart(ModelMap modelMap){
         Cart cart = (Cart) modelMap.get("cart");
@@ -81,5 +129,11 @@ public class AjaxCartController {
             cart = new Cart();
         }
         return cart;
+    }
+
+    private HttpHeaders getJsonHeaders(){
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
+        return headers;
     }
 }

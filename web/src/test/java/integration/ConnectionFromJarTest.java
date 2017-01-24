@@ -1,6 +1,7 @@
 package integration;
 
 
+import com.expert_soft.config.ApplicationConfiguration;
 import com.expert_soft.controller.ProductController;
 import com.expert_soft.model.Phone;
 import com.expert_soft.persistence.PhoneDao;
@@ -29,13 +30,8 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {
-        "classpath:test-root-context.xml",
-        "classpath:test-servlet-context.xml"
-})
-
+@ContextConfiguration(classes = {ApplicationConfiguration.class} )
 @WebAppConfiguration
-
 public class ConnectionFromJarTest {
 
     private static final Logger logger = Logger.getLogger(ProductController.class);
@@ -65,10 +61,9 @@ public class ConnectionFromJarTest {
         logger.debug("Starting test on dataSource");
         DataSource dataSource = (DataSource) context.getBean("schema");
         DatabaseMetaData metaData = dataSource.getConnection().getMetaData();
-        logger.debug("URL :: " + metaData.getURL());
-
+        logger.debug("URL: " + metaData.getURL());
         logger.debug("Path: " + metaData.getURL());
-        logger.debug("Tables:");
+
         ResultSet tables = metaData.getTables("PUBLIC", null, null, null);
         List<String> tablesNames = new ArrayList<>();
         while (tables.next()){

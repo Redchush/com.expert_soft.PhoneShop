@@ -2,6 +2,7 @@ package com.expert_soft.controller;
 
 
 import com.expert_soft.model.Cart;
+import com.expert_soft.model.CartItemsContainer;
 import com.expert_soft.model.OrderItem;
 import com.expert_soft.service.CartService;
 import com.expert_soft.validator.group.G_Cart;
@@ -46,8 +47,11 @@ public class CartController {
         if (cart == null){
             return new ModelAndView("emptyCart");
         }
-        int size = cart.getItemsMap().size();
-        return new ModelAndView("fullCart", CART_ITEMS, new OrderItem[size]);
+        ModelAndView fullCart = new ModelAndView("fullCart",
+                                                CART_ITEMS,
+                                                new CartItemsContainer(cart.getItemsMap().size()));
+        fullCart.addObject(CART_ATTR, cart);
+        return fullCart;
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)

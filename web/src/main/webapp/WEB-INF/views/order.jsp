@@ -28,8 +28,10 @@
       <h1>Order</h1>
     </div>
     <p>
-      <button class="btn btn-default pnf" type="button"><spring:message
-              code="button.backToMain"/> </button>
+      <a href="<c:url value="/products"/> ">
+        <button class="btn btn-default pnf" type="button"><spring:message
+                code="button.backToMain"/> </button>
+      </a>
     </p>
     <table class="table table-responsive">
       <%@ include file="part/product/product_thead.jsp" %>
@@ -71,63 +73,66 @@
     <form:form class="form-horizontal pnf" modelAttribute="userInfo"
                method="POST" action="${userActionUrl}" htmlEscape="true">
       <div class="form-group">
-        <label class="control-label col-sm-2" for="f_name">First name</label>
-        <div class="col-sm-5">
-          <spring:bind path="firstName">
-            <form:input path="firstName" cssErrorClass="has-error" cssClass="form-control"
+        <spring:bind path="firstName">
+          <label class="control-label col-sm-2" for="f_name">First name</label>
+          <div class="col-sm-5">
+          <form:input path="firstName" cssErrorClass="has-error" cssClass="form-control"
                         id="f_name"
-                        placeholder="First name"
-             > ${prevUserInfo.firstName}</form:input>
-            <form:errors path="firstName" cssClass="control-label has-error"/>
-          </spring:bind>
-        </div>
+                        placeholder="First name"/>
+          </div>
+          <div class="form-control-feedback has-error">
+            <form:errors path="firstName" cssClass="has-error"/>
+          </div>
+        </spring:bind>
       </div>
       <div class="form-group">
-        <label class="control-label col-xs-2" for="l_name">Last name</label>
-        <div class="col-sm-5">
-          <spring:bind path="lastName">
+        <spring:bind path="lastName">
+          <label class="control-label col-xs-2" for="l_name">Last name</label>
+          <div class="col-sm-5">
             <form:input path="lastName" cssErrorClass="has-error" cssClass="form-control"
                         id="l_name"
-                        placeholder="Last name"
-            >${prevUserInfo.lastName}</form:input>
-            <form:errors path="lastName" cssClass="control-label has-error"/>
-          </spring:bind>
-
-        </div>
+                        placeholder="Last name"/>
+          </div>
+          <div class="form-control-feedback has-error"><form:errors
+                  path="lastName"/></div>
+        </spring:bind>
       </div>
 
       <div class="form-group">
-        <label class="control-label col-sm-2" for="address">Address</label>
-        <div class="col-sm-5">
-          <spring:bind path="deliveryAddress">
+        <spring:bind path="deliveryAddress">
+          <label class="control-label col-sm-2" for="address">Address</label>
+          <div class="col-sm-5">
             <form:input path="deliveryAddress" cssErrorClass="has-error" cssClass="form-control"
-                        id="address" placeholder="Address"
-            >${prevUserInfo.deliveryAddress}</form:input>
+                        id="address" placeholder="Address"/>
+          </div>
+          <div class="form-control-feedback has-error">
             <form:errors path="deliveryAddress" cssClass="control-label has-error"/>
-          </spring:bind>
-        </div>
+          </div>
+        </spring:bind>
       </div>
       <div class="form-group">
-        <label class="control-label col-sm-2" for="phone">Phone</label>
-        <div class="col-sm-5">
-          <spring:bind path="contactPhoneNo">
+        <spring:bind path="contactPhoneNo">
+          <label class="control-label col-sm-2" for="phone">Phone</label>
+          <div class="col-sm-5">
             <form:input path="contactPhoneNo" cssErrorClass="has-error" cssClass="form-control"
-                        id="phone" placeholder="Phone"
-            >${prevUserInfo.contactPhoneNo}</form:input>
+                        id="phone" placeholder="Phone"/>
+          </div>
+          <div class="form-control-feedback has-error">
             <form:errors path="contactPhoneNo" cssClass="control-label has-error"/>
-          </spring:bind>
-        </div>
+          </div>
+        </spring:bind>
       </div>
 
       <div class="form-group">
-        <div class="col-sm-7">
-          <spring:bind path="additionalInfo">
+        <spring:bind path="additionalInfo">
+          <div class="col-sm-7">
             <form:textarea path="additionalInfo" cssErrorClass="has-error" cssClass="form-control"
-                        id="add_info" placeholder="Additional information"
-            >${prevUserInfo.additionalInfo}</form:textarea>
+                           id="add_info" placeholder="Additional information"/>
+          </div>
+          <div class="form-control-feedback has-error">
             <form:errors path="additionalInfo" cssClass="control-label has-error"/>
-          </spring:bind>
-        </div>
+          </div>
+        </spring:bind>
       </div>
 
       <div class="form-group">

@@ -25,17 +25,17 @@ import static org.junit.Assert.assertNull;
 
 public class JsonHelperImplTest {
 
-    @Autowired @Qualifier("cart_2") Cart cart;
+    @Autowired @Qualifier("cart_2_calculated") Cart cart;
     @Autowired JsonHelper helper;
 
     @Test
     public void write() throws Exception {
         AjaxResponseCart expected = new AjaxResponseCart();
-        expected.setCode("200");
+        expected.setCode(200);
         expected.setMsg("success");
         expected.setResult(cart);
 
-        String write = helper.write(expected);
+        String write = helper.buautifulWrite(expected);
         System.out.println(write);
         ObjectMapper mapper= new ObjectMapper();
 
