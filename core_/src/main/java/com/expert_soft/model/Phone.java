@@ -37,6 +37,13 @@ public class Phone {
 
     private Integer camera;
 
+    public Phone() {}
+
+    public Phone(Long key) {
+        this.key = key;
+    }
+
+
     public Long getKey() {
         return key;
     }

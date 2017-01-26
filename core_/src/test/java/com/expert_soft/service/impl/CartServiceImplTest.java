@@ -6,7 +6,6 @@ import com.expert_soft.model.OrderItem;
 import com.expert_soft.model.Phone;
 import com.expert_soft.persistence.PhoneDao;
 import com.expert_soft.service.CartService;
-import com.expert_soft.util.DataBuilder;
 import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,8 +24,6 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import java.math.BigDecimal;
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Properties;
 
 import static org.junit.Assert.*;
@@ -66,19 +63,17 @@ public class CartServiceImplTest {
 
     private Cart emptyCart;
     private Order order;
-    private Cart fullCart;
+    private Cart fullCart_2_items;
+    private Cart fullCart_1_item;
 
     @Before
     public void setUp() throws Exception {
         emptyCart = new Cart();
         order = (Order) ac.getBean("order_2_new_calculated");
-        HashSet<OrderItem> orderItems = new HashSet<>(Arrays.asList(firstItem, secondItem));
-        order.setOrderItems(orderItems);
-        fullCart = DataBuilder.buildCartWithoutSubtotal(order);
-
+        fullCart_2_items = ac.getBean("cart_2_calculated", Cart.class);
+        fullCart_1_item = ac.getBean("cart_1_calculated", Cart.class);
         MockitoAnnotations.initMocks(this);
-//        dao = Mockito.mock(PhoneDao.class);
-//        ReflectionTestUtils.setField(service, "phoneDao", dao);
+
     }
 
 //    @Test(expected = ConstraintViolationException.class)
@@ -104,8 +99,6 @@ public class CartServiceImplTest {
         assertEquals("Fail to calculate new quantity",
                 item1.getQuantity(),
                 new Integer(2));
-
-
     }
 
     @Test
@@ -118,7 +111,6 @@ public class CartServiceImplTest {
 
     }
 
-
     @Test(expected = ConstraintViolationException.class)
     public void addToCart_To_Much() throws Exception {
         Phone phone = new Phone();
@@ -126,41 +118,42 @@ public class CartServiceImplTest {
         service.addToCart(emptyCart, phone, 12);
     }
 
-
-
-
     @Test
     public void deleteFromCart() throws Exception {
-        service.deleteFromCart(fullCart, 1L);
-        assertEquals(fullCart.getItemsMap().size(), 1);
+        service.deleteFromCart(fullCart_2_items, 1L);
+        assertEquals(1, fullCart_2_items.getItemsMap().size());
     }
 
     @Test
     public void deleteFromCart1() throws Exception {
-        service.deleteFromCart(fullCart, new Long[]{1L, 2L});
-        assertTrue(fullCart.getItemsMap().isEmpty());
+        service.deleteFromCart(fullCart_2_items, new Long[]{1L, 2L});
+        assertTrue(fullCart_2_items.getItemsMap().isEmpty());
     }
 
     @Test
     public void changeQuantity() throws Exception {
         Integer expPhoneQuantity=4;
-        int sizeInitial = fullCart.getItemsMap().size();
+        int sizeInitial = fullCart_2_items.getItemsMap().size();
 
-        service.changeQuantity(fullCart, 1L, expPhoneQuantity);
+
+        OrderItem item = new OrderItem(new Phone(1L), expPhoneQuantity);
+
+        service.updatePhoneQuantity(fullCart_2_items, item);
         assertEquals("Quantity of order items in cart changed",
-                sizeInitial, fullCart.getItemsMap().size());
+                sizeInitial, fullCart_2_items.getItemsMap().size());
 
-        Integer realQuantity = fullCart.getItem(1L)
-                                       .getQuantity();
+        Integer realQuantity = fullCart_2_items.getItem(1L)
+                                               .getQuantity();
 
         assertEquals(expPhoneQuantity, realQuantity);
     }
 
     @Test
     public void calculateAndSetSubtotal() throws Exception {
-        BigDecimal actual = service.calculateAndSetSubtotal(fullCart);
-        assertEquals(order.getSubtotal(), actual);
+        BigDecimal expected = fullCart_1_item.getSubtotal();
+        BigDecimal actual = service.calculateAndSetSubtotal(fullCart_1_item);
 
+        assertEquals(expected, actual);
         Cart cart = new Cart();
         cart.putItem(firstItem.getPhone().getKey(), firstItem);
 
@@ -171,9 +164,9 @@ public class CartServiceImplTest {
     @Test
     public void calculateAndSetSize() throws Exception {
         Cart expected = ac.getBean("cart_2_calculated", Cart.class);
-        Cart actual = service.calculateAndSetSize(fullCart);
+        Cart actual = service.calculateAndSetSize(fullCart_2_items);
         assertEquals("cart size invalid calculation. Cart tested: " +
-                fullCart, expected.getCartSize(), actual.getCartSize());
+                fullCart_2_items, expected.getCartSize(), actual.getCartSize());
     }
 
     @Test(expected = ConstraintViolationException.class)

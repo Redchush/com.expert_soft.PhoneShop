@@ -38,7 +38,7 @@ public class CartServiceImpl implements CartService {
 
     @Autowired
     public void setValidator(Validator validator) {
-         this.validator = validator;
+        this.validator = validator;
     }
 
     @Override
@@ -51,7 +51,7 @@ public class CartServiceImpl implements CartService {
         OrderItem result = new OrderItem(phone, newQuantity);
         Set<ConstraintViolation<OrderItem>> validate = validator.validate(result, G_Cart.Item.class);
         if (!validate.isEmpty()){
-            throw new ConstraintViolationException("Invalid order item", validate);
+            throw new ConstraintViolationException("Invalid order updatedItem", validate);
         }
         cart.putItem(result);
         return result;
@@ -63,32 +63,18 @@ public class CartServiceImpl implements CartService {
         return addToCart(cart, phone, quantity);
     }
 
-
     @Override
     public OrderItem deleteFromCart(Cart cart, Long phoneId) {
         return cart.removeByPhoneKey(phoneId);
     }
-    @Override
-    public Cart deleteFromCart(Cart cart, Long[] phoneIdArray){
-        for (Long phoneId : phoneIdArray) {
-            cart.removeByPhoneKey(phoneId);
-        }
-        return cart;
-    }
 
     @Override
-    public OrderItem changeQuantity(Cart cart, Long phoneId, Integer newQuantity) {
-        OrderItem item = cart.getItem(phoneId);
-        OrderItem newItem = new OrderItem(item.getPhone(), newQuantity);
-        cart.putItem(phoneId, newItem);
-        return item;
-    }
-
-    @Override
-    public void changeQuantity(Cart cart, List<OrderItem> changes) {
-        for (OrderItem item :changes){
-            changeQuantity(cart, item.getPhone().getKey(), item.getQuantity());
-        }
+    public OrderItem updatePhoneQuantity(Cart cart, OrderItem updatedItem) {
+        Long phoneKey =  updatedItem.getPhone().getKey();
+        OrderItem item = cart.getItem(phoneKey);
+        item.setQuantity(updatedItem.getQuantity());
+        cart.putItem(phoneKey, item);
+        return updatedItem;
     }
 
     @Override
@@ -128,7 +114,5 @@ public class CartServiceImpl implements CartService {
             throws ConstraintViolationException {
         return new OrderItem(phone, quantity);
     }
-
-
 
 }

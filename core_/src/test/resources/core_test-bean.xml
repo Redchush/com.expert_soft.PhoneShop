@@ -165,32 +165,45 @@
 
   <bean id="order_new" class="com.expert_soft.model.Order"/>
 
+  <bean id="mapFactory" class="com.expert_soft.util.MapFactory"/>
 
-  <util:map id="map_cart_2" map-class="java.util.concurrent.ConcurrentHashMap"
-            key-type="java.lang.Long"
-            value-type="com.expert_soft.model.OrderItem">
-    <entry key="1" value-ref="orderItem_secondOrder_1_new"/>
-    <entry key="2" value-ref="orderItem_secondOrder_2_new"/>
-  </util:map>
+  <bean id="cartMap_1" factory-bean="mapFactory"
+        factory-method="createConcurrent" scope="prototype">
+    <constructor-arg>
+      <util:map id="map_cart_1" key-type="java.lang.Long" scope="prototype"
+                value-type="com.expert_soft.model.OrderItem">
+        <entry key="1" value-ref="orderItem_firstOrder_new"/>
+      </util:map>
+    </constructor-arg>
+  </bean>
 
-  <bean id="cart_1_calculated" class="com.expert_soft.model.Cart">
+  <bean id="cart_1_calculated" class="com.expert_soft.model.Cart" scope="prototype">
     <property name="cartSize" value="1"/>
     <property name="subtotal" value="#{phone_id_1.price}"/>
+    <property name="itemsMap" ref="cartMap_1"/>
   </bean>
 
-  <bean id="cart_2_calculated" class="com.expert_soft.model.Cart">
+  <bean id="cartMap_2"
+        factory-bean="mapFactory"
+        factory-method="createConcurrent" scope="prototype">
+    <constructor-arg>
+      <util:map id="map_cart_2"
+                key-type="java.lang.Long" scope="prototype"
+                value-type="com.expert_soft.model.OrderItem">
+        <entry key="1" value-ref="orderItem_secondOrder_1_new"/>
+        <entry key="2" value-ref="orderItem_secondOrder_1_new"/>
+      </util:map>
+    </constructor-arg>
+  </bean>
+
+  <bean id="cart_2_calculated" class="com.expert_soft.model.Cart" scope="prototype">
     <property name="cartSize" value="2"/>
     <property name="subtotal" value="#{order_2_new_calculated.subtotal}"/>
+    <property name="itemsMap" ref="cartMap_2"/>
   </bean>
 
-  <!--<bean id="foo" class="org.springframework.beans.factory.config.MapFactoryBean">-->
-    <!--<property name="targetMapClass" value="java.util.concurrent.ConcurrentHashMap"/>-->
-    <!--<property name="sourceMap">-->
-      <!--<map>-->
-        <!--<entry key="foo" value="foo"/>-->
-        <!--<entry key="bar" value="bar"/>-->
-      <!--</map>-->
-    <!--</property>-->
-  <!--</bean>-->
+
+
+
 
 </beans>

@@ -14,7 +14,6 @@ import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
-import java.util.List;
 
 @Validated(G_Cart.Item.class)
 public interface CartService {
@@ -43,29 +42,61 @@ public interface CartService {
     OrderItem deepAddToCart(Cart cart,
                             @NotNull(message = "{common.key}", groups = G_Cart.Item.class)
                             @Min(value = 1, message = "{common.key}", groups = G_Cart.Item.class)
-                            Long phoneId,
+                                    Long phoneId,
                             Integer quantity);
 
     OrderItem deleteFromCart(Cart cart, Long phoneId);
 
-    Cart deleteFromCart(Cart cart, Long[] phoneIdArray);
+    /**
+     * Remove all phones from cart listed in phoneKeys;
+     * @param cart
+     * @param phoneKeys - array of phone keys, which
+     * @return changed argument cart;
+     */
+    default Cart deleteFromCart(Cart cart, Long[] phoneKeys){
+        if (phoneKeys != null) {
+            for (Long phoneId : phoneKeys) {
+                cart.removeByPhoneKey(phoneId);
+            }
+        }
+        return cart;
+    }
 
     /**
+     * Set new quantity from <strong>change</strong> parameter
+     * for item in cart with same phone key as in <strong>change</strong> parameter.
+     * Method doesn't apply another changes apart from qauntity.
      * @param cart - currentCart
-     * @param phoneId - phoneId, which quantity mentioned to be update
-     * @param newQuantity - new quantity to be set in OrderItem connected to Phone with this id
+     * @param change - lightweight OrderItem which contains only Phone with key and quantity
+     *               phoneId, which quantity mentioned to be update
      * @return OrderItem - new orderItem, that bound to this phoneId
      */
-    OrderItem changeQuantity(Cart cart, Long phoneId, Integer newQuantity);
+    @Validated(G_Cart.Item.class)
+    OrderItem updatePhoneQuantity(Cart cart, @Valid OrderItem change);
 
-    void changeQuantity(Cart cart, List<OrderItem> changes);
+    /**
+     * Apply only quantity changes.
+     * @param cart
+     * @param changes
+     * @return
+     */
+    @Validated(G_Cart.Item.class)
+    default Cart updatePhoneQuantity(Cart cart, @Valid OrderItem[] changes){
+        if (changes != null){
+            for (OrderItem item :changes){
+                updatePhoneQuantity(cart, item);
+            }
+        }
+        return cart;
+    }
 
     BigDecimal calculateAndSetSubtotal(Cart cart);
 
     Cart calculateAndSetSize(Cart cart);
 
     /**
-     * check all data in persistence and calculate all data
+     * check all data in persistence to be sure that data is actual
+     * and calculate all data
      * @param cart
      */
     void deeplyCheckCart(Cart cart);
