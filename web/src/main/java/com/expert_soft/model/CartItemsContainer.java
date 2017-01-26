@@ -5,15 +5,19 @@ public class CartItemsContainer {
 
     private OrderItem[] items;
 
-    public CartItemsContainer() {}
+    public CartItemsContainer() {
+        items = new OrderItem[0];
+    }
 
     public CartItemsContainer(OrderItem[] items) {
         this.items = items;
     }
+
     public CartItemsContainer(int size) {
         items = new OrderItem[size];
         for (int i = 0; i < size; i++) {
             items[i] = new OrderItem();
+            items[i].setPhone(new Phone());
         }
     }
 

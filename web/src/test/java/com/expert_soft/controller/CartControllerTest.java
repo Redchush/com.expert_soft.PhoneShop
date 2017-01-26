@@ -66,7 +66,7 @@ public class CartControllerTest {
 
     }
 
-     @Test
+    @Test
     public void deleteFromCart() throws Exception {
 
     }

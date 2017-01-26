@@ -46,7 +46,7 @@
                 code="button.order"/></button>
       </a>
     </p>
-    <spring:url value="/update" var="userActionUrl" />
+    <spring:url value="/update_cart" var="userActionUrl" />
     <form:form class="form-inline" modelAttribute="cartItems"
                method="post" action="${userActionUrl}">
       <table class="table table-striped">
@@ -67,8 +67,9 @@
             <td><c:out value="${currentPrice}"/></td>
           <td>
             <c:set var="ind" value="${status.index}"/>
-
             <spring:bind path="items[${ind}].quantity">
+              <form:input path="items[${ind}].phone.key" cssClass="hidden"
+                          value="${itemEntry.value.phone.key}"/>
               <form:input path="items[${ind}].quantity" class="input-sm"
                           value="${itemEntry.value.quantity}" title="quantity"/>
               <form:errors path="items[${ind}].quantity" class="control-label" />
@@ -77,7 +78,7 @@
             <td>
               <label class="btn btn-default btn-sm pnf" data-action = "delete">
                 <input type="checkbox" name="deleteId" value="${phone.key}" autocomplete="off"
-                       checked="false" hidden>
+                       hidden>
                 <span><spring:message code="button.delete"/></span>
               </label>
             </td>

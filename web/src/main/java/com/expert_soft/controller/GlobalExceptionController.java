@@ -17,7 +17,9 @@ public class GlobalExceptionController {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(Exception.class)
     public ModelAndView unexpectedException(HttpServletRequest req, Exception ex) {
-        logger.error("GLOBAL ERROR: Request: " + req.getRequestURL() + " raised " + ex);
+        logger.error(String.format( "GLOBAL ERROR: Request: %s%s raised ", req.getRequestURL(),
+                req.getQueryString(), ex), ex);
+
         ModelAndView mav = new ModelAndView();
         mav.addObject("url", req.getRequestURL());
         mav.setViewName("/error/internalError");

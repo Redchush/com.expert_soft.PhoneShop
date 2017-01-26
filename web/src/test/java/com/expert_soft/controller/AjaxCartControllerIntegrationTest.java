@@ -23,6 +23,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import java.util.HashMap;
 
+import static com.expert_soft.controller.ServletConstants.CART_ATTR;
 import static com.expert_soft.controller.ServletConstants.PHONE_ID_TO_ADD;
 import static com.expert_soft.controller.ServletConstants.QUANTITY_PARAM;
 import static org.junit.Assert.assertEquals;
@@ -59,21 +60,19 @@ public class AjaxCartControllerIntegrationTest {
 
     @Test
     public void addToCart() throws Exception {
-        HashMap<String, Object> sessionattr = new HashMap<String, Object>();
-        sessionattr.put("cart", new Cart());
-
+        Cart cart = new Cart();
         MockHttpServletRequestBuilder requestBuilder  =
                 MockMvcRequestBuilders.get("/add_to_cart")
                                       .param(PHONE_ID_TO_ADD, "1")
                                       .param(QUANTITY_PARAM, "1")
-                                      .sessionAttrs(sessionattr)
+                                      .sessionAttr(CART_ATTR, cart)
                                       .accept(MediaType.APPLICATION_JSON_VALUE);
         mockMvc.perform(requestBuilder)
                .andExpect(status().isOk())
                .andExpect(content()
                        .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                .andReturn();
-        assertEquals(sessionattr.get("cart"), cart_1);
+        assertEquals(cart, cart_1);
     }
 
 

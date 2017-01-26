@@ -28,15 +28,6 @@ public class CartController {
 
     private CartService cartService;
 
-//
-//    @Autowired Validator validator;
-//
-//    //Set a form validator
-//    @InitBinder
-//    protected void initBinder(WebDataBinder binder) {
-//        binder.setValidator(validator);
-//    }
-
     @Autowired
     public void setCartService(CartService cartService) {
         this.cartService = cartService;
@@ -56,24 +47,22 @@ public class CartController {
         return fullCart;
     }
 
-    @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public String changeQuantity(ModelMap model,
-                                 @Validated(G_Cart.Item.class)
-                                 @ModelAttribute(CART_ITEMS) CartItemsContainer lightCart,
-                                 @RequestParam(PHONE_TO_DELETE) Long[] phoneArray,
-                                 BindingResult result){
+    @RequestMapping(value = "/update_cart", method = RequestMethod.POST)
+    public String updateCart(ModelMap model,
+                             @Validated(G_Cart.Item.class)
+                             @ModelAttribute(CART_ITEMS) CartItemsContainer lightCart,
+                             @ModelAttribute(CART_ATTR) Cart cart,
+                             @RequestParam(value = PHONE_TO_DELETE, required = false) Long[] phoneIds,
+                             BindingResult result){
         if (result.hasErrors()){
             model.addAttribute(CART_ITEMS, new ArrayList<OrderItem>());
-            return "fullCart";
         } else {
-            LOGGER.debug(Arrays.asList(lightCart.getItems()));
-            Cart cart = (Cart) model.get(CART_ATTR);
-            for (OrderItem item : lightCart.getItems()){
-                cartService.changeQuantity(cart, item.getKey(), item.getQuantity());
-            }
-            cartService.deleteFromCart(cart, phoneArray);
-            return "redirect:/order";
+            LOGGER.debug("Changes: " + Arrays.asList(lightCart.getItems()) + "" +
+                    ". Delete: " + Arrays.toString(phoneIds));
+            cartService.updatePhoneQuantity(cart, lightCart.getItems());
+            cartService.deleteFromCart(cart, phoneIds);
         }
+        return "/cart";
     }
 
 }

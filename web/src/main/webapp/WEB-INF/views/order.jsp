@@ -129,7 +129,7 @@
       <spring:bind path="firstName">
         <div class="form-group <c:out value="${firstName_errorClass}"/> ">
           <label class="control-label col-sm-2" for="f_name">
-            <spring:message var="firstNameMsg" code="${order.userInfo.firstName}"/>
+            <spring:message var="firstNameMsg" code="order.userInfo.firstName"/>
           </label>
           <div class="col-sm-5">
             <form:input path="firstName" cssClass="form-control"
@@ -145,7 +145,7 @@
       <spring:bind path="lastName">
         <div class="form-group <c:out value="${lastName_errorClass}"/>">
           <label class="control-label col-xs-2" for="l_name">
-            <spring:message var="lastNameMsg" code="${order.userInfo.lastName}"/>
+            <spring:message var="lastNameMsg" code="order.userInfo.lastName"/>
           </label>
           <div class="col-sm-5">
             <form:input path="lastName" cssClass="form-control"
@@ -162,7 +162,7 @@
       <spring:bind path="deliveryAddress">
         <div class="form-group <c:out value="${lastName_errorClass}"/>">
           <label class="control-label col-sm-2" for="address">
-            <spring:message var="addrMsg" code="${order.userInfo.deliveryAddress}"/>
+            <spring:message var="addrMsg" code="order.userInfo.address"/>
           </label>
           <div class="col-sm-5">
             <form:input path="deliveryAddress" cssClass="form-control"
@@ -176,7 +176,7 @@
       <spring:bind path="contactPhoneNo">
         <div class="form-group <c:out value="${phoneNo_errorClass}"/>">
           <label class="control-label col-sm-2" for="phone">
-            <spring:message var="phone_msg" code="${order.userInfo.contactPhoneNo}"/>
+            <spring:message var="phone_msg" code="order.userInfo.contactPhoneNo"/>
           </label>
           <div class="col-sm-5">
             <form:input path="contactPhoneNo" cssClass="form-control"
