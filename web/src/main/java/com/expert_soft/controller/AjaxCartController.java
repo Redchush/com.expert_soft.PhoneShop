@@ -20,7 +20,7 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolationException;
 
-import static com.expert_soft.model.ServletConstants.*;
+import static com.expert_soft.controller.ServletConstants.*;
 import static java.lang.String.format;
 
 @Controller
@@ -93,35 +93,6 @@ public class AjaxCartController {
                 e), e);
         return responseService.buildFailUnexpected();
     }
-
-
-//    @ExceptionHandler(ConstraintViolationException.class)
-//    public ResponseEntity<String> ajaxItemViolation(ConstraintViolationException e){
-//        LOGGER.debug("Violation occured: " + e.getConstraintViolations());
-//        String constrainMsg = e.getConstraintViolations().iterator()
-//                            .next().getMessage();
-//        String ajaxResult = responseService
-//                           .buildAjaxFail(constrainMsg, HttpStatus.UNPROCESSABLE_ENTITY.value());
-//
-//        return new ResponseEntity<>(ajaxResult, getJsonHeaders(), HttpStatus.UNPROCESSABLE_ENTITY);
-//    }
-//
-//    @ExceptionHandler({NumberFormatException.class, MethodArgumentTypeMismatchException.class})
-//    public ResponseEntity<String> ajaxNumberFormatViolation(HttpServletRequest req, NumberFormatException e){
-//        LOGGER.debug(format("Number format exception for input %s and %s", req.getParameter(PHONE_ID_TO_ADD),
-//                                                                           req.getParameter(QUANTITY_PARAM)));
-//
-//        String ajaxResult = responseService.buildAjaxFailInvalidFormat(HttpStatus.UNPROCESSABLE_ENTITY.value());
-//        return new ResponseEntity<>(ajaxResult, getJsonHeaders(), HttpStatus.UNPROCESSABLE_ENTITY);
-//    }
-//
-//    @ExceptionHandler(Exception.class)
-//    public ResponseEntity<String> ajaxUnexpectedError(HttpServletRequest req, Exception e){
-//        LOGGER.error(String.format("Request: %s%s raised ", req.getRequestURL(), req.getQueryString(),
-//                e), e);
-//        String result = responseService.buildAjaxFailUnexpected();
-//        return new ResponseEntity<>(result, getJsonHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
-//    }
 
     private Cart getCurrentCart(ModelMap modelMap){
         Cart cart = (Cart) modelMap.get("cart");

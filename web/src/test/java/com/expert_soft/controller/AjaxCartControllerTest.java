@@ -25,8 +25,8 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import static com.expert_soft.model.ServletConstants.PHONE_ID_TO_ADD;
-import static com.expert_soft.model.ServletConstants.QUANTITY_PARAM;
+import static com.expert_soft.controller.ServletConstants.PHONE_ID_TO_ADD;
+import static com.expert_soft.controller.ServletConstants.QUANTITY_PARAM;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 

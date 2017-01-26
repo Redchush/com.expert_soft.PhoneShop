@@ -17,8 +17,6 @@ public class CartItemsContainer {
         }
     }
 
-
-
     public OrderItem[] getItems() {
         return items;
     }

@@ -1,4 +1,4 @@
-package com.expert_soft.model;
+package com.expert_soft.controller;
 
 
 public class ServletConstants {

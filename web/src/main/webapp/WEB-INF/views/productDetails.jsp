@@ -78,6 +78,7 @@
       ><spring:message code="button.addToCart"/></button>
     </form>
 
+    <output id="msg"></output>
   </div>
 </div>
 <script src="<c:url value="/resources/js/jquery.js"/>"></script>

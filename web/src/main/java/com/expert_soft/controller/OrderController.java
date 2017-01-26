@@ -22,7 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.expert_soft.model.ServletConstants.CART_ATTR;
+import static com.expert_soft.controller.ServletConstants.CART_ATTR;
 
 @Controller
 @SessionAttributes(CART_ATTR)
@@ -57,17 +57,17 @@ public class OrderController {
             model.addAttribute("userInfo", info);
             return "order";
         }
-
         Order order = orderService.buildOrder(cart, info, false);
         Long orderId = orderService.saveOrder(order);
+        LOGGER.debug("Order succesfully saved: " + order);
         status.setComplete();
         redirectAttrs.addAttribute("orderId", orderId);
-        return "redirect:order/confirm";
+        return "redirect:order/{orderId}";
     }
 
 
-    @RequestMapping(value = "/order/confirm", method = RequestMethod.GET)
-    public ModelAndView confirmOrder( @RequestAttribute("orderId") Long orderId){
+    @RequestMapping(value = "/order/{orderId}", method = RequestMethod.GET)
+    public ModelAndView confirmOrder( @PathVariable("orderId") Long orderId){
         Order order = orderService.getOrder(orderId);
         return new ModelAndView("orderConfirm", "order", order);
     }

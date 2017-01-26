@@ -68,73 +68,137 @@
 
   </div>
   <div class="row">
+    <style>
+      .form-group span{
+        display: none;
+      }
+      .form-group.has-feedback.has-error span,
+      .form-group.has-feedback.has-success span.glyphicon-ok{
+         display: block;
+      }
+    </style>
     <spring:url value="/doOrder" var="userActionUrl" />
+    <spring:hasBindErrors name="userInfo">
 
+      <c:set var="group_error_class" value="has-feedback has-error"/>
+      <c:set var="group_success_class" value="has-feedback has-success"/>
+
+      <c:set var="valid_icon">
+        <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+      </c:set>
+      <c:set var="invalid_icon">
+        <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+      </c:set>
+
+      <c:set var="firstName_icon" value="${valid_icon}"/>
+      <c:set var="lastName_icon" value="${valid_icon}"/>
+      <c:set var="delivery_icon" value="${valid_icon}"/>
+      <c:set var="phone_icon" value="${valid_icon}"/>
+      <c:set var="addInfo_icon" value="${valid_icon}"/>
+
+      <c:set var="firstName_errorClass" value="${group_success_class}"/>
+      <c:set var="lastName_errorClass" value="${group_success_class}"/>
+      <c:set var="deliveryAddr_errorClass" value="${group_success_class}"/>
+      <c:set var="phoneNo_errorClass" value="${group_success_class}"/>
+      <c:set var="addInfo_errorClass" value="${group_success_class}"/>
+
+      <c:if var="isFirstNameError" test="${errors.hasFieldErrors('firstName')}">
+        <c:set var="firstName_errorClass" value="${group_error_class}" />
+        <c:set var="firstName_icon" value="${invalid_icon}"/>
+      </c:if>
+      <c:if var="isLastNameError" test="${errors.hasFieldErrors('lastName')}">
+        <c:set var="lastName_errorClass" value="${group_error_class}" />
+        <c:set var="firstName_icon" value="${invalid_icon}"/>
+      </c:if>
+      <c:if var="isDeliveryError" test="${errors.hasFieldErrors('deliveryAddress')}">
+        <c:set var="deliveryAddr_errorClass" value="${group_error_class}" />
+        <c:set var="delivery_icon" value="${invalid_icon}"/>
+      </c:if>
+      <c:if var="isPhoneNoError" test="${errors.hasFieldErrors('contactPhoneNo')}">
+        <c:set var="phoneNo_errorClass" value="${group_error_class}" />
+        <c:set var="phone_icon" value="${invalid_icon}"/>
+      </c:if>
+      <c:if var="isAddInfoErro" test="${errors.hasFieldErrors('additionalInfo')}">
+        <c:set var="addInfo_errorClass" value="has-error" />
+        <c:set var="addInfo_icon" value="${invalid_icon}"/>
+      </c:if>
+    </spring:hasBindErrors>
     <form:form class="form-horizontal pnf" modelAttribute="userInfo"
                method="POST" action="${userActionUrl}" htmlEscape="true">
-      <div class="form-group">
-        <spring:bind path="firstName">
-          <label class="control-label col-sm-2" for="f_name">First name</label>
+
+      <spring:bind path="firstName">
+        <div class="form-group <c:out value="${firstName_errorClass}"/> ">
+          <label class="control-label col-sm-2" for="f_name">
+            <spring:message var="firstNameMsg" code="${order.userInfo.firstName}"/>
+          </label>
           <div class="col-sm-5">
-          <form:input path="firstName" cssErrorClass="has-error" cssClass="form-control"
+            <form:input path="firstName" cssClass="form-control"
                         id="f_name"
-                        placeholder="First name"/>
+                        placeholder="${firstNameMsg}"/>
+            <c:out value="${firstName_icon}" escapeXml="false"/>
+            <span id="usernameStatus" class="help-block"><form:errors
+                    path="firstName" cssClass="has-error"/>!</span>
           </div>
-          <div class="form-control-feedback has-error">
-            <form:errors path="firstName" cssClass="has-error"/>
-          </div>
-        </spring:bind>
-      </div>
-      <div class="form-group">
-        <spring:bind path="lastName">
-          <label class="control-label col-xs-2" for="l_name">Last name</label>
+        </div>
+      </spring:bind>
+
+      <spring:bind path="lastName">
+        <div class="form-group <c:out value="${lastName_errorClass}"/>">
+          <label class="control-label col-xs-2" for="l_name">
+            <spring:message var="lastNameMsg" code="${order.userInfo.lastName}"/>
+          </label>
           <div class="col-sm-5">
-            <form:input path="lastName" cssErrorClass="has-error" cssClass="form-control"
+            <form:input path="lastName" cssClass="form-control"
                         id="l_name"
-                        placeholder="Last name"/>
-          </div>
-          <div class="form-control-feedback has-error"><form:errors
-                  path="lastName"/></div>
-        </spring:bind>
-      </div>
+                        placeholder="${lastNameMsg}"/>
+            <c:out value="${lastName_icon}" escapeXml="false"/>
+            <span id="usernameStatus" class="help-block"><form:errors
+                    path="lastName" htmlEscape="false"/>
 
-      <div class="form-group">
-        <spring:bind path="deliveryAddress">
-          <label class="control-label col-sm-2" for="address">Address</label>
+            </span>
+          </div>
+        </div>
+      </spring:bind>
+      <spring:bind path="deliveryAddress">
+        <div class="form-group <c:out value="${lastName_errorClass}"/>">
+          <label class="control-label col-sm-2" for="address">
+            <spring:message var="addrMsg" code="${order.userInfo.deliveryAddress}"/>
+          </label>
           <div class="col-sm-5">
-            <form:input path="deliveryAddress" cssErrorClass="has-error" cssClass="form-control"
-                        id="address" placeholder="Address"/>
+            <form:input path="deliveryAddress" cssClass="form-control"
+                        id="address" placeholder="${addrMsg}"/>
+            <c:out value="${delivery_icon}" escapeXml="false"/>
+            <span id="usernameStatus" class="help-block"><form:errors
+                    path="deliveryAddress"/></span>
           </div>
-          <div class="form-control-feedback has-error">
-            <form:errors path="deliveryAddress" cssClass="control-label has-error"/>
-          </div>
-        </spring:bind>
-      </div>
-      <div class="form-group">
-        <spring:bind path="contactPhoneNo">
-          <label class="control-label col-sm-2" for="phone">Phone</label>
+        </div>
+      </spring:bind>
+      <spring:bind path="contactPhoneNo">
+        <div class="form-group <c:out value="${phoneNo_errorClass}"/>">
+          <label class="control-label col-sm-2" for="phone">
+            <spring:message var="phone_msg" code="${order.userInfo.contactPhoneNo}"/>
+          </label>
           <div class="col-sm-5">
-            <form:input path="contactPhoneNo" cssErrorClass="has-error" cssClass="form-control"
-                        id="phone" placeholder="Phone"/>
+            <form:input path="contactPhoneNo" cssClass="form-control"
+                        id="phone" placeholder="${phone_msg}"/>
+            <c:out value="${phone_icon}" escapeXml="false"/>
+            <span id="usernameStatus" class="help-block"><form:errors
+                    path="contactPhoneNo"/></span>
           </div>
-          <div class="form-control-feedback has-error">
-            <form:errors path="contactPhoneNo" cssClass="control-label has-error"/>
-          </div>
-        </spring:bind>
-      </div>
 
-      <div class="form-group">
-        <spring:bind path="additionalInfo">
+        </div>
+      </spring:bind>
+      <spring:bind path="additionalInfo">
+        <div class="form-group <c:out value="${addInfo_errorClass}"/>">
           <div class="col-sm-7">
-            <form:textarea path="additionalInfo" cssErrorClass="has-error" cssClass="form-control"
+            <form:textarea path="additionalInfo" cssClass="form-control"
                            id="add_info" placeholder="Additional information"/>
+            <c:out value="${addInfo_icon}" escapeXml="false"/>
+            <span id="usernameStatus" class="help-block"><form:errors
+                    path="additionalInfo"/></span>
           </div>
-          <div class="form-control-feedback has-error">
-            <form:errors path="additionalInfo" cssClass="control-label has-error"/>
-          </div>
-        </spring:bind>
-      </div>
-
+        </div>
+      </spring:bind>
       <div class="form-group">
         <div class="col-sm-2">
           <button type="submit" class="btn btn-default btn-block pnf"><spring:message

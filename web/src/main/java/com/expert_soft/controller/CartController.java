@@ -16,8 +16,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
-import static com.expert_soft.model.ServletConstants.*;
+import static com.expert_soft.controller.ServletConstants.*;
 
 @Controller
 @SessionAttributes ({CART_ATTR})
@@ -47,6 +48,7 @@ public class CartController {
         if (cart == null){
             return new ModelAndView("emptyCart");
         }
+        cartService.deeplyCheckCart(cart);
         ModelAndView fullCart = new ModelAndView("fullCart",
                                                 CART_ITEMS,
                                                 new CartItemsContainer(cart.getItemsMap().size()));
@@ -57,15 +59,16 @@ public class CartController {
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public String changeQuantity(ModelMap model,
                                  @Validated(G_Cart.Item.class)
-                                 @ModelAttribute(CART_ITEMS) OrderItem[] lightCart,
+                                 @ModelAttribute(CART_ITEMS) CartItemsContainer lightCart,
                                  @RequestParam(PHONE_TO_DELETE) Long[] phoneArray,
                                  BindingResult result){
         if (result.hasErrors()){
             model.addAttribute(CART_ITEMS, new ArrayList<OrderItem>());
             return "fullCart";
         } else {
+            LOGGER.debug(Arrays.asList(lightCart.getItems()));
             Cart cart = (Cart) model.get(CART_ATTR);
-            for (OrderItem item : lightCart){
+            for (OrderItem item : lightCart.getItems()){
                 cartService.changeQuantity(cart, item.getKey(), item.getQuantity());
             }
             cartService.deleteFromCart(cart, phoneArray);
