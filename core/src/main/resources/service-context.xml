@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+  <import resource="common_context.xml"/>
+
+
+  <!--<bean id="validatorFactory" class="javax.validation.Validation"-->
+        <!--factory-method="buildDefaultValidatorFactory" />-->
+
+  <bean id="validatorFactory"
+        class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"/>
+
+  <bean id="validator"
+        factory-bean="validatorFactory"
+        factory-method="getValidator"/>
+
+
+  <bean id="methodValidationPostProcessor"
+        class="org.springframework.validation.beanvalidation.MethodValidationPostProcessor">
+    <property name="validator" ref="validator"/>
+  </bean>
+      
+
+
+
+  <!--<bean id="validator">-->
+
+  <!--</bean>-->
+  <context:annotation-config/>
+
+  <context:component-scan base-package="com.expert_soft.service" />
+  <context:component-scan base-package="com.expert_soft.model" />
+
+</beans>

@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                 http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+                 http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+
+  <util:properties id="valid_msg"
+                   location="classpath:ValidationMessages.properties"/>
+  <!--beans in to check-->
+  <!--phoneDao-->
+
+  <!--getPhone-->
+  <bean id="phone_id_1"
+        class="com.expert_soft.model.Phone" scope="prototype">
+    <property name="key" value="1"/>
+    <property name="model" value="fly"/>
+    <property name="color" value="white"/>
+    <property name="displaySize" value="11"/>
+    <property name="price" value="111.11"/>
+  </bean>
+  <bean id="phone_id_2"
+        class="com.expert_soft.model.Phone" scope="prototype">
+    <property name="key" value="2"/>
+    <property name="model" value="samsung"/>
+    <property name="color" value="white"/>
+    <property name="displaySize" value="22"/>
+    <property name="price" value="222.22"/>
+  </bean>
+
+  <!--savePhone-->
+  <bean id="phone_to_save_1" class="com.expert_soft.model.Phone"
+        parent="phone_id_1" scope="prototype">
+    <property name="model" value="theBestPhone"/>
+  </bean>
+
+  <!--orderDao-->
+  <!--order id=1-->
+  <bean id="orderItem_firstOrder_new"
+        class="com.expert_soft.model.OrderItem"
+        scope="prototype">
+    <constructor-arg  ref="phone_id_1"/>
+    <constructor-arg  value="1"/>
+  </bean>
+
+  <bean id="orderItem_firstOrder_db"
+        parent="orderItem_firstOrder_new"
+        class="com.expert_soft.model.OrderItem"
+        scope="prototype">
+    <property name="order" ref="order_1"/>
+    <property name="key" value="1"/>
+  </bean>
+
+  <util:set id="firstOrderSet_db" value-type="com.expert_soft.model.OrderItem">
+    <ref bean="orderItem_firstOrder_db"/>
+  </util:set>
+
+  <util:set id="firstOrderSet_new" value-type="com.expert_soft.model.OrderItem">
+    <ref bean="orderItem_firstOrder_new"/>
+  </util:set>
+
+
+  <bean id="order_1"
+        class="com.expert_soft.model.Order" scope="prototype">
+    <property name="key" value="1"/>
+    <property name="firstName" value="klara"/>
+    <property name="lastName" value="karlovna"/>
+    <property name="deliveryPrice" value="5"/>
+    <property name="deliveryAddress" value="karlovy vary"/>
+    <property name="contactPhoneNo" value="+375 29 111 77 77"/>
+    <property name="orderItems" ref="firstOrderSet_db"/>
+
+  </bean>
+
+  <!--order id=2-->
+  <bean id="orderItem_secondOrder_1_new" class="com.expert_soft.model.OrderItem" scope="prototype">
+    <constructor-arg ref="phone_id_1"/>
+    <constructor-arg value="1"/>
+  </bean>
+
+  <bean id="orderItem_secondOrder_1_db" class="com.expert_soft.model.OrderItem"
+        scope="prototype" parent="orderItem_secondOrder_1_new">
+    <property name="key" value="2"/>
+    <property name="order" ref="order_2_db"/>
+  </bean>
+
+  <bean id="orderItem_secondOrder_2_new" class="com.expert_soft.model.OrderItem" scope="prototype">
+    <constructor-arg ref="phone_id_2"/>
+    <constructor-arg value="1"/>
+  </bean>
+
+  <bean id="orderItem_secondOrder_2_db" class="com.expert_soft.model.OrderItem"
+        parent="orderItem_secondOrder_2_new"
+        scope="prototype">
+    <property name="key" value="3"/>
+    <property name="order" ref="order_2_db"/>
+  </bean>
+
+  <util:set id="secondOrderSet_db">
+    <ref bean="orderItem_secondOrder_1_db"/>
+    <ref bean="orderItem_secondOrder_2_db"/>
+  </util:set>
+
+  <util:set id="secondOrderSet_new">
+    <ref bean="orderItem_secondOrder_1_new"/>
+    <ref bean="orderItem_secondOrder_2_new"/>
+  </util:set>
+
+  <bean id="order_2_new" class="com.expert_soft.model.Order"
+        scope="prototype">
+    <property name="firstName" value="kenny"/>
+    <property name="lastName" value="poor"/>
+    <property name="deliveryPrice" value="5"/>
+    <property name="deliveryAddress" value="south park"/>
+    <property name="contactPhoneNo" value="+375 29 222 77 77"/>
+    <property name="orderItems" ref="secondOrderSet_new"/>
+  </bean>
+
+  <bean id="order_2_db" class="com.expert_soft.model.Order"
+        scope="prototype">
+    <property name="key" value="2"/>
+    <property name="firstName" value="kenny"/>
+    <property name="lastName" value="poor"/>
+    <property name="deliveryPrice" value="5"/>
+    <property name="deliveryAddress" value="south park"/>
+    <property name="contactPhoneNo" value="+375 29 222 77 77"/>
+    <property name="orderItems" ref="secondOrderSet_db"/>
+  </bean>
+
+  <!--savePhone-->
+
+  <bean id="orderItem_firstOrder_save_1"
+        parent="orderItem_firstOrder_new" scope="prototype">
+    <property name="key" value="13"/>
+    <property name="order" ref="saveOrder_1"/>
+  </bean>
+
+  <bean id="orderItem_firstOrder_save_2" parent="orderItem_firstOrder_save_1" scope="prototype">
+    <property name="key" value="14"/>
+  </bean>
+
+  <util:set id="firstOrderSet_save" value-type="com.expert_soft.model.OrderItem">
+    <ref bean="orderItem_firstOrder_save_1"/>
+    <ref bean="orderItem_firstOrder_save_2"/>
+  </util:set>
+
+  <bean id="saveOrder_1" parent="order_1" scope="prototype">
+    <property name="key" value="7"/>
+    <property name="orderItems" ref="firstOrderSet_save"/>
+  </bean>
+
+  <bean id="saveOrder_2" parent="order_2_db" scope="prototype">
+    <property name="key" value="8"/>
+  </bean>
+
+  <bean id="order_2_new_calculated"
+        parent="order_2_new"
+        scope="prototype">
+    <property name="subtotal" value="333.33"/>
+    <property name="totalPrice" value="338.33"/>
+  </bean>
+
+  <bean id="order_new" class="com.expert_soft.model.Order"/>
+
+  <bean id="mapFactory" class="com.expert_soft.util.MapFactory"/>
+
+  <bean id="cartMap_1" factory-bean="mapFactory"
+        factory-method="createConcurrent" scope="prototype">
+    <constructor-arg>
+      <util:map id="map_cart_1" key-type="java.lang.Long" scope="prototype"
+                value-type="com.expert_soft.model.OrderItem">
+        <entry key="1" value-ref="orderItem_firstOrder_new"/>
+      </util:map>
+    </constructor-arg>
+  </bean>
+
+  <bean id="cart_1_calculated" class="com.expert_soft.model.Cart" scope="prototype">
+    <property name="cartSize" value="1"/>
+    <property name="subtotal" value="#{phone_id_1.price}"/>
+    <property name="itemsMap" ref="cartMap_1"/>
+  </bean>
+
+  <bean id="cartMap_2"
+        factory-bean="mapFactory"
+        factory-method="createConcurrent" scope="prototype">
+    <constructor-arg>
+      <util:map id="map_cart_2"
+                key-type="java.lang.Long" scope="prototype"
+                value-type="com.expert_soft.model.OrderItem">
+        <entry key="1" value-ref="orderItem_secondOrder_1_new"/>
+        <entry key="2" value-ref="orderItem_secondOrder_1_new"/>
+      </util:map>
+    </constructor-arg>
+  </bean>
+
+  <bean id="cart_2_calculated" class="com.expert_soft.model.Cart" scope="prototype">
+    <property name="cartSize" value="2"/>
+    <property name="subtotal" value="#{order_2_new_calculated.subtotal}"/>
+    <property name="itemsMap" ref="cartMap_2"/>
+  </bean>
+
+
+
+
+
+</beans>
