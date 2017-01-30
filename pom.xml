@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>com.expertsoft.student.phone_shop</groupId>
+  <groupId>com.expertsoft.phone_shop</groupId>
   <artifactId>PhoneShop</artifactId>
 
   <packaging>pom</packaging>
@@ -11,16 +11,49 @@
   <url>http://maven.apache.org</url>
 
   <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler-plugin.version>3.6.1</maven.compiler-plugin.version>
+    <!--spring-->
     <spring.group>org.springframework</spring.group>
     <spring.version>4.3.5.RELEASE</spring.version>
+    <jdk.version>1.8</jdk.version>
+    <!--validation-->
+    <javax.el.version>2.2.4</javax.el.version>
+    <javax.validation.version>1.1.0.CR3</javax.validation.version>
+    <org.hibernate.version>5.3.4.Final</org.hibernate.version>
+    <!--testing-->
   </properties>
 
   <modules>
     <module>web</module>
-    <module>core</module>
+    <module>core_</module>
   </modules>
 
   <dependencies>
+
+    <!--validation-->
+    <dependency>
+      <groupId>javax.el</groupId>
+      <artifactId>javax.el-api</artifactId>
+      <version>${javax.el.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.glassfish.web</groupId>
+      <artifactId>javax.el</artifactId>
+      <version>2.2.4</version>
+    </dependency>
+    <dependency>
+      <groupId>javax.validation</groupId>
+      <artifactId>validation-api</artifactId>
+      <version>${javax.validation.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-validator</artifactId>
+      <version>${org.hibernate.version}</version>
+    </dependency>
+
+    <!--testing-->
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
@@ -35,22 +68,34 @@
     </dependency>
 
     <dependency>
-      <groupId>org.apache.logging.log4j</groupId>
-      <artifactId>log4j-api</artifactId>
-      <version>2.7</version>
+      <groupId>org.hamcrest</groupId>
+      <artifactId>hamcrest-library</artifactId>
+      <version>1.3</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-all</artifactId>
+      <version>1.9.5</version>
+      <scope>test</scope>
+    </dependency>
+
+    <!--logging-->
+    <dependency>
+      <groupId>log4j</groupId>
+      <artifactId>log4j</artifactId>
+      <version>1.2.14</version>
     </dependency>
     <dependency>
-      <groupId>org.apache.logging.log4j</groupId>
-      <artifactId>log4j-core</artifactId>
-      <version>2.7</version>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-log4j12</artifactId>
+      <version>1.7.7</version>
     </dependency>
-
   </dependencies>
 
-
-
   <build>
-    <finalName>Phone Shop</finalName>
+    <finalName>phonify</finalName>
     <pluginManagement>
       <plugins>
         <plugin>
