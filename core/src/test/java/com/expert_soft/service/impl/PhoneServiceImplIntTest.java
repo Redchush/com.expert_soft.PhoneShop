@@ -38,7 +38,7 @@ import static junit.framework.TestCase.assertTrue;
 @ActiveProfiles("dev")
 public class PhoneServiceImplIntTest {
 
-    private static final Logger logger = Logger.getLogger(CartServiceImplTest.class);
+    private static final Logger logger = Logger.getLogger(OrderServiceImplTest.class);
 
     @Autowired PhoneService service;
     @Autowired DataSource dataSource;

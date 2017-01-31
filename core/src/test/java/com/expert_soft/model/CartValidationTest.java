@@ -26,7 +26,7 @@ public class CartValidationTest {
         Phone phone = new Phone(1L);
         OrderItem testItem = new OrderItem(phone, 12);
         Cart cart = new Cart();
-        cart.putItem(testItem);
+        cart.addItem(testItem);
         String o = properties.getProperty("orderItem.quantity.max");
         _assertOneInvalidField(cart, 12, o, G_Cart.Item.class);
     }

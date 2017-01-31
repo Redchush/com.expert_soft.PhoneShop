@@ -1,6 +1,7 @@
 package com.expert_soft.service.impl;
 
 import com.expert_soft.model.*;
+import com.expert_soft.model.calculator.OrderCalculator;
 import com.expert_soft.model.order.Cart;
 import com.expert_soft.model.order.Order;
 import com.expert_soft.service.OrderService;
@@ -19,6 +20,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 
 import javax.sql.DataSource;
+import javax.validation.ConstraintViolationException;
 import java.util.List;
 
 import static com.expert_soft.util.asserts.ModelAsserts._assertEquals;
@@ -36,21 +38,18 @@ import static org.junit.Assert.assertTrue;
 @ActiveProfiles("dev")
 public class OrderServiceImplIntTest {
 
-    private static final Logger logger = Logger.getLogger(CartServiceImplTest.class);
+    private static final Logger logger = Logger.getLogger(OrderServiceImplTest.class);
 
     @Autowired private OrderService service;
-    @Autowired private Calculator calculator;
+    @Autowired private OrderCalculator calculator;
     @Autowired private DataSource source;
 
     private CountRowResponsible rowCounter;
-
-    private Cart emptyCart;
     private Order order;
     private Cart fullCart;
 
     @Before
     public void setUp() throws Exception {
-        emptyCart = new Cart();
         order = DataBuilder.Order_2.getOrderByCart();
         fullCart = DataBuilder.Carts.byOrder_2();
         rowCounter = new CountRowResponsible(new JdbcTemplate(source));
@@ -90,7 +89,7 @@ public class OrderServiceImplIntTest {
     public void buildOrder() throws Exception {
         Order order = DataBuilder.Order_2.getOrderByCart();
 
-        Order order_actual = service.buildOrder(fullCart, false);
+        Order order_actual = service.buildOrder(fullCart, new UserInfo(),  false);
         assertEquals(order.getOrderItems(), order_actual.getOrderItems());
         _assertEquals(order, order_actual);
     }
@@ -100,10 +99,40 @@ public class OrderServiceImplIntTest {
         order.setUserInfo(new UserInfo());
         fullCart.setSubtotal(order.getSubtotal());
 
-        Order order_actual_1 = service.buildOrder(fullCart, false);
+        Order order_actual_1 = service.buildOrder(fullCart, new UserInfo(), false);
         Order order_actual_2 = service.buildOrder(fullCart, new UserInfo(), false);
 
         assertEquals(order_actual_2, order_actual_1);
     }
 
+    @Test
+    public void addToCart_CalculatorMerge(){
+        OrderItem first = DataBuilder.Order_2.getItem_1();
+        OrderItem second = DataBuilder.Order_2.getItem_2();
+        Cart expected = DataBuilder.Carts.byOrder_2();
+
+        Cart actual = new Cart();
+
+        service.addToCart(actual, first.getPhone(), first.getQuantity());
+        service.addToCart(actual, second.getPhone(), second.getQuantity());
+
+        assertEquals("Fail to calculate new quantity", 2, actual.getOrderItems().size());
+        assertEquals("Fail to calculate new subtotal", expected.getSubtotal(), actual.getSubtotal());
+    }
+
+    @Test(expected = ConstraintViolationException.class)
+    public void addToCart_To_Much() throws Exception {
+        Phone phone = new Phone();
+        phone.setKey(1L);
+        service.addToCart(new Cart(), phone, 12);
+    }
+
+    @Test(expected = ConstraintViolationException.class)
+    public void addToCart_To_Much_SUM() throws Exception {
+        Cart emptyCart = new Cart();
+        Phone phone = new Phone();
+        phone.setKey(1L);
+        emptyCart.addItem(new OrderItem(phone, 9));
+        service.addToCart(emptyCart, phone, 3);
+    }
 }

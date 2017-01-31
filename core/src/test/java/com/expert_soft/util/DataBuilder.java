@@ -11,19 +11,18 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class DataBuilder {
 
-    public static Cart buildCartWithoutSubtotal(Order order){
-        Cart cart = new Cart();
-        Map<Long, OrderItem> collect =
-                               order.getOrderItems()
-                              .stream()
-                              .collect(Collectors.toMap(s->s.getPhone().getKey(), s->s));
-        cart.setItemsMap(collect);
-        return cart;
-    }
+//    public static Cart buildCartWithoutSubtotal(Order order){
+//        Cart cart = new Cart();
+//        Map<Long, OrderItem> collect =
+//                               order.getOrderItems()
+//                              .stream()
+//                              .collect(Collectors.toMap(s->s.getPhone().getKey(), s->s));
+//        cart.setOrderItems(collect);
+//        return cart;
+//    }
 
     public static Phone getPhoneId_1(){
         BigDecimal price = new BigDecimal("111.11");
@@ -45,9 +44,22 @@ public class DataBuilder {
         return new Phone(id, "new_phone_2", "white", 11, price);
     }
 
+    public static Phone getRandomPhone(){
+        Phone phone = new Phone();
+        phone.setKey(random());
+        phone.setPrice(new BigDecimal(random()));
+        return phone;
+
+    }
+
+    public static long random(){
+        return (long) (Math.random() * 1000000 + 1);
+    }
+
+
     public static class Order_1{
 
-        public static OrderItem getItem_1(){
+        public static OrderItem getItem_1_new(){
             return new OrderItem(getPhoneId_1(), 1);
         }
 
@@ -66,11 +78,8 @@ public class DataBuilder {
         }
 
         public static Order getOrder(){
-            Order result = new Order();
-            result.setDeliveryPrice(new BigDecimal("5.00"));
-            OrderItem item_1 = getItem_1();
-            item_1.setKey(13L);
-            result.setUserInfo(getUserInfo());
+            Order result = templateOrder();
+            OrderItem item_1 = getItem_1_new();
             result.setOrderItems(Collections.singletonList(item_1));
             return result;
         }
@@ -184,32 +193,35 @@ public class DataBuilder {
     }
 
     public static class Carts{
-        public static Cart withOneItem(){
-            Cart cart = new Cart();
-            return cart;
-        }
 
-        public static Cart byOrder_2() {
+        public static Cart byOrder_1_clean(){
             Cart cart = new Cart();
-            cart.setCartSize(2);
-            cart.setSubtotal(new BigDecimal("333.33"));
-            Map<Long, OrderItem> map = new HashMap<>();
-            map.put(1L, Order_2.getItem_1());
-            map.put(2L, Order_2.getItem_2());
-
-            cart.setItemsMap(map);
+            cart.addItem(Order_1.getItem_1_new());
             return cart;
         }
 
         public static Cart byOrder_1(){
-            Cart cart = new Cart();
-            cart.setCartSize(2);
-            cart.setSubtotal(Order_1.getItem_1().getPhone().getPrice());
-            Map<Long, OrderItem> map = new HashMap<>();
-            map.put(1L, Order_1.getItem_1());
-            cart.setItemsMap(map);
+            Cart cart = byOrder_1_clean();
+            cart.setTotalPhonesCount(1);
+            cart.setSubtotal(Order_1.getItem_1_new().getPhone().getPrice());
             return cart;
         }
+
+        public static Cart byOrder_2_clean(){
+            Cart cart = new Cart();
+            cart.addItem(Order_2.getItem_1());
+            cart.addItem(Order_2.getItem_2());
+            return cart;
+        }
+
+        public static Cart byOrder_2() {
+            Cart cart = byOrder_2_clean();
+            cart.setTotalPhonesCount(2);
+            cart.setSubtotal(new BigDecimal("333.33"));
+            return cart;
+        }
+
+
     }
 
     public static class Validation{

@@ -1,12 +1,20 @@
 package com.expert_soft.util.asserts;
 
 
+import com.expert_soft.model.OrderItem;
 import com.expert_soft.model.order.Cart;
 import com.expert_soft.model.order.Order;
 import com.expert_soft.model.Phone;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 public class Comparators {
 
+    /**
+     * NOTE: map.values() return own implementation of AbstractCollection, where equals not
+     * implemented
+     */
     public static boolean equals(Cart o1, Cart o2){
 
         if (o1 == o2) {
@@ -15,14 +23,20 @@ public class Comparators {
         if (o2 == null || o1.getClass() != o2.getClass()) {
             return false;
         }
-
-        if (o1.getItemsMap() != null ? !o1.getItemsMap().equals(o2.getItemsMap()) : o2.getItemsMap() != null) {
+        Collection<OrderItem> orderItems_1 = o1.getOrderItems();
+        if ( orderItems_1 != null ?
+            !new ArrayList<>(orderItems_1).equals(new ArrayList<>(o2.getOrderItems()))
+                                       : o2.getOrderItems() != null) {
             return false;
         }
-        if (o1.getSubtotal() != null ? !o1.getSubtotal().equals(o2.getSubtotal()) : o2.getSubtotal() != null) {
+        if (o1.getSubtotal() != null ?
+            !o1.getSubtotal().equals(o2.getSubtotal())
+                                     : o2.getSubtotal() != null) {
             return false;
         }
-        return o1.getCartSize() != null ? o1.getCartSize().equals(o2.getCartSize()) : o2.getCartSize() == null;
+        return o1.getTotalPhonesCount() != null ?
+               o1.getTotalPhonesCount().equals(o2.getTotalPhonesCount()) :
+               o2.getTotalPhonesCount() == null;
 
     }
 
@@ -89,7 +103,4 @@ public class Comparators {
     }
 
 
-    public static String failMsg(Object o1, Object o2){
-        return String.format("The objects not equals:\n%s\n%s", o1, o2);
-    }
 }

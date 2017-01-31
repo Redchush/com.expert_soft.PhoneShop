@@ -1,8 +1,6 @@
 package com.expert_soft.persistence.impl.util;
 
 
-import com.expert_soft.model.Phone;
-
 import java.math.BigDecimal;
 
 public class DataConverter {

@@ -33,6 +33,7 @@ public class OrderDaoImpl implements OrderDao {
                     "VALUES (:delivery_price, :subtotal, :total," +
                     " :first_name, :last_name, :delivery_address,\n" +
                     " :contact_phone_no)";
+
     private static final String INSERT_ONE_ITEM_QUERY =  "INSERT INTO order_items(phone_id, order_id, quantity) " +
             " VALUES (:phone_id, :order_id, :quantity)";
 
@@ -41,7 +42,8 @@ public class OrderDaoImpl implements OrderDao {
                     ",orders.first_name, orders.last_name\n" +
                     ",orders.delivery_address,  orders.contact_phone_no " +
                     ",order_items.id, order_items.quantity \n" +
-                    ",phones.id, phones.model, phones.color, phones.displaySize, phones.width, phones.length " +
+                    ",phones.id, phones.model, phones.color, phones.displaySize, phones.width, " +
+                    "phones.length " +
                     ",phones.camera, phones.price \n" +
                     "FROM orders \n" +
                     "left JOIN order_items \n" +

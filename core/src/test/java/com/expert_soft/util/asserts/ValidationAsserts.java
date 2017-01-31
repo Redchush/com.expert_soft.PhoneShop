@@ -30,7 +30,6 @@ public class ValidationAsserts {
         return vf.getValidator();
     }
 
-
     /**
      * @param obj - obj for validation
      * @param invalidValueExp - expected invalid value

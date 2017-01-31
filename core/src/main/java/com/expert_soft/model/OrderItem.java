@@ -23,9 +23,9 @@ public class OrderItem {
     @NotNull(message = "{orderItem.quantity.notNull}",
              groups = {G_Cart.Item.class, G_Order.Save.class})
     @Max(value = 10, message = "{orderItem.quantity.max}",
-                     groups = G_Cart.Item.class)
+             groups = G_Cart.Item.class)
     @Min(value = 1, message = "{orderItem.quantity.min}",
-            groups = {G_Cart.Item.class, G_Order.Save.class})
+             groups = {G_Cart.Item.class, G_Order.Save.class})
     private Integer quantity;
 
     public OrderItem() {}
@@ -68,20 +68,12 @@ public class OrderItem {
         this.quantity = quantity;
     }
 
-    public Long getUniqueKey(){
-        return phone.getKey();
-    }
-
     public BigDecimal getSubtotal() {
         return subtotal;
     }
 
     public void setSubtotal(BigDecimal subtotal) {
         this.subtotal = subtotal;
-    }
-
-    public BigDecimal recalculateSubtotal(){
-        return phone.getPrice().multiply(new BigDecimal(quantity));
     }
 
     @Override
