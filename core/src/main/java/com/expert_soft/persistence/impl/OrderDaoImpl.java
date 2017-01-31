@@ -19,7 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.util.List;
-import java.util.Set;
 
 @Repository("OrderDao")
 @Transactional(isolation = Isolation.SERIALIZABLE)
@@ -97,7 +96,7 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Transactional(propagation = Propagation.MANDATORY)
-    private void saveOrderItems(Set<OrderItem> itemSet, Long orderKey){
+    private void saveOrderItems(List<OrderItem> itemSet, Long orderKey){
         for (OrderItem item : itemSet){
             jdbcTemplate.update(INSERT_ONE_ITEM_QUERY, getParameterSource(item, orderKey));
         }

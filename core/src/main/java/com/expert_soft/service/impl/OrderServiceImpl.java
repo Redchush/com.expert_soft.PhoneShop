@@ -1,17 +1,17 @@
 package com.expert_soft.service.impl;
 
 
-import com.expert_soft.config.AppConfigProperties;
 import com.expert_soft.model.*;
 import com.expert_soft.persistence.OrderDao;
 import com.expert_soft.persistence.PhoneDao;
+import com.expert_soft.service.DeliveryService;
 import com.expert_soft.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
 
 @Service
@@ -20,7 +20,7 @@ public class OrderServiceImpl implements OrderService {
     private OrderDao orderDao;
     private PhoneDao phoneDao;
 
-    private AppConfigProperties properties;
+    private DeliveryService deliveryService;
     private Calculator calculator;
 
     @Autowired
@@ -34,13 +34,13 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Autowired
-    public void setProperties(AppConfigProperties properties) {
-        this.properties = properties;
+    public void setCalculator(Calculator calculator) {
+        this.calculator = calculator;
     }
 
     @Autowired
-    public void setCalculator(Calculator calculator) {
-        this.calculator = calculator;
+    public void setDeliveryService(DeliveryService deliveryService) {
+        this.deliveryService = deliveryService;
     }
 
     @Override
@@ -58,8 +58,6 @@ public class OrderServiceImpl implements OrderService {
         return orderDao.findAll();
     }
 
-
-
     @Override
     public Order buildOrder(Cart cart, boolean deep) {
         Order order = initOrder(cart, deep);
@@ -76,10 +74,10 @@ public class OrderServiceImpl implements OrderService {
 
     private Order initOrder(Cart cart, boolean deep){
         Order order = new Order();
-        String property = properties.getProperty("delivery.price");
-        order.setDeliveryPrice(new BigDecimal(property));
+        BigDecimal deliveryPrice = deliveryService.getDeliveryPrice();
+        order.setDeliveryPrice(deliveryPrice);
         Collection<OrderItem> allItems = cart.getAllItems();
-        order.setOrderItems(new HashSet<OrderItem>(allItems));
+        order.setOrderItems(new ArrayList<>(allItems));
         return order;
     }
 }

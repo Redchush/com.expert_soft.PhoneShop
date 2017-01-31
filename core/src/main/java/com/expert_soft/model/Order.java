@@ -1,33 +1,25 @@
 package com.expert_soft.model;
 
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
-
 import javax.validation.Valid;
 import java.math.BigDecimal;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
-
-@Component
-@Scope("prototype")
-@PropertySource("classpath:config/application.properties")
 public class Order {
 
     private Long key;
-    private Set<OrderItem> orderItems;
+    private List<OrderItem> orderItems;
 
-    private @Value("${delivery.price}") BigDecimal deliveryPrice;
+    private BigDecimal deliveryPrice;
     private BigDecimal subtotal; // a sum of order item prices
     private BigDecimal totalPrice;
 
     private @Valid UserInfo userInfo;
 
     public Order() {
-        orderItems = new HashSet<OrderItem>();
+        orderItems = new ArrayList<>();
         userInfo = new UserInfo();
     }
 
@@ -39,11 +31,11 @@ public class Order {
         this.key = key;
     }
 
-    public Set<OrderItem> getOrderItems() {
+    public List<OrderItem> getOrderItems() {
         return orderItems;
     }
 
-    public void setOrderItems(Set<OrderItem> orderItems) {
+    public void setOrderItems(List<OrderItem> orderItems) {
         this.orderItems = orderItems;
     }
 
@@ -119,6 +111,7 @@ public class Order {
         userInfo.setAdditionalInfo(additionalInfo);
     }
 
+
     public BigDecimal reculculateSubtotal(Calculator calculator){
         return calculator.calculateSubtotal(orderItems);
     }
@@ -135,6 +128,7 @@ public class Order {
         return this;
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -146,34 +140,13 @@ public class Order {
 
         Order order = (Order) o;
 
-        if (key != null ? !key.equals(order.key) : order.key != null) {
-            return false;
-        }
-        if (orderItems != null ? !orderItems.equals(order.orderItems) : order.orderItems != null) {
-            return false;
-        }
-        if (deliveryPrice != null ? !deliveryPrice.equals(order.deliveryPrice) : order.deliveryPrice != null) {
-            return false;
-        }
-        if (subtotal != null ? !subtotal.equals(order.subtotal) : order.subtotal != null) {
-            return false;
-        }
-        if (totalPrice != null ? !totalPrice.equals(order.totalPrice) : order.totalPrice != null) {
-            return false;
-        }
-        return userInfo != null ? userInfo.equals(order.userInfo) : order.userInfo == null;
+        return key != null ? key.equals(order.key) : order.key == null;
 
     }
 
     @Override
     public int hashCode() {
-        int result = key != null ? key.hashCode() : 0;
-        result = 31 * result + (orderItems != null ? orderItems.hashCode() : 0);
-        result = 31 * result + (deliveryPrice != null ? deliveryPrice.hashCode() : 0);
-        result = 31 * result + (subtotal != null ? subtotal.hashCode() : 0);
-        result = 31 * result + (totalPrice != null ? totalPrice.hashCode() : 0);
-        result = 31 * result + (userInfo != null ? userInfo.hashCode() : 0);
-        return result;
+        return key != null ? key.hashCode() : 0;
     }
 
     @Override

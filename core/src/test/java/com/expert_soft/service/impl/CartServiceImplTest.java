@@ -1,11 +1,11 @@
 package com.expert_soft.service.impl;
 
 import com.expert_soft.model.Cart;
-import com.expert_soft.model.Order;
 import com.expert_soft.model.OrderItem;
 import com.expert_soft.model.Phone;
 import com.expert_soft.persistence.PhoneDao;
 import com.expert_soft.service.CartService;
+import com.expert_soft.util.DataBuilder;
 import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,7 +15,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -31,47 +30,32 @@ import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations={
-//        "classpath:persistence-context.xml",
-//        "classpath:test-dataSource-context.xml",
-        "classpath:core_test-bean.xml",
-//        "classpath:service-context.xml",
         "classpath:mockService.xml"
 })
 @TestExecutionListeners({
         DependencyInjectionTestExecutionListener.class,
 })
 public class CartServiceImplTest {
-
-
     private static final Logger logger = Logger.getLogger(CartServiceImplTest.class);
 
-    @Autowired
-    @Qualifier("cartService")
+    @Autowired @Qualifier("cartService")
     private CartService service;
 
     @Mock(answer = Answers.RETURNS_DEEP_STUBS)
     private PhoneDao dao;
 
-    @Autowired private ApplicationContext ac;
-
-    @Autowired @Qualifier("orderItem_secondOrder_1_new")
     private OrderItem firstItem;
-    @Autowired @Qualifier("orderItem_secondOrder_2_new")
-    private OrderItem secondItem;
-
-    @Autowired @Qualifier("valid_msg") Properties properties;
-
     private Cart emptyCart;
-    private Order order;
+
     private Cart fullCart_2_items;
     private Cart fullCart_1_item;
 
     @Before
     public void setUp() throws Exception {
         emptyCart = new Cart();
-        order = (Order) ac.getBean("order_2_new_calculated");
-        fullCart_2_items = ac.getBean("cart_2_calculated", Cart.class);
-        fullCart_1_item = ac.getBean("cart_1_calculated", Cart.class);
+        fullCart_2_items = DataBuilder.Carts.byOrder_2();
+        fullCart_1_item = DataBuilder.Carts.byOrder_2();
+        firstItem = DataBuilder.Order_2.getItem_1();
         MockitoAnnotations.initMocks(this);
 
     }
@@ -80,7 +64,6 @@ public class CartServiceImplTest {
     public void deepAddToCart(){
         service.setPhoneDao(dao);
         service.deepAddToCart(emptyCart, 1L, -1);
-
     }
 
     @Test
@@ -89,7 +72,7 @@ public class CartServiceImplTest {
         cart.putItem(firstItem.getPhone().getKey(), firstItem);
         service.addToCart(emptyCart, firstItem.getPhone(), firstItem.getQuantity());
 
-        assertEquals(emptyCart, cart);
+        assertEquals(emptyCart.getItemsMap(), cart.getItemsMap());
 
         OrderItem item = new OrderItem(firstItem.getPhone(), 1);
         service.addToCart(emptyCart, item.getPhone(), item.getQuantity());
@@ -163,7 +146,7 @@ public class CartServiceImplTest {
 
     @Test
     public void calculateAndSetSize() throws Exception {
-        Cart expected = ac.getBean("cart_2_calculated", Cart.class);
+        Cart expected = DataBuilder.Carts.byOrder_2();
         Cart actual = service.calculateAndSetSize(fullCart_2_items);
         assertEquals("cart size invalid calculation. Cart tested: " +
                 fullCart_2_items, expected.getCartSize(), actual.getCartSize());
@@ -177,6 +160,7 @@ public class CartServiceImplTest {
 
     @Test
     public void createOrderItemValidationMsg() throws Exception {
+        Properties properties = DataBuilder.Validation.getValidationMsgs();
         try {
             Phone phone = firstItem.getPhone();
             service.createNewOrderItem(phone, 12);
@@ -188,6 +172,5 @@ public class CartServiceImplTest {
             assertEquals(expectedMsg, next.getMessage());
         }
     }
-
 
 }

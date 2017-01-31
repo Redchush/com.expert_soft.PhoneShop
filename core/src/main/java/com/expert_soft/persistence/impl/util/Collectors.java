@@ -98,7 +98,7 @@ public class Collectors {
                 items.add(orderItem);
             }
             if (result != null){
-                result.setOrderItems(new HashSet<OrderItem>(items));
+                result.setOrderItems(new ArrayList<>(items));
             }
             return result;
         }

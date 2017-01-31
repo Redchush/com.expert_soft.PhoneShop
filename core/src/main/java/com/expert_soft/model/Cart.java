@@ -9,9 +9,9 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 
 public class Cart implements Serializable{
 
@@ -19,13 +19,13 @@ public class Cart implements Serializable{
 
     @Valid
     @NotNull(groups = G_Cart.Item.class)
-    private ConcurrentMap<Long, OrderItem> itemsMap;
+    private Map<Long, OrderItem> itemsMap;
 
     private BigDecimal subtotal;
     private Integer cartSize;
 
     public Cart() {
-        itemsMap = new ConcurrentHashMap<>(1);
+        itemsMap = new HashMap<>(1);
         subtotal = new BigDecimal("0");
     }
 
@@ -33,7 +33,7 @@ public class Cart implements Serializable{
         return Collections.unmodifiableMap(itemsMap);
     }
 
-    public void setItemsMap(ConcurrentMap<Long, OrderItem> itemsMap) {
+    public void setItemsMap(Map<Long, OrderItem> itemsMap) {
         this.itemsMap = itemsMap;
     }
 
@@ -98,6 +98,14 @@ public class Cart implements Serializable{
 
 
     @Override
+    public int hashCode() {
+        int result = getItemsMap() != null ? getItemsMap().hashCode() : 0;
+        result = 31 * result + (getSubtotal() != null ? getSubtotal().hashCode() : 0);
+        result = 31 * result + (getCartSize() != null ? getCartSize().hashCode() : 0);
+        return result;
+    }
+
+    @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("Cart{");
         sb.append("itemsMap=").append(itemsMap);
@@ -105,30 +113,4 @@ public class Cart implements Serializable{
         sb.append('}');
         return sb.toString();
     }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-
-        Cart cart = (Cart) o;
-
-        if (itemsMap != null ? !itemsMap.equals(cart.itemsMap) : cart.itemsMap != null) {
-            return false;
-        }
-        return subtotal != null ? subtotal.equals(cart.subtotal) : cart.subtotal == null;
-
-    }
-
-    @Override
-    public int hashCode() {
-        int result = itemsMap != null ? itemsMap.hashCode() : 0;
-        result = 31 * result + (subtotal != null ? subtotal.hashCode() : 0);
-        return result;
-    }
-
 }

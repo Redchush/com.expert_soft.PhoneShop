@@ -20,7 +20,7 @@ public class OrderItem {
     private BigDecimal subtotal;
 
     @NotNull(message = "{orderItem.quantity.notNull}",
-            groups = {G_Cart.Item.class, G_Order.Save.class})
+             groups = {G_Cart.Item.class, G_Order.Save.class})
     @Max(value = 10, message = "{orderItem.quantity.max}",
                      groups = G_Cart.Item.class)
     @Min(value = 1, message = "{orderItem.quantity.min}",

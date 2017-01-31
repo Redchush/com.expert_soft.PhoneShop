@@ -25,15 +25,15 @@ public class Phone {
     @Max(value = 200, groups = G_Phone.Save.class)
     private Integer displaySize;
 
+    @NotNull(groups = G_Phone.Save.class)
+    @DecimalMin(value = "0.0", groups = G_Phone.Save.class)
+    private BigDecimal price;
+
     @Max(value = 200, groups = G_Phone.Save.class)
     private Integer width;
 
     @Max(value = 200, groups = G_Phone.Save.class)
     private Integer length;
-
-    @NotNull(groups = G_Phone.Save.class)
-    @DecimalMin(value = "0.0", groups = G_Phone.Save.class)
-    private BigDecimal price;
 
     private Integer camera;
 
@@ -41,6 +41,15 @@ public class Phone {
 
     public Phone(Long key) {
         this.key = key;
+    }
+
+    public Phone(Long key, String model, String color,
+                 Integer displaySize, BigDecimal price){
+        this.key = key;
+        this.model = model;
+        this.color =color;
+        this.displaySize = displaySize;
+        this.price = price;
     }
 
 
@@ -116,47 +125,21 @@ public class Phone {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-
         Phone phone = (Phone) o;
-
-        if (key != null ? !key.equals(phone.key) : phone.key != null) {
-            return false;
-        }
-        if (model != null ? !model.equals(phone.model) : phone.model != null) {
-            return false;
-        }
-        if (color != null ? !color.equals(phone.color) : phone.color != null) {
-            return false;
-        }
-        if (displaySize != null ? !displaySize.equals(phone.displaySize) : phone.displaySize != null) {
-            return false;
-        }
-        if (width != null ? !width.equals(phone.width) : phone.width != null) {
-            return false;
-        }
-        if (length != null ? !length.equals(phone.length) : phone.length != null) {
-            return false;
-        }
-        return price != null ? price.equals(phone.price) : phone.price == null;
-
+        return key != null ? key.equals(phone.key) : phone.key == null;
     }
+
+
+
 
     @Override
     public int hashCode() {
-        int result = key != null ? key.hashCode() : 0;
-        result = 31 * result + (model != null ? model.hashCode() : 0);
-        result = 31 * result + (color != null ? color.hashCode() : 0);
-        result = 31 * result + (displaySize != null ? displaySize.hashCode() : 0);
-        result = 31 * result + (width != null ? width.hashCode() : 0);
-        result = 31 * result + (length != null ? length.hashCode() : 0);
-        result = 31 * result + (price != null ? price.hashCode() : 0);
-        return result;
+        return key != null ? key.hashCode() : 0;
     }
 
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("Phone{");
-
         sb.append("key=").append(key);
         sb.append(", model='").append(model).append('\'');
         sb.append(", color='").append(color).append('\'');

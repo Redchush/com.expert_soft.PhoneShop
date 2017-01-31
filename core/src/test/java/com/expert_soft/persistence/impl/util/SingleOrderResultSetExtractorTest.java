@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -20,32 +21,28 @@ import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations={
-        "classpath:persistence-context.xml",
-        "classpath:test-dataSource-context.xml",
-        "classpath:dataSource-context.xml"
+        "classpath:context/persistence-context.xml"
 })
-
 @TestExecutionListeners( {
         DependencyInjectionTestExecutionListener.class,
 })
-
+@ActiveProfiles("dev")
 public class SingleOrderResultSetExtractorTest {
 
     @Autowired
-    private ApplicationContext applicationContext;
-
+    private ApplicationContext apCtx;
 
     @Test
     public void setPhoneRowMapper() throws Exception {
 
         ResultSetExtractor expected_1 =
-                (ResultSetExtractor)applicationContext.getBean("single_order_extractor");
+                (ResultSetExtractor) apCtx.getBean("single_order_extractor");
 
         RowMapper expected_2 =
-                (RowMapper) applicationContext.getBean("phone_mapper");
+                (RowMapper) apCtx.getBean("phone_mapper");
 
         RowMapper expected_3 =
-                (RowMapper) applicationContext.getBean("order_mapper");
+                (RowMapper) apCtx.getBean("order_mapper");
 
         Class<? extends ResultSetExtractor> aClass = expected_1.getClass();
 

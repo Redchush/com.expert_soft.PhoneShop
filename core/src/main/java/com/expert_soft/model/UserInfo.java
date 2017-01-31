@@ -116,4 +116,19 @@ public class UserInfo {
         result = 31 * result + (additionalInfo != null ? additionalInfo.hashCode() : 0);
         return result;
     }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("UserInfo{");
+
+        sb.append("firstName='").append(firstName).append('\'');
+        sb.append(", lastName='").append(lastName).append('\'');
+        sb.append(", deliveryAddress='").append(deliveryAddress).append('\'');
+        sb.append(", contactPhoneNo='").append(contactPhoneNo).append('\'');
+        sb.append(", additionalInfo='").append(additionalInfo).append('\'');
+        sb.append('}');
+        return sb.toString();
+    }
+
+
 }
