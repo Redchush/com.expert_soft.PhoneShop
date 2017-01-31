@@ -1,8 +1,8 @@
 package com.expert_soft.util;
 
 
-import com.expert_soft.model.Cart;
-import com.expert_soft.model.Order;
+import com.expert_soft.model.order.Cart;
+import com.expert_soft.model.order.Order;
 import com.expert_soft.model.OrderItem;
 import com.expert_soft.model.Phone;
 import com.expert_soft.model.UserInfo;
@@ -67,7 +67,7 @@ public class DataBuilder {
 
         public static Order getOrder(){
             Order result = new Order();
-            result.setDeliveryPrice(new BigDecimal("5"));
+            result.setDeliveryPrice(new BigDecimal("5.00"));
             OrderItem item_1 = getItem_1();
             item_1.setKey(13L);
             result.setUserInfo(getUserInfo());
@@ -81,11 +81,11 @@ public class DataBuilder {
             OrderItem item_1_db = getItem_1_DB(result, itemId);
             result.setOrderItems(Collections.singletonList(item_1_db));
             return result;
-
         }
 
         public static Order getOrder_DB(){
             Order result = templateOrder();
+            result.setKey(1L);
             OrderItem item_1 = getItem_1_DB(result);
             result.setOrderItems(Collections.singletonList(item_1));
             return result;
@@ -102,9 +102,10 @@ public class DataBuilder {
 
         private static Order templateOrder(){
             Order result = new Order();
-            result.setKey(1L);
-            result.setDeliveryPrice(new BigDecimal("5"));
+            result.setDeliveryPrice(new BigDecimal("5.00"));
             result.setUserInfo(getUserInfo());
+            result.setTotalPrice(new BigDecimal("116.11"));
+            result.setSubtotal(new BigDecimal("111.11"));
             return result;
         }
     }
@@ -134,22 +135,21 @@ public class DataBuilder {
         }
 
         public static Order getOrder_DB(){
-            Order result = new Order();
+            Order result = getTemplateOrder();
             result.setKey(2L);
-            result.setDeliveryPrice(new BigDecimal("5"));
             result.setUserInfo(getUserInfo());
 
             List<OrderItem> items = new ArrayList<>();
             items.add(getItem_1_DB(result));
             items.add(getItem_2_DB(result));
-
             result.setOrderItems(items);
+
             return result;
         }
 
         public static Order getOrder(){
-            Order result = new Order();
-            result.setDeliveryPrice(new BigDecimal("5"));
+            Order result = getTemplateOrder();
+            result.setDeliveryPrice(new BigDecimal("5.00"));
             result.setUserInfo(getUserInfo());
             List<OrderItem> items = new ArrayList<>();
             items.add(getItem_1());
@@ -158,11 +158,9 @@ public class DataBuilder {
             return result;
         }
 
-        public static Order getOrderCalculated(){
+        public static Order getOrderByCart(){
             Order result = getOrder();
             result.setUserInfo(new UserInfo());
-            result.setSubtotal(new BigDecimal("333.33"));
-            result.setTotalPrice(new BigDecimal("338.33"));
             return result;
         }
 
@@ -172,6 +170,15 @@ public class DataBuilder {
             result.setLastName("poor");
             result.setDeliveryAddress("south park");
             result.setContactPhoneNo("+375 29 222 77 77");
+            return result;
+        }
+
+        private static Order getTemplateOrder(){
+            Order result = new Order();
+            result.setDeliveryPrice(new BigDecimal("5.00"));
+            result.setUserInfo(getUserInfo());
+            result.setTotalPrice(new BigDecimal("338.33"));
+            result.setSubtotal(new BigDecimal("333.33"));
             return result;
         }
     }

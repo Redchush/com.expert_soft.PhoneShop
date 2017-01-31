@@ -2,7 +2,7 @@ package com.expert_soft.service.impl;
 
 
 import com.expert_soft.model.Calculator;
-import com.expert_soft.model.Cart;
+import com.expert_soft.model.order.Cart;
 import com.expert_soft.model.OrderItem;
 import com.expert_soft.model.Phone;
 import com.expert_soft.persistence.PhoneDao;

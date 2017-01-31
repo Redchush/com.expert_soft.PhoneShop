@@ -1,6 +1,7 @@
 package com.expert_soft.model;
 
 
+import com.expert_soft.model.order.Order;
 import com.expert_soft.validator.group.G_Cart;
 import com.expert_soft.validator.group.G_Order;
 

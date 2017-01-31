@@ -1,5 +1,6 @@
 package com.expert_soft.model;
 
+import com.expert_soft.model.order.Cart;
 import com.expert_soft.util.DataBuilder;
 import com.expert_soft.validator.group.G_Cart;
 import org.apache.log4j.Logger;

@@ -29,7 +29,7 @@ public class DeliveryServiceImplIntTest {
     @Test
     public void getDeliveryPrice() throws Exception {
         BigDecimal property = service.getDeliveryPrice();
-        assertEquals(new BigDecimal("5"), property);
+        assertEquals(new BigDecimal("5.00"), property);
     }
 
 }

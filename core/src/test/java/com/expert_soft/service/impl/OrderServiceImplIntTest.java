@@ -1,6 +1,8 @@
 package com.expert_soft.service.impl;
 
 import com.expert_soft.model.*;
+import com.expert_soft.model.order.Cart;
+import com.expert_soft.model.order.Order;
 import com.expert_soft.service.OrderService;
 import com.expert_soft.util.db.CountRowResponsible;
 import com.expert_soft.util.DataBuilder;
@@ -13,7 +15,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 
@@ -50,7 +51,7 @@ public class OrderServiceImplIntTest {
     @Before
     public void setUp() throws Exception {
         emptyCart = new Cart();
-        order = DataBuilder.Order_2.getOrderCalculated();
+        order = DataBuilder.Order_2.getOrderByCart();
         fullCart = DataBuilder.Carts.byOrder_2();
         rowCounter = new CountRowResponsible(new JdbcTemplate(source));
     }
@@ -87,7 +88,7 @@ public class OrderServiceImplIntTest {
 
     @Test
     public void buildOrder() throws Exception {
-        Order order = DataBuilder.Order_2.getOrderCalculated();
+        Order order = DataBuilder.Order_2.getOrderByCart();
 
         Order order_actual = service.buildOrder(fullCart, false);
         assertEquals(order.getOrderItems(), order_actual.getOrderItems());

@@ -11,14 +11,21 @@ insert into phones(id, model, color, displaySize, width, length, camera, price) 
 ;
 
 
-insert into orders(id, delivery_price, first_name, last_name, delivery_address,
+insert into orders(id, delivery_price, subtotal, total,
+                   first_name, last_name, delivery_address,
                    contact_phone_no, additional_info) VALUES
-  (1, 5, 'klara', 'karlovna', 'karlovy vary', '+375 29 111 77 77', NULL ),
-  (2, 5, 'kenny', 'poor', 'south park', '+375 29 222 77 77', NULL),
-  (3, 5, 'winny', 'winz', 'south park', '+375 29 333 77 77', NULL),
-  (4, 5, 'lenny', 'linz', 'south park', '+375 29 444 77 77', NULL),
-  (5, 5, 'anny', 'anz', 'south park', '+375 29 555 77 77', NULL),
-  (6, 5, 'wanny', 'anz', 'south park', '+375 29 666 77 77', NULL);
+  (1, 500, 11111, 11611,
+   'klara', 'karlovna', 'karlovy vary', '+375 29 111 77 77', NULL ),
+  (2, 500, 33333, 33833,
+   'kenny', 'poor', 'south park', '+375 29 222 77 77', NULL),
+  (3, 500, 66666, 67166,
+   'winny', 'winz', 'south park', '+375 29 333 77 77', NULL),
+  (4, 500, 111110, 111610,
+   'lenny', 'linz', 'south park', '+375 29 444 77 77', NULL),
+  (5, 500, 499995, 500495,
+   'anny', 'anz', 'south park', '+375 29 555 77 77', NULL),
+  (6, 500, 999990, 1000490,
+   'wanny', 'anz', 'south park', '+375 29 666 77 77', NULL);
 ;
 
 insert into order_items(id, phone_id, order_id, quantity) VALUES

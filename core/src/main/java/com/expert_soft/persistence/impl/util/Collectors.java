@@ -1,7 +1,7 @@
 package com.expert_soft.persistence.impl.util;
 
 
-import com.expert_soft.model.Order;
+import com.expert_soft.model.order.Order;
 import com.expert_soft.model.OrderItem;
 import com.expert_soft.model.Phone;
 import org.springframework.dao.DataAccessException;
@@ -12,7 +12,6 @@ import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -30,7 +29,8 @@ public class Collectors {
             phone.setModel(rs.getString("phones.model"));
             BigDecimal price = rs.getBigDecimal("phones.price");
 
-            phone.setPrice(DataConverter.getPhonePriceForModel(price));
+            phone.setPrice(DataConverter.getPriceForModel(price));
+
             phone.setColor(rs.getString("phones.color"));
             phone.setDisplaySize(rs.getInt("phones.displaySize"));
             phone.setWidth(getNullIfNull(rs, "phones.width"));
@@ -51,11 +51,21 @@ public class Collectors {
 
             Order order = new Order();
             order.setKey(rs.getLong("orders.id"));
+
+            BigDecimal delivery = rs.getBigDecimal("orders.delivery_price");
+            order.setDeliveryPrice(DataConverter.getPriceForModel(delivery));
+
+            BigDecimal subtotal = rs.getBigDecimal("orders.subtotal");
+            order.setSubtotal(DataConverter.getPriceForModel(subtotal));
+
+            BigDecimal total = rs.getBigDecimal("orders.total");
+            order.setTotalPrice(DataConverter.getPriceForModel(total));
+
             order.setFirstName(rs.getString("orders.first_name"));
             order.setLastName(rs.getString("orders.last_name"));
             order.setDeliveryAddress(rs.getString("orders.delivery_address"));
             order.setContactPhoneNo(rs.getString("orders.contact_phone_no"));
-            order.setDeliveryPrice(rs.getBigDecimal("orders.delivery_price"));
+
             return order;
         }
     }

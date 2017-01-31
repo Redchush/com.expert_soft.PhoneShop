@@ -1,8 +1,8 @@
 package com.expert_soft.util.asserts;
 
 
-import com.expert_soft.model.Cart;
-import com.expert_soft.model.Order;
+import com.expert_soft.model.order.Cart;
+import com.expert_soft.model.order.Order;
 import com.expert_soft.model.Phone;
 
 import static junit.framework.TestCase.assertTrue;

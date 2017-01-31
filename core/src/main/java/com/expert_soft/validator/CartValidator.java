@@ -1,7 +1,7 @@
 package com.expert_soft.validator;
 
 
-import com.expert_soft.model.Cart;
+import com.expert_soft.model.order.Cart;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 

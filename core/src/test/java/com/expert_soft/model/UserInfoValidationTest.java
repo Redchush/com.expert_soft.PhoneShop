@@ -1,5 +1,6 @@
 package com.expert_soft.model;
 
+import com.expert_soft.model.order.Order;
 import com.expert_soft.util.DataBuilder;
 import com.expert_soft.validator.group.G_Order;
 import org.junit.Before;

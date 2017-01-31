@@ -95,7 +95,7 @@ public class PhoneDaoImpl implements PhoneDao {
         result.addValue("width", phone.getWidth());
         result.addValue("length", phone.getLength());
         result.addValue("camera", phone.getCamera());
-        result.addValue("price", DataConverter.getPhonePriceForPersistence(phone));
+        result.addValue("price", DataConverter.getPriceForPersistence(phone.getPrice()));
         return result;
     }
 

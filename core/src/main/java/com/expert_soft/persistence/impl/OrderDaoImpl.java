@@ -1,9 +1,10 @@
 package com.expert_soft.persistence.impl;
 
 
-import com.expert_soft.model.Order;
+import com.expert_soft.model.order.Order;
 import com.expert_soft.model.OrderItem;
 import com.expert_soft.persistence.OrderDao;
+import com.expert_soft.persistence.impl.util.DataConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.ResultSetExtractor;
@@ -26,16 +27,19 @@ public class OrderDaoImpl implements OrderDao {
 
 
     private static final String INSERT_ONE_ORDER_QUERY =
-            "INSERT INTO orders (delivery_price, first_name, last_name, delivery_address,\n" +
-                    "                   contact_phone_no ) " +
-                    "VALUES (:delivery_price, :first_name, :last_name, :delivery_address,\n" +
-                    "                   :contact_phone_no)";
+            "INSERT INTO orders (delivery_price, subtotal, total, " +
+                    "first_name, last_name, delivery_address,\n" +
+                    "contact_phone_no ) " +
+                    "VALUES (:delivery_price, :subtotal, :total," +
+                    " :first_name, :last_name, :delivery_address,\n" +
+                    " :contact_phone_no)";
     private static final String INSERT_ONE_ITEM_QUERY =  "INSERT INTO order_items(phone_id, order_id, quantity) " +
             " VALUES (:phone_id, :order_id, :quantity)";
 
     private static final String GET_ALL_QUERY =
-            " SELECT orders.id, orders.delivery_price, orders.first_name, orders.last_name\n" +
-                    ",orders.delivery_address, orders.contact_phone_no " +
+            " SELECT orders.id, orders.delivery_price, orders.subtotal, orders.total " +
+                    ",orders.first_name, orders.last_name\n" +
+                    ",orders.delivery_address,  orders.contact_phone_no " +
                     ",order_items.id, order_items.quantity \n" +
                     ",phones.id, phones.model, phones.color, phones.displaySize, phones.width, phones.length " +
                     ",phones.camera, phones.price \n" +
@@ -104,7 +108,14 @@ public class OrderDaoImpl implements OrderDao {
 
     private MapSqlParameterSource getParameterSource(Order order){
         MapSqlParameterSource source = new MapSqlParameterSource();
-        source.addValue("delivery_price", order.getDeliveryPrice());
+
+        source.addValue("delivery_price", DataConverter
+                .getPriceForPersistence(order.getDeliveryPrice()));
+        source.addValue("subtotal", DataConverter
+                .getPriceForPersistence(order.getSubtotal()));
+        source.addValue("total", DataConverter
+                .getPriceForPersistence(order.getTotalPrice()));
+
         source.addValue("delivery_address", order.getDeliveryAddress());
         source.addValue("first_name", order.getFirstName());
         source.addValue("last_name", order.getLastName());

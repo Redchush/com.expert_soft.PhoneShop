@@ -1,14 +1,12 @@
 package com.expert_soft.service.impl;
 
-import com.expert_soft.model.Cart;
-import com.expert_soft.model.Order;
+import com.expert_soft.model.order.Cart;
+import com.expert_soft.model.order.Order;
 import com.expert_soft.model.OrderItem;
 import com.expert_soft.model.Phone;
 import com.expert_soft.service.CartService;
 import com.expert_soft.util.DataBuilder;
 import org.apache.log4j.Logger;
-import org.hibernate.validator.HibernateValidator;
-import org.hibernate.validator.HibernateValidatorConfiguration;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,7 +18,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 
 import javax.validation.ConstraintViolationException;
-import javax.validation.Validation;
 
 import static org.junit.Assert.assertEquals;
 
@@ -46,7 +43,7 @@ public class CartServiceImplIntTest {
     @Before
     public void setUp() throws Exception {
         emptyCart = new Cart();
-        order = DataBuilder.Order_2.getOrderCalculated();
+        order = DataBuilder.Order_2.getOrderByCart();
         fullCart = DataBuilder.Carts.byOrder_2();
         firstItem = DataBuilder.Order_2.getItem_1();
     }
