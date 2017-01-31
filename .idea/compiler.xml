@@ -22,7 +22,9 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
+        <module name="core" />
         <module name="core_" />
+        <module name="excluded" />
         <module name="web" />
       </profile>
     </annotationProcessing>
@@ -30,6 +32,7 @@
       <module name="core" target="1.8" />
       <module name="core_" target="1.8" />
       <module name="db" target="1.8" />
+      <module name="excluded" target="1.8" />
       <module name="PhoneShop" target="1.5" />
       <module name="web" target="1.8" />
     </bytecodeTargetLevel>

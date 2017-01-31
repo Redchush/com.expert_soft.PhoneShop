@@ -7,9 +7,7 @@
           <element id="module-output" name="web" />
         </element>
         <element id="directory" name="lib">
-          <element id="archive" name="core_-1.0-RELEASE.jar">
-            <element id="module-output" name="core" />
-          </element>
+          <element id="library" level="project" name="Maven: com.expertsoft.phone_shop:core_:1.0-RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework:spring-jdbc:4.3.5.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework:spring-tx:4.3.5.RELEASE" />
           <element id="library" level="project" name="Maven: org.hsqldb:hsqldb:2.3.4" />
