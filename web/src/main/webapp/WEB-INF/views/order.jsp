@@ -34,32 +34,31 @@
       </a>
     </p>
     <table class="table table-responsive">
-      <%@ include file="part/product/product_thead.jsp" %>
+      <%@ include file="part/table/order_thead.jsp" %>
       <tbody>
       <c:forEach  var="item" items="${order.orderItems}">
         <tr>
           <td>${item.phone.model}</td>
           <td>${item.phone.color}</td>
           <td>${item.phone.displaySize}</td>
-          <td>${item.phone.price}</td>
           <td>${item.quantity}</td>
-          <td>action</td>
+          <td>${item.phone.price}</td>
         </tr>
       </c:forEach>
       </tbody>
       <tfoot class="emptyCelled">
       <tr>
-        <td colspan="4"></td>
+        <td colspan="3"></td>
         <td><spring:message code="order.subtotal"/></td>
         <td>${order.subtotal}</td>
       </tr>
       <tr>
-        <td colspan="4"></td>
+        <td colspan="3"></td>
         <td><spring:message code="order.deliveryPrice"/></td>
         <td>${order.deliveryPrice}</td>
       </tr>
       <tr>
-        <td colspan="4"></td>
+        <td colspan="3"></td>
         <td><spring:message code="order.total"/></td>
         <td>${order.totalPrice}</td>
       </tr>
@@ -108,7 +107,7 @@
       </c:if>
       <c:if var="isLastNameError" test="${errors.hasFieldErrors('lastName')}">
         <c:set var="lastName_errorClass" value="${group_error_class}" />
-        <c:set var="firstName_icon" value="${invalid_icon}"/>
+        <c:set var="lastName_icon" value="${invalid_icon}"/>
       </c:if>
       <c:if var="isDeliveryError" test="${errors.hasFieldErrors('deliveryAddress')}">
         <c:set var="deliveryAddr_errorClass" value="${group_error_class}" />
@@ -127,10 +126,9 @@
                method="POST" action="${userActionUrl}" htmlEscape="true">
 
       <spring:bind path="firstName">
+        <spring:message var="firstNameMsg" code="order.userInfo.firstName"/>
         <div class="form-group <c:out value="${firstName_errorClass}"/> ">
-          <label class="control-label col-sm-2" for="f_name">
-            <spring:message var="firstNameMsg" code="order.userInfo.firstName"/>
-          </label>
+          <label class="control-label col-sm-2" for="f_name">${firstNameMsg}</label>
           <div class="col-sm-5">
             <form:input path="firstName" cssClass="form-control"
                         id="f_name"
@@ -143,10 +141,9 @@
       </spring:bind>
 
       <spring:bind path="lastName">
+        <spring:message var="lastNameMsg" code="order.userInfo.lastName"/>
         <div class="form-group <c:out value="${lastName_errorClass}"/>">
-          <label class="control-label col-xs-2" for="l_name">
-            <spring:message var="lastNameMsg" code="order.userInfo.lastName"/>
-          </label>
+          <label class="control-label col-xs-2" for="l_name">${lastNameMsg}</label>
           <div class="col-sm-5">
             <form:input path="lastName" cssClass="form-control"
                         id="l_name"
@@ -154,16 +151,14 @@
             <c:out value="${lastName_icon}" escapeXml="false"/>
             <span id="usernameStatus" class="help-block"><form:errors
                     path="lastName" htmlEscape="false"/>
-
             </span>
           </div>
         </div>
       </spring:bind>
       <spring:bind path="deliveryAddress">
-        <div class="form-group <c:out value="${lastName_errorClass}"/>">
-          <label class="control-label col-sm-2" for="address">
-            <spring:message var="addrMsg" code="order.userInfo.address"/>
-          </label>
+        <spring:message var="addrMsg" code="order.userInfo.address"/>
+        <div class="form-group <c:out value="${deliveryAddr_errorClass}"/>">
+          <label class="control-label col-sm-2" for="address">${addrMsg}</label>
           <div class="col-sm-5">
             <form:input path="deliveryAddress" cssClass="form-control"
                         id="address" placeholder="${addrMsg}"/>
@@ -174,10 +169,9 @@
         </div>
       </spring:bind>
       <spring:bind path="contactPhoneNo">
+        <spring:message var="phone_msg" code="order.userInfo.contactPhoneNo"/>
         <div class="form-group <c:out value="${phoneNo_errorClass}"/>">
-          <label class="control-label col-sm-2" for="phone">
-            <spring:message var="phone_msg" code="order.userInfo.contactPhoneNo"/>
-          </label>
+          <label class="control-label col-sm-2" for="phone">${phone_msg}</label>
           <div class="col-sm-5">
             <form:input path="contactPhoneNo" cssClass="form-control"
                         id="phone" placeholder="${phone_msg}"/>
@@ -189,10 +183,11 @@
         </div>
       </spring:bind>
       <spring:bind path="additionalInfo">
+        <spring:message var="addInfo_msg" code="order.userInfo.addInfo"/>
         <div class="form-group <c:out value="${addInfo_errorClass}"/>">
           <div class="col-sm-7">
             <form:textarea path="additionalInfo" cssClass="form-control"
-                           id="add_info" placeholder="Additional information"/>
+                           id="add_info" placeholder="${addInfo_msg}"/>
             <c:out value="${addInfo_icon}" escapeXml="false"/>
             <span id="usernameStatus" class="help-block"><form:errors
                     path="additionalInfo"/></span>

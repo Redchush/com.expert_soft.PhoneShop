@@ -1,4 +1,4 @@
-package com.expert_soft.util;
+package com.expert_soft.test_util;
 
 
 import org.codehaus.jackson.JsonNode;
@@ -13,6 +13,7 @@ import java.util.Collections;
 import java.util.Enumeration;
 
 public class JsonTestHelper {
+
 
     public static final ObjectMapper jsonObject = new ObjectMapper();
     static {

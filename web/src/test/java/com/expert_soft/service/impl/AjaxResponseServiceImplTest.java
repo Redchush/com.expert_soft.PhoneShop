@@ -1,23 +1,24 @@
 package com.expert_soft.service.impl;
 
-import com.expert_soft.config.ApplicationConfiguration;
+import com.expert_soft.config.ApplicationConfig;
 import com.expert_soft.controller.AjaxCartController;
 import com.expert_soft.model.AjaxResponseCart;
-import com.expert_soft.model.Cart;
+
+import com.expert_soft.model.order.Cart;
 import com.expert_soft.service.AjaxResponseService;
-import com.expert_soft.util.JsonTestHelper;
-import com.expert_soft.util.TestDataConfig;
+import com.expert_soft.test_util.DataBuilder;
+import com.expert_soft.test_util.JsonTestHelper;
 import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
 
 import java.io.IOException;
 
@@ -26,14 +27,14 @@ import static org.junit.Assert.assertTrue;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {ApplicationConfiguration.class, TestDataConfig.class} )
+@ContextConfiguration(classes = {ApplicationConfig.class} )
 @WebAppConfiguration
+@ActiveProfiles("dev")
 public class AjaxResponseServiceImplTest {
 
     private static final Logger LOGGER = Logger.getLogger(AjaxResponseServiceImplTest.class);
 
     @Autowired AjaxResponseService service;
-    @Autowired WebApplicationContext ctx;
     private MockMvc mockMvc;
 
     @Before
@@ -44,11 +45,9 @@ public class AjaxResponseServiceImplTest {
 
     @Test
     public void buildSuccess() throws Exception {
-        Cart cart_1_calculated = ctx.getBean("cart_2_calculated", Cart.class);
-
+        Cart cart_1_calculated = DataBuilder.Carts.byOrder_2();
         String testModel = service.buildAjaxSuccess(cart_1_calculated,"TestModel");
         AjaxResponseCart cart = JsonTestHelper.parseToObj(testModel, AjaxResponseCart.class);
-
         assertEquals(200, cart.getCode().intValue());
     }
 
@@ -86,7 +85,5 @@ public class AjaxResponseServiceImplTest {
         AjaxResponseCart cart_actual = JsonTestHelper.parseToObj(s, AjaxResponseCart.class);
         assertEquals(500, cart_actual.getCode().intValue());
     }
-
-
 
 }

@@ -1,14 +1,14 @@
 package com.expert_soft.model;
 
 import com.expert_soft.model.order.Order;
-import com.expert_soft.util.DataBuilder;
+import com.expert_soft.test_util.DataBuilder;
 import com.expert_soft.validator.group.G_Order;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Arrays;
 
-import static com.expert_soft.util.asserts.ValidationAsserts._assertOneInvalidField;
+import static com.expert_soft.test_util.asserts.ValidationAsserts._assertOneInvalidField;
 
 public class UserInfoValidationTest {
 

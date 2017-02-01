@@ -5,8 +5,8 @@ import com.expert_soft.model.calculator.OrderCalculator;
 import com.expert_soft.model.order.Cart;
 import com.expert_soft.model.order.Order;
 import com.expert_soft.service.OrderService;
-import com.expert_soft.util.db.CountRowResponsible;
-import com.expert_soft.util.DataBuilder;
+import com.expert_soft.test_util.db.CountRowResponsible;
+import com.expert_soft.test_util.DataBuilder;
 import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.Test;
@@ -23,7 +23,7 @@ import javax.sql.DataSource;
 import javax.validation.ConstraintViolationException;
 import java.util.List;
 
-import static com.expert_soft.util.asserts.ModelAsserts._assertEquals;
+import static com.expert_soft.test_util.asserts.ModelAsserts._assertEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -120,19 +120,10 @@ public class OrderServiceImplIntTest {
         assertEquals("Fail to calculate new subtotal", expected.getSubtotal(), actual.getSubtotal());
     }
 
-    @Test(expected = ConstraintViolationException.class)
-    public void addToCart_To_Much() throws Exception {
-        Phone phone = new Phone();
-        phone.setKey(1L);
-        service.addToCart(new Cart(), phone, 12);
-    }
 
-    @Test(expected = ConstraintViolationException.class)
-    public void addToCart_To_Much_SUM() throws Exception {
-        Cart emptyCart = new Cart();
-        Phone phone = new Phone();
-        phone.setKey(1L);
-        emptyCart.addItem(new OrderItem(phone, 9));
-        service.addToCart(emptyCart, phone, 3);
+
+    @Test(expected = NullPointerException.class)
+    public void addToCart_NonExistentPhone() throws Exception {
+       service.addToCart(new Cart(), 100L, 3);
     }
 }

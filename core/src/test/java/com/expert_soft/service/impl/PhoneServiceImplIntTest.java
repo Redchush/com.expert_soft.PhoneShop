@@ -2,8 +2,8 @@ package com.expert_soft.service.impl;
 
 import com.expert_soft.model.Phone;
 import com.expert_soft.service.PhoneService;
-import com.expert_soft.util.db.CountRowResponsible;
-import com.expert_soft.util.DataBuilder;
+import com.expert_soft.test_util.db.CountRowResponsible;
+import com.expert_soft.test_util.DataBuilder;
 import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,6 +21,7 @@ import javax.sql.DataSource;
 import javax.validation.ConstraintViolationException;
 import java.util.Arrays;
 
+import static junit.framework.Assert.assertNull;
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertTrue;
 
@@ -61,14 +62,16 @@ public class PhoneServiceImplIntTest {
     @Test
     public void getPhonesByCollection() throws Exception {}
 
-    @Test(expected = com.expert_soft.exception.service.NoSuchEntityException.class)
+    @Test
     public void getPhone() throws Exception {
-        service.getPhone(100L);
+        Phone phone = service.getPhone(100L);
+        assertNull(phone);
     }
 
-    @Test(expected = com.expert_soft.exception.service.NotUniqueEntityException.class)
+    @Test
     public void savePhone() throws Exception {
-        service.savePhone(phone_id_1);
+        Number number = service.savePhone(phone_id_1);
+        assertNull(number);
     }
 
     @Test

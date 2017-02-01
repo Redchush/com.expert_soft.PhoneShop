@@ -23,7 +23,7 @@ public class UserInfo {
     private String lastName;
 
     @NotNull(groups = G_Order.Info.class)
-    @Size(min = 10, max = 500, message = "{userInfo.deliveryAddress.size}")
+    @Size(min = 10, max = 500, message = "{userInfo.deliveryAddress.size}", groups = G_Order.Info.class)
     private String deliveryAddress;
 
     @NotNull(groups = G_Order.Info.class)

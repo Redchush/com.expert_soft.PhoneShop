@@ -1,7 +1,7 @@
-package integration;
+package com.expert_soft.integration;
 
 
-import com.expert_soft.config.ApplicationConfiguration;
+import com.expert_soft.config.ApplicationConfig;
 import com.expert_soft.controller.ProductController;
 import com.expert_soft.model.Phone;
 import com.expert_soft.persistence.PhoneDao;
@@ -11,6 +11,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -30,8 +31,9 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {ApplicationConfiguration.class} )
+@ContextConfiguration(classes = {ApplicationConfig.class} )
 @WebAppConfiguration
+@ActiveProfiles("production")
 public class ConnectionFromJarTest {
 
     private static final Logger logger = Logger.getLogger(ProductController.class);
@@ -53,16 +55,14 @@ public class ConnectionFromJarTest {
     public void assertBeansFromCoreContextSeen(){
         PhoneDao bean = context.getBean(PhoneDao.class);
         Object mapper = context.getBean("order_mapper");
-
     }
 
     @Test
     public void dataSource() throws SQLException, MalformedURLException {
         logger.debug("Starting test on dataSource");
-        DataSource dataSource = (DataSource) context.getBean("schema");
+        DataSource dataSource = context.getBean(DataSource.class);
         DatabaseMetaData metaData = dataSource.getConnection().getMetaData();
         logger.debug("URL: " + metaData.getURL());
-        logger.debug("Path: " + metaData.getURL());
 
         ResultSet tables = metaData.getTables("PUBLIC", null, null, null);
         List<String> tablesNames = new ArrayList<>();

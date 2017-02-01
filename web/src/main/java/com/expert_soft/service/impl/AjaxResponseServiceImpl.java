@@ -2,9 +2,10 @@ package com.expert_soft.service.impl;
 
 
 import com.expert_soft.exception.service.ajax.AjaxException;
-import com.expert_soft.helper.JsonHelper;
+import com.expert_soft.helper.JsonResponsible;
 import com.expert_soft.model.AjaxResponseCart;
-import com.expert_soft.model.Cart;
+
+import com.expert_soft.model.order.Cart;
 import com.expert_soft.service.AjaxResponseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -17,7 +18,7 @@ import java.util.Locale;
 public class AjaxResponseServiceImpl implements AjaxResponseService{
 
 
-    private JsonHelper jsonHelper;
+    private JsonResponsible jsonHelper;
     private MessageSource msgSource;
 
     @Override
@@ -26,7 +27,7 @@ public class AjaxResponseServiceImpl implements AjaxResponseService{
     }
 
     @Autowired
-    public void setJsonHelper(JsonHelper jsonHelper) {
+    public void setJsonHelper(JsonResponsible jsonHelper) {
         this.jsonHelper = jsonHelper;
     }
 
@@ -43,7 +44,7 @@ public class AjaxResponseServiceImpl implements AjaxResponseService{
         String message = msgSource.getMessage(SUCCESS_CODE,
                 new Object[]{model}, Locale.ROOT);
         AjaxResponseCart response = new AjaxResponseCart(message, 200, cart);
-        return jsonHelper.buautifulWrite(response);
+        return jsonHelper.beautifulWrite(response);
     }
 
     @Override

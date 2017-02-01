@@ -6,7 +6,7 @@ $(function() {
 	console.log(restoreMsg + " " + deleteMsg);
 
 
-	$("tr td label[data-action='delete'").on("click", function(evt){
+	$("tr td label[data-action='delete']").on("click", function(evt){
 		var _$this = $(this);
 		evt.preventDefault();
 		var _$tr= _$this.parents("tr");

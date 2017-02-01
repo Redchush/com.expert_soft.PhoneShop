@@ -47,6 +47,18 @@ public interface OrderService {
                         Phone phone,
                         Integer quantity);
 
+    /**
+     * Add to cart's phone quantity and validate result OrderItem
+     * If phone with same key present in cart, get it from cart,
+     * otherwise get it from persistence
+     * @param cart - current cart
+     * @param phoneKey - phone key to be saved in cart
+     * @param quantity - quantity of Phones
+     * @return whether cart contains same phone
+     * @throws NullPointerException - if such phone not exist in database
+     */
+    OrderItem addToCart(Cart cart, Long phoneKey, Integer quantity) throws NullPointerException;
+
     OrderItem deleteFromCart(Cart cart, Long phoneId);
 
     /**

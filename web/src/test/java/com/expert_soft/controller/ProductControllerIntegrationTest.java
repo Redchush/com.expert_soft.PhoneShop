@@ -1,14 +1,16 @@
 package com.expert_soft.controller;
 
-import com.expert_soft.config.ApplicationConfiguration;
+import com.expert_soft.config.ApplicationConfig;
 import com.expert_soft.model.Phone;
-import com.expert_soft.util.TestDataConfig;
+
+import com.expert_soft.test_util.DataBuilder;
 import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -22,33 +24,26 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {ApplicationConfiguration.class, TestDataConfig.class} )
+@ContextConfiguration(classes = {ApplicationConfig.class} )
 @WebAppConfiguration
+@ActiveProfiles("dev")
 public class ProductControllerIntegrationTest {
 
     private static final Logger logger = Logger.getLogger(ProductController.class);
 
     @Autowired
-    private WebApplicationContext context;
-
-    @Autowired
     private ProductController controller;
-
     private MockMvc mockMvc;
-    private Phone phone_id_1 ;
-
 
     @Before
     public void setup() {
-        // Process mock annotations
         MockitoAnnotations.initMocks(this);
-        // Setup Spring test in standalone mode
         this.mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
-        phone_id_1 = (Phone) context.getBean("phone_id_1");
     }
 
     @Test
     public void product_Valid() throws Exception {
+        Phone phone_id_1 = DataBuilder.getPhoneId_1();
         mockMvc.perform(get("/products/1"))
                .andExpect(model().attribute("phone", phone_id_1));
     }
@@ -59,6 +54,9 @@ public class ProductControllerIntegrationTest {
                .andExpect(status().isNotFound());
 
         mockMvc.perform(get("/products/-1"))
+               .andExpect(status().isNotFound());
+
+        mockMvc.perform(get("/products/blabla"))
                .andExpect(status().isBadRequest());
 
     }

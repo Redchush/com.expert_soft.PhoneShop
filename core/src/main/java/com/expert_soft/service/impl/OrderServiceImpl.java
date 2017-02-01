@@ -103,15 +103,32 @@ public class OrderServiceImpl implements OrderService {
         if (possiblySameItem != null){
             newQuantity = quantity + possiblySameItem.getQuantity();
         }
-        OrderItem result = new OrderItem(phone, newQuantity);
+        return addToCart(cart, new OrderItem(phone, newQuantity));
+    }
+
+    @Override
+    public OrderItem addToCart(Cart cart, Long phoneKey, Integer quantity) {
+        OrderItem possiblySameItem = cart.getItem(phoneKey);
+        Phone phone;
+        Integer newQuantity = quantity;
+        if (possiblySameItem != null){
+            newQuantity = quantity + possiblySameItem.getQuantity();
+            phone = possiblySameItem.getPhone();
+        } else {
+            phone = phoneDao.getPhone(phoneKey);
+        }
+        return addToCart(cart, new OrderItem(phone, newQuantity));
+    }
+
+    private OrderItem addToCart(Cart cart, OrderItem item){
         Set<ConstraintViolation<OrderItem>> validate
-                = validator.validate(result, G_Cart.Item.class);
+                = validator.validate(item, G_Cart.Item.class);
         if (!validate.isEmpty()){
             throw new ConstraintViolationException("Invalid order updatedItem", validate);
         }
-        cart.addItem(result);
+        cart.addItem(item);
         calculator.recalculate(cart);
-        return result;
+        return item;
     }
 
     @Override

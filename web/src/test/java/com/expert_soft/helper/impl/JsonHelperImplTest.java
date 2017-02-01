@@ -1,54 +1,52 @@
 package com.expert_soft.helper.impl;
 
-import com.expert_soft.helper.JsonHelper;
+import com.expert_soft.helper.JsonResponsible;
 import com.expert_soft.model.AjaxResponseCart;
-import com.expert_soft.model.Cart;
+import com.expert_soft.model.order.Cart;
+import com.expert_soft.test_util.DataBuilder;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
 
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {
-        "classpath:web_test-bean.xml",
-        "classpath:helper_context.xml"
-})
-
 public class JsonHelperImplTest {
 
-    @Autowired @Qualifier("cart_2_calculated") Cart cart;
-    @Autowired JsonHelper helper;
+
 
     @Test
     public void write() throws Exception {
+        JsonResponsible helper = new JsonResponsibleImpl();
+        helper.afterPropertiesSet();
+
+        Cart cart = DataBuilder.Carts.byOrder_2();
+
         AjaxResponseCart expected = new AjaxResponseCart();
         expected.setCode(200);
         expected.setMsg("success");
         expected.setResult(cart);
 
-        String write = helper.buautifulWrite(expected);
-        System.out.println(write);
+        String write = helper.beautifulWrite(expected);
+//        System.out.println(write);
         ObjectMapper mapper= new ObjectMapper();
 
 
         AjaxResponseCart actual = mapper.readValue(write, AjaxResponseCart.class);
         JsonNode jsonNode = mapper.readTree(write);
         JsonNode result = jsonNode.get("result");
-        JsonNode cartMap = result.get("itemsMap");
+        int actualResultChildNodes = result.size();
+        JsonNode cartMap = result.get("orderItems");
 
         assertNull("Fail to exclude map. Result" + write, cartMap);
+        assertEquals("Fail to exclude map. Result" + write, actualResultChildNodes, 2);
         assertEquals(expected.getCode(), actual.getCode());
         assertEquals(expected.getMsg(), actual.getMsg());
-        assertEquals(expected.getResult().getCartSize(), actual.getResult().getCartSize());
+        assertEquals(expected.getResult().getTotalPhonesCount(),
+                actual.getResult().getTotalPhonesCount());
         assertEquals(expected.getResult().getSubtotal(), actual.getResult().getSubtotal());
 
     }

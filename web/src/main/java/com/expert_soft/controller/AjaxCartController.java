@@ -2,10 +2,11 @@ package com.expert_soft.controller;
 
 
 import com.expert_soft.exception.service.ajax.AjaxException;
-import com.expert_soft.model.Cart;
+
 import com.expert_soft.model.OrderItem;
+import com.expert_soft.model.order.Cart;
 import com.expert_soft.service.AjaxResponseService;
-import com.expert_soft.service.CartService;
+import com.expert_soft.service.OrderService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -29,12 +30,12 @@ public class AjaxCartController {
 
     private static final Logger LOGGER = Logger.getLogger(AjaxCartController.class);
 
-    private CartService cartService;
+    private OrderService orderService;
     private AjaxResponseService responseService;
 
     @Autowired
-    public void setCartService(CartService cartService) {
-        this.cartService = cartService;
+    public void setOrderService(OrderService orderService) {
+        this.orderService = orderService;
     }
 
     @Autowired
@@ -42,8 +43,9 @@ public class AjaxCartController {
         this.responseService = responseService;
     }
 
+
     @RequestMapping(value = "/add_to_cart",
-            produces = MediaType.APPLICATION_JSON_UTF8_VALUE,
+            produces = {MediaType.APPLICATION_JSON_UTF8_VALUE, MediaType.TEXT_PLAIN_VALUE},
             method = RequestMethod.GET)
     public @ResponseBody
     String addToCart(ModelMap model,
@@ -52,21 +54,13 @@ public class AjaxCartController {
         LOGGER.debug("catch ajax changed: modelMap " + model);
 
         Cart cart = getCurrentCart(model);
-        OrderItem item = cartService.deepAddToCart(cart, phoneId, quantity);
-        cartService.calculateAndSetSubtotal(cart);
-        cartService.calculateAndSetSize(cart);
-
+        OrderItem item = orderService.addToCart(cart, phoneId, quantity);
         model.put(CART_ATTR, cart);
         LOGGER.debug("cart changed: " + cart.toString());
         return responseService.buildAjaxSuccess(cart, item.getPhone().getModel());
     }
 
-    @ExceptionHandler(value = AjaxException.class)
-    public ResponseEntity<String> ajaxIO(AjaxException e){
-        LOGGER.error("Ajax response can't be sent to client", e);
-        String ajaxResult = responseService.buildFailToWrite();
-        return new ResponseEntity<>(ajaxResult, getJsonHeaders(), HttpStatus.OK);
-    }
+
 
     @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
     @ExceptionHandler(ConstraintViolationException.class)
@@ -78,19 +72,27 @@ public class AjaxCartController {
     }
 
     @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
-    @ExceptionHandler({NumberFormatException.class, MethodArgumentTypeMismatchException.class})
-    public @ResponseBody String ajaxNumberFormatViolation(HttpServletRequest req, NumberFormatException e){
+    @ExceptionHandler({NumberFormatException.class, MethodArgumentTypeMismatchException.class,
+                       NullPointerException.class})
+    public @ResponseBody String ajaxNumberFormatViolation(HttpServletRequest req, Exception e){
         LOGGER.debug(format("Number format exception for input %s and %s",
                 req.getParameter(PHONE_ID_TO_ADD),
                 req.getParameter(QUANTITY_PARAM)));
         return responseService.buildInvalidFormat();
     }
 
+    @ExceptionHandler(value = AjaxException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public String ajaxIO(AjaxException e){
+        LOGGER.error("Ajax response can't be sent to client", e);
+        return responseService.buildFailToWrite();
+    }
+
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(Exception.class)
     public @ResponseBody String ajaxUnexpectedError(HttpServletRequest req, Exception e){
-        LOGGER.error(String.format("Request: %s%s raised ", req.getRequestURL(), req.getQueryString(),
-                e), e);
+        LOGGER.error(String.format("Request: %s%s raised ", req.getRequestURL(),
+                req.getQueryString(), e), e);
         return responseService.buildFailUnexpected();
     }
 

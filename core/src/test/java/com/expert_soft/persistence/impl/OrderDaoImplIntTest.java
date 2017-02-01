@@ -2,8 +2,8 @@ package com.expert_soft.persistence.impl;
 
 import com.expert_soft.model.order.Order;
 import com.expert_soft.persistence.OrderDao;
-import com.expert_soft.util.db.CountRowResponsible;
-import com.expert_soft.util.DataBuilder;
+import com.expert_soft.test_util.db.CountRowResponsible;
+import com.expert_soft.test_util.DataBuilder;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,7 +21,7 @@ import javax.sql.DataSource;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.expert_soft.util.asserts.ModelAsserts._assertEquals;
+import static com.expert_soft.test_util.asserts.ModelAsserts._assertEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 

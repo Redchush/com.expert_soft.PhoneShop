@@ -4,8 +4,8 @@ import com.expert_soft.model.OrderItem;
 import com.expert_soft.model.Phone;
 import com.expert_soft.model.calculator.OrderCalculatorImpl;
 import com.expert_soft.model.order.Cart;
-import com.expert_soft.util.DataBuilder;
-import com.expert_soft.util.asserts.ValidationAsserts;
+import com.expert_soft.test_util.DataBuilder;
+import com.expert_soft.test_util.asserts.ValidationAsserts;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,21 +18,14 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
-import javax.validation.Validator;
 import java.util.Properties;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations={
-        "classpath:context/core_root-context.xml"
-})
-@TestExecutionListeners({
-        DependencyInjectionTestExecutionListener.class,
-})
-@ActiveProfiles("dev")
+
+
 public class OrderServiceImplIntValidationTest {
 
     private static OrderServiceImpl service;
@@ -49,6 +42,15 @@ public class OrderServiceImplIntValidationTest {
         Phone phone = new Phone();
         phone.setKey(1L);
         service.addToCart(new Cart(), phone, 12);
+    }
+
+    @Test(expected = ConstraintViolationException.class)
+    public void addToCart_To_Much_SUM() throws Exception {
+        Cart emptyCart = new Cart();
+        Phone phone = new Phone();
+        phone.setKey(1L);
+        emptyCart.addItem(new OrderItem(phone, 9));
+        service.addToCart(emptyCart, phone, 3);
     }
 
     @Test
@@ -75,4 +77,8 @@ public class OrderServiceImplIntValidationTest {
         assertEquals(10, emptyCart.getItem(1L).getQuantity().intValue());
 
     }
+
+
+
+
 }

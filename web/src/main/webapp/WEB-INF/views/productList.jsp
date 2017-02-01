@@ -27,7 +27,7 @@
       <h1><spring:message code="products.header"/></h1>
     </div>
       <table class="table table-striped">
-        <%@ include file="part/product/product_thead.jsp" %>
+        <%@ include file="part/table/cart_thead.jsp" %>
         <tbody>
         <c:forEach var="phone" items="${phones}">
           <tr>
@@ -55,7 +55,7 @@
         </c:forEach>
         </tbody>
       </table>
-    <output id="msg"></output>
+    <output id="msg"><spring:message code="${requestScope.msgCode}" text=" "/></output>
   </div>
 </div>
 <script src="<c:url value="/resources/js/jquery.js"/>"></script>

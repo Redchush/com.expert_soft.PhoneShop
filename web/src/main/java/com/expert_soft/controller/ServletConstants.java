@@ -13,4 +13,13 @@ public class ServletConstants {
 
     public static final String QUANTITY_PARAM = "quantity";
 
+    public static final String MSG_CODE = "msgCode";
+
+    public static class MsgCodes{
+        public static final String FAIL_UPDATE = "cart.action.fail_update";
+        public static final String SUCCESS_UPDATE = "cart.action.success_update";
+
+
+    }
+
 }

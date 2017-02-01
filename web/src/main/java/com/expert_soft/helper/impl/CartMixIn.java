@@ -6,5 +6,5 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 public abstract class CartMixIn {
 
     @JsonIgnore
-    abstract int getItemsMap();
+    abstract int getOrderItems();
 }

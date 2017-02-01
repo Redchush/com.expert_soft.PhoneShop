@@ -8,6 +8,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.ImportResource;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -23,10 +24,10 @@ import java.util.Locale;
 @Configuration
 @ComponentScan("com.expert_soft")
 @EnableWebMvc
-@ImportResource("classpath:core-root-context.xml")
-public class ApplicationConfiguration extends WebMvcConfigurerAdapter {
+@ActiveProfiles("production")
+public class ApplicationConfig extends WebMvcConfigurerAdapter {
 
-    private static final Logger LOGGER = LogManager.getLogger(ApplicationConfiguration.class);
+    private static final Logger LOGGER = LogManager.getLogger(ApplicationConfig.class);
 
     @Bean
     public MessageSource messageSource() {
@@ -66,6 +67,8 @@ public class ApplicationConfiguration extends WebMvcConfigurerAdapter {
     public void addResourceHandlers(final ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
     }
+
+
 
 
 }

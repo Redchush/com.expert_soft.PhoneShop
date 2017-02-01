@@ -2,9 +2,10 @@ package com.expert_soft.helper.impl;
 
 
 import com.expert_soft.exception.service.ajax.AjaxException;
-import com.expert_soft.helper.JsonHelper;
+import com.expert_soft.helper.JsonResponsible;
 import com.expert_soft.model.AjaxResponseCart;
-import com.expert_soft.model.Cart;
+
+import com.expert_soft.model.order.Cart;
 import org.codehaus.jackson.annotate.JsonAutoDetect;
 import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -14,7 +15,7 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 
 @Component
-public class JsonHelperImpl implements JsonHelper {
+public class JsonResponsibleImpl implements JsonResponsible {
 
     private ObjectMapper mapper;
 
@@ -37,7 +38,7 @@ public class JsonHelperImpl implements JsonHelper {
 
 
     @Override
-    public String buautifulWrite(AjaxResponseCart cart)  {
+    public String beautifulWrite(AjaxResponseCart cart)  {
         try {
             return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(cart);
         } catch (IOException e) {

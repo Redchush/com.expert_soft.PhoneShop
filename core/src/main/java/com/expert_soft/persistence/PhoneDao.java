@@ -38,10 +38,9 @@ public interface PhoneDao {
     /**
      *
      * @param phone - phone to be saved in persistence
-     * @return
-     * @throws DuplicateKeyException if phone has not unique model value
+     * @return null if phone not saved because of not unique model
      */
-    void savePhone(Phone phone) throws DuplicateKeyException;
+    Number savePhone(Phone phone) throws DuplicateKeyException;
 
     List<Phone> findAll();
 

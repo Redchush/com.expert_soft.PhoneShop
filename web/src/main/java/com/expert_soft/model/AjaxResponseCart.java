@@ -1,9 +1,9 @@
 package com.expert_soft.model;
 
 
+import com.expert_soft.model.order.Cart;
+
 import java.io.Serializable;
-
-
 
 //@JsonInclude(JsonInclude.Include.NON_NULL)
 public class AjaxResponseCart implements Serializable {

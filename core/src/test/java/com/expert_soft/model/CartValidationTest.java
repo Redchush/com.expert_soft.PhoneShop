@@ -1,7 +1,7 @@
 package com.expert_soft.model;
 
 import com.expert_soft.model.order.Cart;
-import com.expert_soft.util.DataBuilder;
+import com.expert_soft.test_util.DataBuilder;
 import com.expert_soft.validator.group.G_Cart;
 import org.apache.log4j.Logger;
 import org.junit.BeforeClass;
@@ -9,7 +9,7 @@ import org.junit.Test;
 
 import java.util.Properties;
 
-import static com.expert_soft.util.asserts.ValidationAsserts._assertOneInvalidField;
+import static com.expert_soft.test_util.asserts.ValidationAsserts._assertOneInvalidField;
 
 
 public class CartValidationTest {

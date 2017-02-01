@@ -1,4 +1,4 @@
-package com.expert_soft.util.asserts;
+package com.expert_soft.test_util.asserts;
 
 
 import com.expert_soft.model.UserInfoValidationTest;
@@ -14,7 +14,7 @@ import static org.junit.Assert.assertEquals;
 
 public class ValidationAsserts {
 
-    private static final Logger LOGGER = Logger.getLogger(UserInfoValidationTest.class);
+    private static final Logger LOGGER = Logger.getLogger(ValidationAsserts.class);
     private static Validator _validator;
 
     static {

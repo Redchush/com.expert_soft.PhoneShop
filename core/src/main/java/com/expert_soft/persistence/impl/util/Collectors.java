@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * com.expert_soft.util class encapsulate classes which deal with assembling model entities from ResultSet,
+ * com.expert_soft.test_util class encapsulate classes which deal with assembling model entities from ResultSet,
  * such as mappers, extractors and other classes from Spring JDBC API
  *
  */

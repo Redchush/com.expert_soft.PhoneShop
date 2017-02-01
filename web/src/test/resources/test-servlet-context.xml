@@ -40,10 +40,10 @@
 
     <!--<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">-->
     <!--<property name="messageConverters">-->
-    <!--<com.expert_soft.util:list id="beanList">-->
+    <!--<com.expert_soft.test_util_util:list id="beanList">-->
     <!--<ref bean="stringHttpMessageConverter"/>-->
     <!--<ref bean="marshallingHttpMessageConverter"/>-->
-    <!--</com.expert_soft.util:list>-->
+    <!--</com.expert_soft.test_util_util:list>-->
     <!--</property-->
     <!--</bean>-->
 

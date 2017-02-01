@@ -1,17 +1,13 @@
 package com.expert_soft.model.calculator;
 
 import com.expert_soft.model.OrderItem;
-import com.expert_soft.model.Phone;
 import com.expert_soft.model.order.Cart;
 import com.expert_soft.model.order.Order;
-import com.expert_soft.util.DataBuilder;
+import com.expert_soft.test_util.DataBuilder;
 import org.junit.Test;
-import org.mockito.Mockito;
 
 
-import java.util.Collection;
-
-import static com.expert_soft.util.asserts.ModelAsserts._assertEquals;
+import static com.expert_soft.test_util.asserts.ModelAsserts._assertEquals;
 import static org.junit.Assert.*;
 
 public class OrderCalculatorImplTest {

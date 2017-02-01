@@ -1,4 +1,4 @@
-package com.expert_soft.util.asserts;
+package com.expert_soft.test_util.asserts;
 
 
 import com.expert_soft.model.order.Cart;

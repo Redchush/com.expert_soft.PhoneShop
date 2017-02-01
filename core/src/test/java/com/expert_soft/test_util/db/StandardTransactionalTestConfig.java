@@ -1,4 +1,4 @@
-package com.expert_soft.util.db;
+package com.expert_soft.test_util.db;
 
 
 import org.junit.runner.RunWith;

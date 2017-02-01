@@ -6,9 +6,13 @@ import com.expert_soft.persistence.impl.util.DataConverter;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.dao.DuplicateKeyException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
@@ -54,8 +58,15 @@ public class PhoneDaoImpl implements PhoneDao {
 
     @Override
     public Phone getPhone(Long key) {
-        return this.jdbcTemplate.getJdbcOperations()
-                                .queryForObject(GET_ONE_QUERY, new Object[]{key}, phoneRowMapper);
+        if (key < 1){
+            return null;
+        }
+        try {
+           return this.jdbcTemplate.getJdbcOperations()
+                             .queryForObject(GET_ONE_QUERY, new Object[]{key}, phoneRowMapper);
+        } catch (EmptyResultDataAccessException e){
+            return null;
+        }
     }
 
     @Override
@@ -63,8 +74,12 @@ public class PhoneDaoImpl implements PhoneDao {
         if (keys == null || keys.length == 0){
             return Collections.emptyList();
         }
-        return this.jdbcTemplate.query(GET_GROUP_QUERY,
-                getParameterSource(keys), phoneRowMapper);
+        try {
+           return this.jdbcTemplate.query(GET_GROUP_QUERY,
+                                    getParameterSource(keys), phoneRowMapper);
+        } catch (EmptyResultDataAccessException e){
+            return Collections.emptyList();
+        }
     }
 
     @Override
@@ -72,14 +87,24 @@ public class PhoneDaoImpl implements PhoneDao {
         if (keys == null || keys.size() == 0){
             return Collections.emptyList();
         }
-        return this.jdbcTemplate.query(GET_GROUP_QUERY,
-                getParameterSource(keys), phoneRowMapper);
+        try{
+           return this.jdbcTemplate.query(GET_GROUP_QUERY,
+                    getParameterSource(keys), phoneRowMapper);
+        } catch (EmptyResultDataAccessException e){
+            return Collections.emptyList();
+        }
     }
 
 
     @Override
-    public void savePhone(Phone phone) {
-        this.jdbcTemplate.update(INSERT_ONE_QUERY, getParameterSource(phone));
+    public Number savePhone(Phone phone) {
+        try{
+            KeyHolder holder = new GeneratedKeyHolder();
+            this.jdbcTemplate.update(INSERT_ONE_QUERY, getParameterSource(phone), holder);
+            return holder.getKey();
+        } catch (DuplicateKeyException e){
+            return null;
+        }
     }
 
     @Override

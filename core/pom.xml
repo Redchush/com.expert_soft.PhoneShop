@@ -14,8 +14,6 @@
   <packaging>jar</packaging>
 
   <dependencies>
-
-
     <dependency>
       <groupId>${spring.group}</groupId>
       <artifactId>spring-core</artifactId>

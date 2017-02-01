@@ -35,7 +35,7 @@
     </a>
     <p>
       <table class="table table-striped">
-        <%@ include file="part/product/product_thead.jsp" %>
+        <%@ include file="part/table/cart_thead.jsp" %>
       </table>
     </p>
   </div>

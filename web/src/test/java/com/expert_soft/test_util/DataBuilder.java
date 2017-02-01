@@ -1,28 +1,22 @@
-package com.expert_soft.util;
+package com.expert_soft.test_util;
 
 
-import com.expert_soft.model.order.Cart;
-import com.expert_soft.model.order.Order;
 import com.expert_soft.model.OrderItem;
 import com.expert_soft.model.Phone;
 import com.expert_soft.model.UserInfo;
+import com.expert_soft.model.order.Cart;
+import com.expert_soft.model.order.Order;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Properties;
 
 public class DataBuilder {
 
-//    public static Cart buildCartWithoutSubtotal(Order order){
-//        Cart cart = new Cart();
-//        Map<Long, OrderItem> collect =
-//                               order.getOrderItems()
-//                              .stream()
-//                              .collect(Collectors.toMap(s->s.getPhone().getKey(), s->s));
-//        cart.setOrderItems(collect);
-//        return cart;
-//    }
 
     public static Phone getPhoneId_1(){
         BigDecimal price = new BigDecimal("111.11");

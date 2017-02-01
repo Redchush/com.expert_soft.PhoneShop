@@ -23,9 +23,10 @@ $(function() {
         _$output.hide();
 
         evt.preventDefault();
-        var _$quantityInput = $(this).find('input[name=phoneId]');
-        var phoneId = _$quantityInput.val();
-        var quantity = $(this).find('input[name=quantity]').val();
+
+        var phoneId = $(this).find('input[name=phoneId]').val();
+        var _$quantityInput = $(this).find('input[name=quantity]');
+        var quantity = _$quantityInput.val();
 
         var modelQualifier = 'span[data-save="' + phoneId + '"]';
         var model = $(modelQualifier).html();
@@ -52,7 +53,7 @@ $(function() {
              quantity: quantity}),
             success: function(data) {
                  console.log("msg : " + data.msg);
-                 changeCartCurriculum(data.result.cartSize,
+                 changeCartCurriculum(data.result.totalPhonesCount,
                                       data.result.subtotal,
                                       data.msg);
                  _$input.val('1');

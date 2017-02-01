@@ -12,13 +12,14 @@
       <button id="cart_info" class="btn btn-default pnf pull-right">
       <c:choose>
         <c:when test="${empty sessionScope.cart}">
-          <spring:message code="button.clientCart" htmlEscape="false" argumentSeparator=" " arguments="0 0"/>
+          <spring:message code="button.clientCart" htmlEscape="false"
+                          argumentSeparator=" " arguments="0 0"/>
         </c:when>
         <c:otherwise>
           <fmt:formatNumber var="sub" value="${sessionScope.cart.subtotal}"
                             type="currency" currencySymbol=""/><spring:message argumentSeparator=" "
                 code="button.clientCart" htmlEscape="false"
-                arguments="${sessionScope.cart.cartSize} ${sub}"/>
+                arguments="${sessionScope.cart.totalPhonesCount} ${sub}"/>
         </c:otherwise>
       </c:choose></button>
      </a>

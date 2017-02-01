@@ -36,23 +36,25 @@ public class ProductController {
 
 
     @RequestMapping(value = "/products/{id}", method = RequestMethod.GET)
-    public ModelAndView product(@PathVariable(value = "id") Long id){
+    public ModelAndView product(@PathVariable(value = "id") Long id,
+                                HttpServletRequest request){
         Phone phone = service.getPhone(id);
+        if (phone == null){
+            return notFound(request);
+        }
         return new ModelAndView("productDetails", "phone", phone);
     }
 
-
-    @ResponseStatus(value= HttpStatus.NOT_FOUND)
-    @ExceptionHandler(NoSuchEntityException.class)
-    public ModelAndView notFound(HttpServletRequest req, Exception ex) {
-        logger.error(String.format("Somebody try to find non-existent entity. Url: %s \n Raised %s",
-                     req.getRequestURL() + req.getQueryString(), ex));
+    public ModelAndView notFound(HttpServletRequest req) {
+        logger.error(String.format("Somebody try to find non-existent entity. Url: %s \n",
+                     req.getRequestURL() + req.getQueryString()));
 
         ModelAndView mav = new ModelAndView();
         mav.addObject("url", req.getRequestURL());
         mav.addObject("object", "phone");
         mav.addObject("description", "This phone not exist in our list or it was deleted.");
-        mav.setViewName("/error/productNotFound");
+        mav.setViewName("/error/notFound");
+        mav.setStatus(HttpStatus.NOT_FOUND);
         return mav;
     }
 
@@ -65,7 +67,7 @@ public class ProductController {
         mav.addObject("url", req.getRequestURL());
         mav.addObject("object", "phone");
         mav.addObject("description", "This phone keys must be positive number");
-        mav.setViewName("/error/productNotFound");
+        mav.setViewName("/error/notFound");
         return mav;
     }
 

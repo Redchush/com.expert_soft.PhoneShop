@@ -23,7 +23,10 @@
 
 <body>
 <c:import url="/WEB-INF/views/part/header_with_cart.jsp"/>
-<c:set var="sessCartItems" value="${sessionScope.cart.itemsMap}" />
+<c:set var="sessCartItems" value="${sessionScope.cart.orderItems}" />
+
+<%--<c:out value="${sessCartItems}"/>--%>
+
 <span id="restore_msg" class="holder"><spring:message code="button.restore"/></span>
 <span id="delete_msg" class="holder"><spring:message code="button.delete"/></span>
 <span id="delete_msg" class="holder"><spring:message code="button.delete"/></span>
@@ -50,34 +53,31 @@
     <form:form class="form-inline" modelAttribute="cartItems"
                method="post" action="${userActionUrl}">
       <table class="table table-striped">
-        <%@ include file="part/product/product_thead.jsp" %>
+        <%@ include file="part/table/cart_thead.jsp" %>
         <tbody>
-        <c:forEach var="itemEntry" items="${sessCartItems}" varStatus="status">
-
-          <c:set var="phone" value="${itemEntry.value.phone}" scope="page"/>
-          <fmt:formatNumber var="currentDisplay" value="${(phone.displaySize)/10}"
+        <c:forEach var="item" items="${sessCartItems}" varStatus="status">
+          <fmt:formatNumber var="currentDisplay" value="${(item.phone.displaySize)/10}"
                             maxFractionDigits="1"/>
-          <fmt:formatNumber var="currentPrice" value="${phone.price}" type="currency"
+          <fmt:formatNumber var="currentPrice" value="${item.phone.price}" type="currency"
                             currencySymbol="$"/>
-
           <tr>
-            <td><c:out value="${phone.model}"/></td>
-            <td><c:out value="${phone.color}"/> </td>
+            <td><c:out value="${item.phone.model}"/></td>
+            <td><c:out value="${item.phone.color}"/> </td>
             <td><c:out value="${currentDisplay}''"/></td>
             <td><c:out value="${currentPrice}"/></td>
           <td>
             <c:set var="ind" value="${status.index}"/>
             <spring:bind path="items[${ind}].quantity">
               <form:input path="items[${ind}].phone.key" cssClass="hidden"
-                          value="${itemEntry.value.phone.key}"/>
+                          value="${item.phone.key}"/>
               <form:input path="items[${ind}].quantity" class="input-sm"
-                          value="${itemEntry.value.quantity}" title="quantity"/>
+                          value="${item.quantity}" title="quantity"/>
               <form:errors path="items[${ind}].quantity" class="control-label" />
             </spring:bind>
           </td>
             <td>
               <label class="btn btn-default btn-sm pnf" data-action = "delete">
-                <input type="checkbox" name="deleteId" value="${phone.key}" autocomplete="off"
+                <input type="checkbox" name="deleteId" value="${item.phone.key}" autocomplete="off"
                        hidden>
                 <span><spring:message code="button.delete"/></span>
               </label>
@@ -93,6 +93,7 @@
         </a>
       </p>
     </form:form>
+    <output id="msg"></output>
   </div>
 </div>
 <script src="<c:url value="/resources/js/jquery.js"/>"></script>

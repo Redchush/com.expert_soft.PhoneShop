@@ -4,37 +4,25 @@ import com.expert_soft.model.OrderItem;
 import com.expert_soft.model.Phone;
 import com.expert_soft.model.calculator.OrderCalculatorImpl;
 import com.expert_soft.model.order.Cart;
-import com.expert_soft.util.DataBuilder;
+import com.expert_soft.test_util.DataBuilder;
 import org.apache.log4j.Logger;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 
-import javax.validation.ConstraintViolation;
-import javax.validation.ConstraintViolationException;
-import javax.validation.Validator;
-import java.util.Collections;
-import java.util.Properties;
-
-import static com.expert_soft.util.MockData.getTrueValidator;
+import static com.expert_soft.test_util.MockData.getMockTrueValidator;
 import static org.junit.Assert.*;
-import static org.mockito.Matchers.anyObject;
-import static org.mockito.Mockito.when;
 
 public class OrderServiceImplTest {
     private static final Logger logger = Logger.getLogger(OrderServiceImplTest.class);
 
     private static OrderServiceImpl service;
 
-
     @BeforeClass
     public static void beforeClass(){
         service = new OrderServiceImpl();
         service.setCalculator(Mockito.mock(OrderCalculatorImpl.class));
-        service.setValidator(getTrueValidator());
-
+        service.setValidator(getMockTrueValidator());
     }
 
     @Test
@@ -55,11 +43,9 @@ public class OrderServiceImplTest {
 
         assertEquals("Fail to find same phone", testedCart.getOrderItems().size(), 1);
         OrderItem item1 = testedCart.getItem(phone.getKey());
-
         assertEquals("Fail to calculate new quantity",
                 item1.getQuantity(), new Integer(3));
     }
-
 
     @Test
     public void deleteFromCart() throws Exception {

@@ -38,7 +38,7 @@
   </bean>
 
   <!--orderDao-->
-  <!--order id=1-->
+  <!--doOrder id=1-->
   <bean id="orderItem_firstOrder_new"
         class="com.expert_soft.model.OrderItem"
         scope="prototype">
@@ -64,7 +64,7 @@
 
 
   <bean id="order_1"
-        class="com.expert_soft.model.Order" scope="prototype">
+        class="com.expert_soft.model.order.Order" scope="prototype">
     <property name="key" value="1"/>
     <property name="firstName" value="klara"/>
     <property name="lastName" value="karlovna"/>
@@ -75,7 +75,7 @@
 
   </bean>
 
-  <!--order id=2-->
+  <!--doOrder id=2-->
   <bean id="orderItem_secondOrder_1_new" class="com.expert_soft.model.OrderItem" scope="prototype">
     <constructor-arg ref="phone_id_1"/>
     <constructor-arg value="1"/>
@@ -109,7 +109,7 @@
     <ref bean="orderItem_secondOrder_2_new"/>
   </util:set>
 
-  <bean id="order_2_new" class="com.expert_soft.model.Order"
+  <bean id="order_2_new" class="com.expert_soft.model.order.Order"
         scope="prototype">
     <property name="firstName" value="kenny"/>
     <property name="lastName" value="poor"/>
@@ -119,7 +119,7 @@
     <property name="orderItems" ref="secondOrderSet_new"/>
   </bean>
 
-  <bean id="order_2_db" class="com.expert_soft.model.Order"
+  <bean id="order_2_db" class="com.expert_soft.model.order.Order"
         scope="prototype">
     <property name="key" value="2"/>
     <property name="firstName" value="kenny"/>
@@ -163,9 +163,9 @@
     <property name="totalPrice" value="338.33"/>
   </bean>
 
-  <bean id="order_new" class="com.expert_soft.model.Order"/>
+  <bean id="order_new" class="com.expert_soft.model.order.Order"/>
 
-  <bean id="mapFactory" class="com.expert_soft.util.MapFactory"/>
+  <bean id="mapFactory" class="com.expert_soft.test_util.MapFactory"/>
 
   <bean id="cartMap_1" factory-bean="mapFactory"
         factory-method="createConcurrent" scope="prototype">
@@ -177,10 +177,10 @@
     </constructor-arg>
   </bean>
 
-  <bean id="cart_1_calculated" class="com.expert_soft.model.Cart">
-    <property name="cartSize" value="1"/>
+  <bean id="cart_1_calculated" class="com.expert_soft.model.order.Cart">
+    <property name="totalPhonesCount" value="1"/>
     <property name="subtotal" value="#{phone_id_1.price}"/>
-    <property name="itemsMap" ref="cartMap_1"/>
+    <property name="orderItems" ref="cartMap_1"/>
   </bean>
 
   <bean id="cartMap_2"
@@ -196,10 +196,10 @@
     </constructor-arg>
   </bean>
 
-  <bean id="cart_2_calculated" class="com.expert_soft.model.Cart">
-    <property name="cartSize" value="2"/>
+  <bean id="cart_2_calculated" class="com.expert_soft.model.order.Cart">
+    <property name="totalPhonesCount" value="2"/>
     <property name="subtotal" value="#{order_2_new_calculated.subtotal}"/>
-    <property name="itemsMap" ref="cartMap_2"/>
+    <property name="orderItems" ref="cartMap_2"/>
   </bean>
 
 </beans>

@@ -26,7 +26,7 @@
 
   <modules>
     <module>web</module>
-    <module>core_</module>
+    <module>core</module>
   </modules>
 
   <dependencies>
