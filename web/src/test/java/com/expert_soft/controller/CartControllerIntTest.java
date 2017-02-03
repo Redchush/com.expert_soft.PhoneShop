@@ -6,6 +6,7 @@ import com.expert_soft.model.OrderItem;
 import com.expert_soft.model.order.Cart;
 import com.expert_soft.test_util.DataBuilder;
 import org.apache.log4j.Logger;
+import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -24,9 +25,14 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.math.BigDecimal;
+import java.util.Collection;
 import java.util.HashMap;
 
 import static com.expert_soft.controller.ServletConstants.MSG_CODE;
+import static com.expert_soft.controller.ServletConstants.PHONE_TO_DELETE;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.flash;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
@@ -35,8 +41,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {ApplicationConfig.class} )
 @WebAppConfiguration
-@ActiveProfiles("dev")
-public class CartControllerIntegrationTest {
+@ActiveProfiles("test")
+public class CartControllerIntTest {
 
     private static final Logger logger = Logger.getLogger(ProductController.class);
 
@@ -81,14 +87,34 @@ public class CartControllerIntegrationTest {
                                       .sessionAttr("cart", cartWithOneItem);
         mockMvc.perform(requestBuilder)
                .andExpect(status().is(302))
-               .andExpect(flash().attribute(MSG_CODE, ServletConstants.MsgCodes.SUCCESS_UPDATE));
+               .andExpect(flash()
+               .attribute(MSG_CODE, ServletConstants.MsgCodes.SUCCESS_UPDATE));
+    }
 
+    @Test
+    public void updateCart_Calculation() throws Exception {
+        CartItemsContainer container = new CartItemsContainer(1);
+        OrderItem item = container.getItems()[0];
+        item.setQuantity(2);
+        item.getPhone().setKey(1L);
+
+        MockHttpServletRequestBuilder requestBuilder  =
+                MockMvcRequestBuilders.post("/update_cart")
+                                      .param("items[0].phone.key", "1")
+                                      .param("items[0].quantity", "2")
+                                      .param(PHONE_TO_DELETE, "1")
+                                      .sessionAttr("cart", cartWithOneItem);
+        mockMvc.perform(requestBuilder)
+               .andExpect(status().is(302))
+               .andExpect(flash()
+                       .attribute(MSG_CODE, ServletConstants.MsgCodes.SUCCESS_UPDATE));
+        Collection<OrderItem> orderItems = cartWithOneItem.getOrderItems();
+        assertThat(orderItems, Matchers.empty());
+        assertEquals(cartWithOneItem.getSubtotal(), new BigDecimal("0.00"));
     }
 
     @Test
     public void updateCart_Invalid() throws Exception {
-        BindingResult result = mock(BindingResult.class);
-
         MockHttpServletRequestBuilder requestBuilder  =
                 MockMvcRequestBuilders.post("/update_cart")
                                       .param("items[0].phone.key", "1")
@@ -96,7 +122,7 @@ public class CartControllerIntegrationTest {
                                       .sessionAttr("cart", cartWithOneItem);
         MvcResult mvcResult = mockMvc.perform(requestBuilder).andReturn();
         mockMvc.perform(requestBuilder)
-                .andExpect(status().isOk());
+               .andExpect(status().isOk());
     }
 
 }

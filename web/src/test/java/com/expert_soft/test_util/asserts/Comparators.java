@@ -20,7 +20,7 @@ public class Comparators {
         if (o1 == o2) {
             return true;
         }
-        if (o2 == null || o1.getClass() != o2.getClass()) {
+        if( ((o1 == null)  && (o2 != null)) || (o2==null && o1 !=null)) {
             return false;
         }
         Collection<OrderItem> orderItems_1 = o1.getOrderItems();

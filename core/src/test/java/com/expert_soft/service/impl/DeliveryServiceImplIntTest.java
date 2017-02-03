@@ -21,7 +21,7 @@ import static org.junit.Assert.*;
 @TestExecutionListeners({
         DependencyInjectionTestExecutionListener.class,
 })
-@ActiveProfiles("dev")
+@ActiveProfiles("test")
 public class DeliveryServiceImplIntTest {
 
     @Autowired private DeliveryService service;

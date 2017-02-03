@@ -7,9 +7,9 @@ import com.expert_soft.validator.group.G_Phone;
 import javax.validation.constraints.*;
 import java.math.BigDecimal;
 
+@SuppressWarnings("ALL")
 public class Phone {
 
-//    groups = G_Cart.Item.class
     @NotNull(message = "{common.key}", groups = G_Cart.Item.class)
     @Min(value = 1, message = "{common.key}", groups = G_Cart.Item.class)
     private Long key;
@@ -128,9 +128,6 @@ public class Phone {
         Phone phone = (Phone) o;
         return key != null ? key.equals(phone.key) : phone.key == null;
     }
-
-
-
 
     @Override
     public int hashCode() {

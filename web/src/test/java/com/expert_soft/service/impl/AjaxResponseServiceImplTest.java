@@ -29,7 +29,7 @@ import static org.junit.Assert.assertTrue;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {ApplicationConfig.class} )
 @WebAppConfiguration
-@ActiveProfiles("dev")
+@ActiveProfiles("test")
 public class AjaxResponseServiceImplTest {
 
     private static final Logger LOGGER = Logger.getLogger(AjaxResponseServiceImplTest.class);

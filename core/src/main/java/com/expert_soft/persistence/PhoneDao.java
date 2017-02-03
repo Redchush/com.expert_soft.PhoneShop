@@ -14,7 +14,7 @@ public interface PhoneDao {
 
     /**
      *
-     * @param key
+     * @param key - phone key
      * @throws EmptyResultDataAccessException - if phone with this key not found
      */
     Phone getPhone(Long key) throws EmptyResultDataAccessException;
@@ -25,7 +25,7 @@ public interface PhoneDao {
      * @return if keys is null or keys is empty - return empty collection.
      * Otherwise return stored in persistence list of phones.
      */
-    List<Phone> getPhones(Long... keys) throws EmptyResultDataAccessException;;
+    List<Phone> getPhones(Long... keys) throws EmptyResultDataAccessException;
 
     /**
      *
@@ -33,7 +33,7 @@ public interface PhoneDao {
      * @return if keys is null or keys is empty - return empty collection.
      * Otherwise return stored in persistence list of phones.
      */
-    List<Phone> getPhones(Collection<Long> keys) throws EmptyResultDataAccessException;;
+    List<Phone> getPhones(Collection<Long> keys) throws EmptyResultDataAccessException;
 
     /**
      *

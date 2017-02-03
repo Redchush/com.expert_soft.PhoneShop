@@ -42,7 +42,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {ApplicationConfig.class} )
 @WebAppConfiguration
-@ActiveProfiles("dev")
+@ActiveProfiles("test")
 public class OrderControllerIntTest {
 
     private static final Logger logger = Logger.getLogger(ProductController.class);
@@ -62,13 +62,6 @@ public class OrderControllerIntTest {
     public void order() throws Exception {
 
     }
-
-//    public String doOrder(@ModelAttribute(CART_ATTR) Cart cart,
-//                          @Validated(G_Order.Info.class) @Valid @ModelAttribute("userInfo") UserInfo info,
-//                          BindingResult validation,
-//                          ModelMap model,
-//                          RedirectAttributes redirectAttrs,
-//                          SessionStatus status){
 
     @Test
     public void doOrder_Valid() throws Exception {
@@ -110,9 +103,5 @@ public class OrderControllerIntTest {
 
     }
 
-    @Test
-    public void orderWithoutCart() throws Exception {
-
-    }
 
 }

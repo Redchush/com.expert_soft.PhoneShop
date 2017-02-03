@@ -6,6 +6,7 @@ import com.expert_soft.helper.JsonResponsible;
 import com.expert_soft.model.AjaxResponseCart;
 
 import com.expert_soft.model.order.Cart;
+import org.apache.log4j.Logger;
 import org.codehaus.jackson.annotate.JsonAutoDetect;
 import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -14,8 +15,11 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
-@Component
+
+@Component("jsonResponsible")
 public class JsonResponsibleImpl implements JsonResponsible {
+
+    private static final Logger LOGGER = Logger.getLogger(JsonResponsibleImpl.class);
 
     private ObjectMapper mapper;
 
@@ -23,18 +27,7 @@ public class JsonResponsibleImpl implements JsonResponsible {
         this.mapper = mapper;
     }
 
-    public void defaultConfigure(){
-        mapper.configure(SerializationConfig.Feature.FAIL_ON_EMPTY_BEANS, false);
-        mapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        mapper.configure(DeserializationConfig.Feature.WRAP_EXCEPTIONS, true);
 
-        mapper.setVisibilityChecker(mapper.getSerializationConfig().getDefaultVisibilityChecker()
-                                                  .withFieldVisibility(JsonAutoDetect.Visibility.ANY)
-                                                  .withGetterVisibility(JsonAutoDetect.Visibility.NONE)
-                                                  .withSetterVisibility(JsonAutoDetect.Visibility.NONE)
-                                                  .withCreatorVisibility(JsonAutoDetect.Visibility.NONE));
-        mapper.getSerializationConfig()
-              .addMixInAnnotations(Cart.class, CartMixIn.class);    }
 
 
     @Override
@@ -57,7 +50,23 @@ public class JsonResponsibleImpl implements JsonResponsible {
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        mapper = new ObjectMapper();
         defaultConfigure();
+    }
+
+    public void defaultConfigure(){
+        mapper.configure(SerializationConfig.Feature.FAIL_ON_EMPTY_BEANS, false);
+        mapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        mapper.configure(DeserializationConfig.Feature.WRAP_EXCEPTIONS, true);
+
+        mapper.setVisibilityChecker(mapper.getSerializationConfig()
+                                          .getDefaultVisibilityChecker()
+                                          .withFieldVisibility(JsonAutoDetect.Visibility.ANY)
+                                          .withGetterVisibility(JsonAutoDetect.Visibility.NONE)
+                                          .withSetterVisibility(JsonAutoDetect.Visibility.NONE)
+                                          .withCreatorVisibility(JsonAutoDetect.Visibility.NONE));
+        mapper.getSerializationConfig()
+              .addMixInAnnotations(Cart.class, CartMixIn.class);
+        LOGGER.debug("Mapper configured");
+
     }
 }

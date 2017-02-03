@@ -1,7 +1,6 @@
 package com.expert_soft.test_util.asserts;
 
 
-import com.expert_soft.model.UserInfoValidationTest;
 import org.apache.log4j.Logger;
 
 import javax.validation.ConstraintViolation;

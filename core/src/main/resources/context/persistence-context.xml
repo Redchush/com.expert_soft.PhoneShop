@@ -4,13 +4,13 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:p="http://www.springframework.org/schema/p"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                  http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
 
   <import resource="dataSource-context.xml"/>
   <tx:annotation-driven transaction-manager="transactionManager"/>
   <context:component-scan base-package="com.expert_soft.persistence.impl" />
-
 
   <bean id="namedTemplate" class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate">
     <constructor-arg ref="dataSource"/>
@@ -22,16 +22,13 @@
   </bean>
 
   <bean id="phone_mapper"
-        class="com.expert_soft.persistence.impl.util.Collectors$PhoneRowMapper"
-        lazy-init="true"/>
+        class="com.expert_soft.persistence.impl.util.Collectors$PhoneRowMapper"/>
 
   <bean id="order_mapper"
-        class="com.expert_soft.persistence.impl.util.Collectors$OrderRowMapper"
-        lazy-init="true"/>
+        class="com.expert_soft.persistence.impl.util.Collectors$OrderRowMapper"/>
 
   <bean id="single_order_extractor"
-        class="com.expert_soft.persistence.impl.util.Collectors$SingleOrderResultSetExtractor"
-        lazy-init="true">
+        class="com.expert_soft.persistence.impl.util.Collectors$SingleOrderResultSetExtractor">
     <constructor-arg ref="phone_mapper"/>
     <constructor-arg ref="order_mapper"/>
   </bean>
@@ -41,5 +38,14 @@
         lazy-init="true">
     <constructor-arg ref="single_order_extractor"/>
   </bean>
+
+
+  <bean id="orderDao" class="com.expert_soft.persistence.impl.OrderDaoImpl"
+        p:jdbcTemplate-ref="namedTemplate"
+        p:singleOrderExtractor-ref="single_order_extractor"
+        p:listOrderExtractor-ref="list_order_extractor"/>
+
+  <bean id="phoneDao" class="com.expert_soft.persistence.impl.PhoneDaoImpl"
+        p:jdbcTemplate-ref="namedTemplate" p:phoneRowMapper-ref="phone_mapper"/>
 
 </beans>

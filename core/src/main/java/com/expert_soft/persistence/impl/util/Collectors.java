@@ -65,7 +65,7 @@ public class Collectors {
             order.setLastName(rs.getString("orders.last_name"));
             order.setDeliveryAddress(rs.getString("orders.delivery_address"));
             order.setContactPhoneNo(rs.getString("orders.contact_phone_no"));
-
+            order.setAdditionalInfo(rs.getString("orders.additional_info"));
             return order;
         }
     }
@@ -105,6 +105,8 @@ public class Collectors {
                 orderItem.setPhone(phone);
                 orderItem.setOrder(result);
                 orderItem.setQuantity(rs.getInt("order_items.quantity"));
+                BigDecimal bigDecimal = rs.getBigDecimal("order_items.subtotal");
+                orderItem.setSubtotal(DataConverter.getPriceForModel(bigDecimal));
                 items.add(orderItem);
             }
             if (result != null){

@@ -36,13 +36,13 @@ import static junit.framework.TestCase.assertTrue;
 @TestExecutionListeners({
         DependencyInjectionTestExecutionListener.class,
 })
-@ActiveProfiles("dev")
+@ActiveProfiles("test")
 public class PhoneServiceImplIntTest {
 
     private static final Logger logger = Logger.getLogger(OrderServiceImplTest.class);
 
-    @Autowired PhoneService service;
-    @Autowired DataSource dataSource;
+    @Autowired private PhoneService service;
+    @Autowired private DataSource dataSource;
 
     private CountRowResponsible rowCounter;
     private Phone phone_id_1;

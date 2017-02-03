@@ -1,13 +1,11 @@
 package com.expert_soft.helper.impl;
 
-import com.expert_soft.helper.JsonResponsible;
 import com.expert_soft.model.AjaxResponseCart;
 import com.expert_soft.model.order.Cart;
 import com.expert_soft.test_util.DataBuilder;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -17,10 +15,10 @@ import static org.junit.Assert.assertNull;
 public class JsonHelperImplTest {
 
 
-
     @Test
     public void write() throws Exception {
-        JsonResponsible helper = new JsonResponsibleImpl();
+        JsonResponsibleImpl helper = new JsonResponsibleImpl();
+        helper.setMapper(new ObjectMapper());
         helper.afterPropertiesSet();
 
         Cart cart = DataBuilder.Carts.byOrder_2();
@@ -28,10 +26,10 @@ public class JsonHelperImplTest {
         AjaxResponseCart expected = new AjaxResponseCart();
         expected.setCode(200);
         expected.setMsg("success");
-        expected.setResult(cart);
+        expected.setResult(new AjaxResponseCart.ShortCart(cart.getSubtotal(), cart.getTotalPhonesCount()));
 
         String write = helper.beautifulWrite(expected);
-//        System.out.println(write);
+        System.out.println(write);
         ObjectMapper mapper= new ObjectMapper();
 
 
@@ -48,6 +46,8 @@ public class JsonHelperImplTest {
         assertEquals(expected.getResult().getTotalPhonesCount(),
                 actual.getResult().getTotalPhonesCount());
         assertEquals(expected.getResult().getSubtotal(), actual.getResult().getSubtotal());
+
+
 
     }
 

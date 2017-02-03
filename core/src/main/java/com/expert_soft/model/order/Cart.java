@@ -2,13 +2,13 @@ package com.expert_soft.model.order;
 
 
 import com.expert_soft.model.OrderItem;
-import com.expert_soft.persistence.impl.util.Collectors;
 import com.expert_soft.validator.group.G_Cart;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.*;
+
 
 public class Cart extends AbstractOrder implements Serializable{
 
@@ -25,6 +25,7 @@ public class Cart extends AbstractOrder implements Serializable{
         orderItems = new HashMap<>(1);
     }
 
+    @Override
     public Collection<OrderItem> getOrderItems() {
         return Collections.unmodifiableCollection(orderItems.values());
     }
@@ -32,6 +33,7 @@ public class Cart extends AbstractOrder implements Serializable{
     public Collection<Long> getPhoneKeys(){
         return Collections.unmodifiableSet(orderItems.keySet());
     }
+
 //    method for access order items
     @Override
     public void addItem(OrderItem item){
@@ -42,7 +44,7 @@ public class Cart extends AbstractOrder implements Serializable{
         orderItems.remove(item.getPhone().getKey());
     }
 
-    public OrderItem removeByPhoneKey(Long phoneKey){
+    public OrderItem removeItem(Long phoneKey){
         return orderItems.remove(phoneKey);
     }
 

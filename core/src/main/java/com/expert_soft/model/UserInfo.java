@@ -7,6 +7,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+@SuppressWarnings("ALL")
 public class UserInfo {
 
     @NotNull(groups = G_Order.Info.class)
@@ -77,6 +78,7 @@ public class UserInfo {
         this.additionalInfo = additionalInfo;
     }
 
+    @SuppressWarnings("SimplifiableIfStatement")
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -120,7 +122,6 @@ public class UserInfo {
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("UserInfo{");
-
         sb.append("firstName='").append(firstName).append('\'');
         sb.append(", lastName='").append(lastName).append('\'');
         sb.append(", deliveryAddress='").append(deliveryAddress).append('\'');

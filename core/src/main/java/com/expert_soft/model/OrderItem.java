@@ -11,6 +11,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
+@SuppressWarnings("ALL")
 public class OrderItem {
 
     private Long key;
@@ -90,6 +91,7 @@ public class OrderItem {
         if (key != null ? !key.equals(orderItem.key) : orderItem.key != null) {
             return false;
         }
+        //noinspection SimplifiableIfStatement
         if (phone != null ? !phone.equals(orderItem.phone) : orderItem.phone != null) {
             return false;
         }
@@ -109,7 +111,6 @@ public class OrderItem {
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("OrderItem{");
-
         sb.append("key=").append(key);
         sb.append(", phone=").append(phone);
         sb.append(", order key=").append(order == null ? null : order.getKey());

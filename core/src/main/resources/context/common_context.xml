@@ -1,26 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
   <bean id="conversationService"
         class="org.springframework.core.convert.support.DefaultConversionService">
   </bean>
 
-
   <!--org.springframework.beans.factory.config.PropertyPlaceholderConfigurer is old-->
   <beans profile="production">
-    <bean id="propertyConfigurer"
+    <bean id="propertyConfigure_prod"
           class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
       <property name="location" value="classpath:config/application.properties" />
     </bean>
   </beans>
 
-  <beans profile="dev">
-    <bean id="propertyConfigurer"
+  <beans profile="test">
+    <bean id="propertyConfigurer_test"
           class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
       <property name="location" value="classpath:config/applicationTest.properties" />
+    </bean>
+  </beans>
+
+  <beans profile="dev">
+    <bean id="propertyConfigurer_dev"
+          class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
+      <property name="location" value="classpath:config/applicationDev.properties" />
     </bean>
   </beans>
 

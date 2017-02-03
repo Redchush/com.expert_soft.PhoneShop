@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 
-@Service
+@Service("deliveryService")
 public class DeliveryServiceImpl implements DeliveryService {
 
     @Value("${delivery.price}")

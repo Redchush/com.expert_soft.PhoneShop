@@ -38,11 +38,8 @@ public class ConnectionFromJarTest {
 
     private static final Logger logger = Logger.getLogger(ProductController.class);
 
-    @Autowired
-    private WebApplicationContext context;
-
-    @Mock
-    private PhoneService sampleService;
+    @Autowired private WebApplicationContext context;
+    @Mock private PhoneService sampleService;
 
     @Test
     public void dataSourceInitCorrectly() throws SQLException {

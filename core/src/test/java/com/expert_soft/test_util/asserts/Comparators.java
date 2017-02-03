@@ -9,7 +9,7 @@ import com.expert_soft.model.Phone;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class Comparators {
+class Comparators {
 
     /**
      * NOTE: map.values() return own implementation of AbstractCollection, where equals not

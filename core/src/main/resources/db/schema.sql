@@ -29,9 +29,6 @@ create table orders (
   delivery_address VARCHAR(500) not null,
   contact_phone_no VARCHAR(50) not null,
   additional_info VARCHAR(500)
-
-
-
 );
 
 create table order_items (
@@ -39,6 +36,7 @@ create table order_items (
   phone_id BIGINT not null,
   order_id BIGINT not null,
   quantity SMALLINT not null,
+  subtotal INT NOT NULL,
   foreign key (phone_id) references phones(id),
   foreign key (order_id) references orders(id)
 );

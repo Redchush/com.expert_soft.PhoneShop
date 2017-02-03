@@ -18,7 +18,7 @@ import static org.junit.Assert.assertEquals;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = ApplicationConfig.class)
 @WebAppConfiguration
-@ActiveProfiles("dev")
+@ActiveProfiles("test")
 public class ApplicationConfigTest {
 
     @Autowired

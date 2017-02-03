@@ -4,6 +4,7 @@ package com.expert_soft.model;
 import com.expert_soft.model.order.Cart;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 //@JsonInclude(JsonInclude.Include.NON_NULL)
 public class AjaxResponseCart implements Serializable {
@@ -12,7 +13,7 @@ public class AjaxResponseCart implements Serializable {
     private Integer code;
 
     private Boolean pattern;
-    private Cart result;
+    private ShortCart result;
 
     public AjaxResponseCart() {}
 
@@ -25,7 +26,7 @@ public class AjaxResponseCart implements Serializable {
         this.code = code;
     }
 
-    public AjaxResponseCart(String msg, Integer code, Cart result) {
+    public AjaxResponseCart(String msg, Integer code, ShortCart result) {
         this.msg = msg;
         this.code = code;
         this.result = result;
@@ -47,11 +48,11 @@ public class AjaxResponseCart implements Serializable {
         this.code = code;
     }
 
-    public Cart getResult() {
+    public ShortCart getResult() {
         return result;
     }
 
-    public void setResult(Cart result) {
+    public void setResult(ShortCart result) {
         this.result = result;
     }
 
@@ -61,5 +62,34 @@ public class AjaxResponseCart implements Serializable {
 
     public void setPattern(Boolean pattern) {
         this.pattern = pattern;
+    }
+
+    public static class ShortCart{
+
+        private BigDecimal subtotal;
+        private Integer totalPhonesCount;
+
+        public ShortCart() {}
+
+        public ShortCart(BigDecimal subtotal, Integer totalPhonesCount) {
+            this.subtotal = subtotal;
+            this.totalPhonesCount = totalPhonesCount;
+        }
+
+        public BigDecimal getSubtotal() {
+            return subtotal;
+        }
+
+        public void setSubtotal(BigDecimal subtotal) {
+            this.subtotal = subtotal;
+        }
+
+        public Integer getTotalPhonesCount() {
+            return totalPhonesCount;
+        }
+
+        public void setTotalPhonesCount(Integer totalPhonesCount) {
+            this.totalPhonesCount = totalPhonesCount;
+        }
     }
 }

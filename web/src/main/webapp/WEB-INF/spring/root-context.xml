@@ -3,35 +3,6 @@
 			 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 			 xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-  <!--<annotation-driven />-->
-	<!--<import  resource="classpath:context/core_root-context.xml" />-->
-
-	<!--&lt;!&ndash;<bean id="messageSource"&ndash;&gt;-->
-				<!--&lt;!&ndash;class="org.springframework.context.support.ReloadableResourceBundleMessageSource">&ndash;&gt;-->
-		<!--&lt;!&ndash;<property name="basename" value="WEB-INF/i18n/messages" />&ndash;&gt;-->
-		<!--&lt;!&ndash;<property name="defaultEncoding" value="UTF-8"/>&ndash;&gt;-->
-	<!--&lt;!&ndash;</bean>&ndash;&gt;-->
-
-	<!--<bean id="localeChangeInterceptor"-->
-				<!--class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">-->
-		<!--<property name="paramName" value="lang" />-->
-	<!--</bean>-->
-
-	<!--<bean id="localeResolver"-->
-				<!--class="org.springframework.web.servlet.i18n.CookieLocaleResolver">-->
-		<!--<property name="defaultLocale" value="en"/>-->
-	<!--</bean>-->
-
-	<!--<bean id="handlerMapping"-->
-				<!--class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping">-->
-		<!--<property name="interceptors" ref="localeChangeInterceptor"/>-->
-	<!--</bean>-->
-
-	<!--<mvc:interceptors>-->
-		<!--<bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">-->
-			<!--<property name="paramName" value="lang" />-->
-		<!--</bean>-->
-	<!--</mvc:interceptors>-->
 
 
 

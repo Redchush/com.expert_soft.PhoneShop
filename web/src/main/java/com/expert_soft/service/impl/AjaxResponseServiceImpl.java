@@ -14,11 +14,10 @@ import org.springframework.stereotype.Service;
 
 import java.util.Locale;
 
-@Service
+@Service("ajaxResponseService")
 public class AjaxResponseServiceImpl implements AjaxResponseService{
 
-
-    private JsonResponsible jsonHelper;
+    private JsonResponsible jsonResponsible;
     private MessageSource msgSource;
 
     @Override
@@ -27,8 +26,8 @@ public class AjaxResponseServiceImpl implements AjaxResponseService{
     }
 
     @Autowired
-    public void setJsonHelper(JsonResponsible jsonHelper) {
-        this.jsonHelper = jsonHelper;
+    public void setJsonResponsible(JsonResponsible jsonResponsible) {
+        this.jsonResponsible = jsonResponsible;
     }
 
 
@@ -43,8 +42,10 @@ public class AjaxResponseServiceImpl implements AjaxResponseService{
     public String buildAjaxSuccess(Cart cart, String model) throws AjaxException {
         String message = msgSource.getMessage(SUCCESS_CODE,
                 new Object[]{model}, Locale.ROOT);
-        AjaxResponseCart response = new AjaxResponseCart(message, 200, cart);
-        return jsonHelper.beautifulWrite(response);
+        AjaxResponseCart response =
+                new AjaxResponseCart(message, 200,
+                        new AjaxResponseCart.ShortCart(cart.getSubtotal(), cart.getTotalPhonesCount()));
+        return jsonResponsible.beautifulWrite(response);
     }
 
     @Override
@@ -97,7 +98,7 @@ public class AjaxResponseServiceImpl implements AjaxResponseService{
                 + "\n" + addMsg;
         AjaxResponseCart response = new AjaxResponseCart(message, code);
         response.setPattern(true);
-        return jsonHelper.simpleWrite(response);
+        return jsonResponsible.simpleWrite(response);
     }
 
 

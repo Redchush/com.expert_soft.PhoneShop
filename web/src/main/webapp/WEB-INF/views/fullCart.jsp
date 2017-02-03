@@ -72,7 +72,8 @@
                           value="${item.phone.key}"/>
               <form:input path="items[${ind}].quantity" class="input-sm"
                           value="${item.quantity}" title="quantity"/>
-              <form:errors path="items[${ind}].quantity" class="control-label" />
+              <p><form:errors path="items[${ind}].quantity"
+                              class="control-label" /></p>
             </spring:bind>
           </td>
             <td>

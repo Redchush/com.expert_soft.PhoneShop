@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 
-@Component
+@Component("orderCalculator")
 @Scope(ConfigurableBeanFactory.SCOPE_SINGLETON)
 public class OrderCalculatorImpl implements OrderCalculator {
 
@@ -28,7 +28,7 @@ public class OrderCalculatorImpl implements OrderCalculator {
     }
 
     private BigDecimal calculateAndSetSubtotal(AbstractOrder order){
-        BigDecimal result = new BigDecimal(0);
+        BigDecimal result = new BigDecimal("0.00");
         for (OrderItem item : order.getOrderItems()){
             BigDecimal itemSubtotal = calculateAndSetSubtotal(item);
             result = result.add(itemSubtotal);

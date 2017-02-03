@@ -12,7 +12,6 @@ import com.expert_soft.persistence.PhoneDao;
 import com.expert_soft.service.DeliveryService;
 import com.expert_soft.service.OrderService;
 import com.expert_soft.validator.group.G_Cart;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.validation.ConstraintViolation;
@@ -24,7 +23,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
-@Service
+@Service("orderService")
 public class OrderServiceImpl implements OrderService {
 
     private OrderDao orderDao;
@@ -33,25 +32,20 @@ public class OrderServiceImpl implements OrderService {
     private OrderCalculator calculator;
     private Validator validator;
 
-    @Autowired
     public void setValidator(Validator validator) {
         this.validator = validator;
     }
 
-    @Autowired
     public void setOrderDao(OrderDao orderDao) {
         this.orderDao = orderDao;
     }
 
-    @Autowired
     public void setPhoneDao(PhoneDao phoneDao) {
         this.phoneDao = phoneDao;
     }
 
-    @Autowired
     public void setCalculator(OrderCalculator calculator) {this.calculator = calculator;}
 
-    @Autowired
     public void setDeliveryService(DeliveryService deliveryService) {
         this.deliveryService = deliveryService;
     }
@@ -133,9 +127,20 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderItem deleteFromCart(Cart cart, Long phoneId) {
-        OrderItem item = cart.removeByPhoneKey(phoneId);
+        OrderItem item = cart.removeItem(phoneId);
         calculator.recalculate(cart);
         return item;
+    }
+
+    @Override
+    public Cart deleteFromCart(Cart cart, Long[] phoneKeys) {
+        if (phoneKeys != null) {
+            for (Long phoneId : phoneKeys) {
+                deleteFromCart(cart, phoneId);
+            }
+        }
+        calculator.recalculate(cart);
+        return cart;
     }
 
     @Override

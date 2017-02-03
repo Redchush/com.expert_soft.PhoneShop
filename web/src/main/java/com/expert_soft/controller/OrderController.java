@@ -1,14 +1,12 @@
 package com.expert_soft.controller;
 
 
-
 import com.expert_soft.model.UserInfo;
 import com.expert_soft.model.order.Cart;
 import com.expert_soft.model.order.Order;
 import com.expert_soft.service.OrderService;
 import com.expert_soft.validator.group.G_Order;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -26,7 +24,7 @@ import java.util.Map;
 
 import static com.expert_soft.controller.ServletConstants.CART_ATTR;
 
-@Controller
+@Controller("orderController")
 @SessionAttributes(CART_ATTR)
 public class OrderController {
 
@@ -34,7 +32,6 @@ public class OrderController {
 
     private OrderService orderService;
 
-    @Autowired
     public void setOrderService(OrderService orderService) {
         this.orderService = orderService;
     }

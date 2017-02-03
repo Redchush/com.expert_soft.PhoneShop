@@ -6,11 +6,9 @@ package com.expert_soft.service;
 import com.expert_soft.exception.service.NotUniqueEntityException;
 import com.expert_soft.model.Phone;
 import com.expert_soft.validator.group.G_Phone;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.Valid;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.groups.Default;
 import java.util.Collection;
@@ -41,10 +39,10 @@ public interface PhoneService {
 
     /**
      *
-     * @param id
+     * @param key - phone key in persistence
      * @return null if phone not found
      */
-    Phone getPhone(Long id);
+    Phone getPhone(Long key);
 
     @Validated({G_Phone.Save.class, Default.class})
     Number savePhone(@NotNull @Valid Phone phone)

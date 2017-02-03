@@ -33,7 +33,7 @@ import static org.junit.Assert.assertTrue;
         DependencyInjectionTestExecutionListener.class,
         TransactionalTestExecutionListener.class
 })
-@ActiveProfiles("dev")
+@ActiveProfiles("test")
 @Transactional
 public class OrderDaoImplIntTest {
 
@@ -57,7 +57,6 @@ public class OrderDaoImplIntTest {
         _assertEquals("Fails to get order with multiple orderItems", expected_2, actual_2);
     }
 
-
     @Test
     public void saveOrder() throws Exception {
         Long orderKeyExpected = rowCounter.getOrders() + 1L;
@@ -71,7 +70,6 @@ public class OrderDaoImplIntTest {
         assertEquals("Order not saved with correct id expected", orderKeyExpected, actual.getKey());
         _assertEquals(expected, actual);
     }
-
 
     @Test
     public void findAll() throws Exception {

@@ -2,7 +2,6 @@ package com.expert_soft.controller;
 
 
 import com.expert_soft.exception.service.ajax.AjaxException;
-
 import com.expert_soft.model.OrderItem;
 import com.expert_soft.model.order.Cart;
 import com.expert_soft.service.AjaxResponseService;
@@ -12,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +22,7 @@ import javax.validation.ConstraintViolationException;
 import static com.expert_soft.controller.ServletConstants.*;
 import static java.lang.String.format;
 
-@Controller
+@Controller("ajaxCartController")
 @SessionAttributes({CART_ATTR})
 public class AjaxCartController {
 
@@ -32,17 +30,20 @@ public class AjaxCartController {
 
     private OrderService orderService;
     private AjaxResponseService responseService;
+    private Cart cart;
 
-    @Autowired
     public void setOrderService(OrderService orderService) {
         this.orderService = orderService;
     }
 
-    @Autowired
     public void setResponseService(AjaxResponseService responseService) {
         this.responseService = responseService;
     }
 
+    @Autowired
+    public void setCart(Cart cart) {
+        this.cart = cart;
+    }
 
     @RequestMapping(value = "/add_to_cart",
             produces = {MediaType.APPLICATION_JSON_UTF8_VALUE, MediaType.TEXT_PLAIN_VALUE},
@@ -52,14 +53,11 @@ public class AjaxCartController {
                      @RequestParam(PHONE_ID_TO_ADD) Long phoneId,
                      @RequestParam(QUANTITY_PARAM) Integer quantity){
         LOGGER.debug("catch ajax changed: modelMap " + model);
-
-        Cart cart = getCurrentCart(model);
         OrderItem item = orderService.addToCart(cart, phoneId, quantity);
         model.put(CART_ATTR, cart);
-        LOGGER.debug("cart changed: " + cart.toString());
+        LOGGER.debug("cart changed: " + cart);
         return responseService.buildAjaxSuccess(cart, item.getPhone().getModel());
     }
-
 
 
     @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
@@ -75,9 +73,9 @@ public class AjaxCartController {
     @ExceptionHandler({NumberFormatException.class, MethodArgumentTypeMismatchException.class,
                        NullPointerException.class})
     public @ResponseBody String ajaxNumberFormatViolation(HttpServletRequest req, Exception e){
-        LOGGER.debug(format("Number format exception for input %s and %s",
+        LOGGER.debug(format("Number format exception for input '%s' and '%s'.",
                 req.getParameter(PHONE_ID_TO_ADD),
-                req.getParameter(QUANTITY_PARAM)));
+                req.getParameter(QUANTITY_PARAM)), e);
         return responseService.buildInvalidFormat();
     }
 
@@ -96,13 +94,13 @@ public class AjaxCartController {
         return responseService.buildFailUnexpected();
     }
 
-    private Cart getCurrentCart(ModelMap modelMap){
-        Cart cart = (Cart) modelMap.get("cart");
-        if (cart == null){
-            cart = new Cart();
-        }
-        return cart;
-    }
+//    private Cart getCurrentCart(ModelMap modelMap){
+//        Cart cart = (Cart) modelMap.get("cart");
+//        if (cart == null){
+//            cart = new Cart();
+//        }
+//        return cart;
+//    }
 
     private HttpHeaders getJsonHeaders(){
         HttpHeaders headers = new HttpHeaders();

@@ -1,12 +1,10 @@
 package com.expert_soft.persistence.impl;
 
 
-import com.expert_soft.model.order.Order;
 import com.expert_soft.model.OrderItem;
+import com.expert_soft.model.order.Order;
 import com.expert_soft.persistence.OrderDao;
 import com.expert_soft.persistence.impl.util.DataConverter;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -17,33 +15,32 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.util.List;
 
-@Repository("OrderDao")
+@Repository("orderDao")
 @Transactional(isolation = Isolation.SERIALIZABLE)
 public class OrderDaoImpl implements OrderDao {
-
 
     private static final String INSERT_ONE_ORDER_QUERY =
             "INSERT INTO orders (delivery_price, subtotal, total, " +
                     "first_name, last_name, delivery_address,\n" +
-                    "contact_phone_no ) " +
+                    "contact_phone_no, additional_info)" +
                     "VALUES (:delivery_price, :subtotal, :total," +
                     " :first_name, :last_name, :delivery_address,\n" +
-                    " :contact_phone_no)";
+                    " :contact_phone_no, :additional_info)";
 
-    private static final String INSERT_ONE_ITEM_QUERY =  "INSERT INTO order_items(phone_id, order_id, quantity) " +
-            " VALUES (:phone_id, :order_id, :quantity)";
+    private static final String INSERT_ONE_ITEM_QUERY =
+            "INSERT INTO order_items(phone_id, order_id, quantity, subtotal) " +
+            "VALUES (:phone_id, :order_id, :quantity, :subtotal)";
 
     private static final String GET_ALL_QUERY =
             " SELECT orders.id, orders.delivery_price, orders.subtotal, orders.total " +
                     ",orders.first_name, orders.last_name\n" +
-                    ",orders.delivery_address,  orders.contact_phone_no " +
-                    ",order_items.id, order_items.quantity \n" +
-                    ",phones.id, phones.model, phones.color, phones.displaySize, phones.width, " +
-                    "phones.length " +
+                    ",orders.delivery_address, orders.contact_phone_no, orders.additional_info  " +
+                    ",order_items.id, order_items.quantity, order_items.subtotal \n" +
+                    ",phones.id, phones.model, phones.color, phones.displaySize, phones.width " +
+                    ",phones.length " +
                     ",phones.camera, phones.price \n" +
                     "FROM orders \n" +
                     "left JOIN order_items \n" +
@@ -57,22 +54,16 @@ public class OrderDaoImpl implements OrderDao {
     private ResultSetExtractor<Order> singleOrderExtractor;
     private ResultSetExtractor<List<Order>> listOrderExtractor;
 
-    @Autowired
-    public void setDataSource(DataSource dataSource) {
-        this.jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+
+    public void setJdbcTemplate(NamedParameterJdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
     }
 
-    @Autowired
-    @Qualifier("single_order_extractor")
-    public void setSingleOrderExtractor(
-            ResultSetExtractor<Order> singleOrderExtractor) {
+    public void setSingleOrderExtractor(ResultSetExtractor<Order> singleOrderExtractor) {
         this.singleOrderExtractor = singleOrderExtractor;
     }
 
-    @Autowired
-    @Qualifier("list_order_extractor")
-    public void setListOrderExtractor(
-            ResultSetExtractor<List<Order>> listOrderExtractor) {
+    public void setListOrderExtractor(ResultSetExtractor<List<Order>> listOrderExtractor) {
         this.listOrderExtractor = listOrderExtractor;
     }
 
@@ -110,7 +101,6 @@ public class OrderDaoImpl implements OrderDao {
 
     private MapSqlParameterSource getParameterSource(Order order){
         MapSqlParameterSource source = new MapSqlParameterSource();
-
         source.addValue("delivery_price", DataConverter
                 .getPriceForPersistence(order.getDeliveryPrice()));
         source.addValue("subtotal", DataConverter
@@ -122,6 +112,7 @@ public class OrderDaoImpl implements OrderDao {
         source.addValue("first_name", order.getFirstName());
         source.addValue("last_name", order.getLastName());
         source.addValue("contact_phone_no", order.getContactPhoneNo());
+        source.addValue("additional_info", order.getAdditionalInfo());
         return source;
     }
 
@@ -130,6 +121,7 @@ public class OrderDaoImpl implements OrderDao {
         source.addValue("phone_id", item.getPhone().getKey());
         source.addValue("order_id", orderKey);
         source.addValue("quantity", item.getQuantity());
+        source.addValue("subtotal", item.getSubtotal());
         return source;
     }
 

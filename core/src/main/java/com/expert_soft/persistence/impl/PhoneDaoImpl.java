@@ -4,8 +4,6 @@ import com.expert_soft.model.Phone;
 import com.expert_soft.persistence.PhoneDao;
 import com.expert_soft.persistence.impl.util.DataConverter;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
@@ -17,8 +15,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.sql.DataSource;
-import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -45,13 +41,10 @@ public class PhoneDaoImpl implements PhoneDao {
     private NamedParameterJdbcTemplate jdbcTemplate;
     private RowMapper<Phone> phoneRowMapper;
 
-    @Autowired
-    public void setDataSource(DataSource dataSource) throws SQLException {
-        this.jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+    public void setJdbcTemplate(NamedParameterJdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
     }
 
-    @Qualifier("phone_mapper")
-    @Autowired
     public void setPhoneRowMapper(RowMapper<Phone> phoneRowMapper) {
         this.phoneRowMapper = phoneRowMapper;
     }

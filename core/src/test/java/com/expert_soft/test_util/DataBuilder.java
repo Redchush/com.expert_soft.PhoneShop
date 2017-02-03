@@ -67,6 +67,7 @@ public class DataBuilder {
             OrderItem item = new OrderItem(getPhoneId_1(), 1);
             item.setKey(1L);
             item.setOrder(order);
+            item.setSubtotal(new BigDecimal("111.11"));
             return item;
         }
 
@@ -74,6 +75,7 @@ public class DataBuilder {
             OrderItem item = new OrderItem(getPhoneId_1(), 1);
             item.setKey(id);
             item.setOrder(order);
+            item.setSubtotal(new BigDecimal("111.11"));
             return item;
         }
 
@@ -81,6 +83,7 @@ public class DataBuilder {
             Order result = templateOrder();
             OrderItem item_1 = getItem_1_new();
             result.setOrderItems(Collections.singletonList(item_1));
+            result.setSubtotal(new BigDecimal("111.11"));
             return result;
         }
 
@@ -93,11 +96,7 @@ public class DataBuilder {
         }
 
         public static Order getOrder_DB(){
-            Order result = templateOrder();
-            result.setKey(1L);
-            OrderItem item_1 = getItem_1_DB(result);
-            result.setOrderItems(Collections.singletonList(item_1));
-            return result;
+            return getOrder(1L, 1L);
         }
 
         public static UserInfo getUserInfo(){
@@ -115,6 +114,7 @@ public class DataBuilder {
             result.setUserInfo(getUserInfo());
             result.setTotalPrice(new BigDecimal("116.11"));
             result.setSubtotal(new BigDecimal("111.11"));
+            result.setAdditionalInfo("klara info");
             return result;
         }
     }
@@ -129,6 +129,7 @@ public class DataBuilder {
             OrderItem result = getItem_1();
             result.setOrder(order);
             result.setKey(2L);
+            result.setSubtotal(new BigDecimal("111.11"));
             return result;
         }
 
@@ -140,6 +141,7 @@ public class DataBuilder {
             OrderItem result = getItem_2();
             result.setOrder(order);
             result.setKey(3L);
+            result.setSubtotal(new BigDecimal("222.22"));
             return result;
         }
 
@@ -220,8 +222,6 @@ public class DataBuilder {
             cart.setSubtotal(new BigDecimal("333.33"));
             return cart;
         }
-
-
     }
 
     public static class Validation{

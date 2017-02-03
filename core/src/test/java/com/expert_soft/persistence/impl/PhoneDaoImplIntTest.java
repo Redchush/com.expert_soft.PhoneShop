@@ -42,7 +42,7 @@ import static org.junit.Assert.assertNull;
         DependencyInjectionTestExecutionListener.class,
         TransactionalTestExecutionListener.class
 })
-@ActiveProfiles("dev")
+@ActiveProfiles("test")
 @Transactional
 public class PhoneDaoImplIntTest {
 
