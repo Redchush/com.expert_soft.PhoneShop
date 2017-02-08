@@ -11,7 +11,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
-@SuppressWarnings("ALL")
+
 public class OrderItem {
 
     private Long key;

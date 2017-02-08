@@ -1,8 +1,6 @@
 package com.expert_soft.persistence;
 
 
-
-
 import com.expert_soft.model.order.Order;
 
 import java.util.List;

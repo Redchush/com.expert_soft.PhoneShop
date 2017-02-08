@@ -1,9 +1,9 @@
 package com.expert_soft.persistence.impl.util;
 
 
-import com.expert_soft.model.order.Order;
 import com.expert_soft.model.OrderItem;
 import com.expert_soft.model.Phone;
+import com.expert_soft.model.order.Order;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;

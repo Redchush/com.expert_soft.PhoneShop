@@ -34,7 +34,7 @@ public class OrderDaoImpl implements OrderDao {
             "INSERT INTO order_items(phone_id, order_id, quantity, subtotal) " +
             "VALUES (:phone_id, :order_id, :quantity, :subtotal)";
 
-    private static final String GET_ALL_QUERY =
+    private static final String BASE_QUERY =
             " SELECT orders.id, orders.delivery_price, orders.subtotal, orders.total " +
                     ",orders.first_name, orders.last_name\n" +
                     ",orders.delivery_address, orders.contact_phone_no, orders.additional_info  " +
@@ -48,7 +48,7 @@ public class OrderDaoImpl implements OrderDao {
                     "JOIN phones \n" +
                     "ON phones.id = order_items.PHONE_ID \n";
 
-    private static final String GET_ONE_QUERY = GET_ALL_QUERY + " WHERE ORDERS.id = ?";
+    private static final String GET_ONE_QUERY = BASE_QUERY + " WHERE ORDERS.id = ? ORDER BY ORDER_ITEMS.ID";
 
     private NamedParameterJdbcTemplate jdbcTemplate;
     private ResultSetExtractor<Order> singleOrderExtractor;
@@ -76,7 +76,7 @@ public class OrderDaoImpl implements OrderDao {
     @Override
     public List<Order> findAll() {
         return this.jdbcTemplate.getJdbcOperations()
-                                .query(con -> con.prepareStatement(GET_ALL_QUERY,
+                                .query(con -> con.prepareStatement(BASE_QUERY,
                                         ResultSet.TYPE_SCROLL_SENSITIVE,
                                         ResultSet.CONCUR_READ_ONLY), listOrderExtractor);
     }

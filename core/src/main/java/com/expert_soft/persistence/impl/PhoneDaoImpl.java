@@ -30,13 +30,14 @@ public class PhoneDaoImpl implements PhoneDao {
             "INSERT INTO phones (model, color, displaySize, width, length, camera, price) " +
                     "VALUES (:model, :color, :displaySize, :width, :length, :camera, :price)";
 
-    private static final String GET_ALL_QUERY =
-            "SELECT phones.id, phones.model, phones.color,  phones.displaySize, phones.width, phones.length," +
-                    "PHONES.CAMERA, phones.price " +
-                    "FROM phones";
+    private static final String BASE_QUERY =
+            "SELECT phones.id, phones.model, phones.color, phones.displaySize, phones.width, phones.length," +
+                   "phones.camera, phones.price " +
+                   "FROM phones";
 
-    private static final String GET_ONE_QUERY = GET_ALL_QUERY + " WHERE id = ?";
-    private static final String GET_GROUP_QUERY = GET_ALL_QUERY + " WHERE id in (:ids)";
+    private static final String GET_ALL_QUERY = BASE_QUERY + "\n ORDER BY PHONES.ID";
+    private static final String GET_ONE_QUERY = BASE_QUERY + "\n  WHERE id = ?";
+    private static final String GET_GROUP_QUERY = BASE_QUERY + "\n  WHERE id in (:ids)";
 
     private NamedParameterJdbcTemplate jdbcTemplate;
     private RowMapper<Phone> phoneRowMapper;
