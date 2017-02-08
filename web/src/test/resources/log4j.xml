@@ -12,8 +12,15 @@
         <appender-ref ref="Appender1"/>
     </logger>
     <logger name="org.hibernate.validator.internal" additivity="false">
-        <level value="info"/>
+        <level value="error"/>
         <appender-ref ref="Appender1"/>
+    </logger>
+    <logger name="org.jboss.logging">
+        <level value="error"/>
+    </logger>
+
+    <logger name="org.springframework.context.support">
+        <level value="debug"/>
     </logger>
     <root>
         <priority value="userInfo"/>

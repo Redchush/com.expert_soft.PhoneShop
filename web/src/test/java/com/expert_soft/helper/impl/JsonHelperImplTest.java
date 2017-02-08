@@ -39,8 +39,8 @@ public class JsonHelperImplTest {
         int actualResultChildNodes = result.size();
         JsonNode cartMap = result.get("orderItems");
 
-        assertNull("Fail to exclude map. Result" + write, cartMap);
-        assertEquals("Fail to exclude map. Result" + write, actualResultChildNodes, 2);
+        assertNull("Fail to exclude map. ValidationResult" + write, cartMap);
+        assertEquals("Fail to exclude map. ValidationResult" + write, actualResultChildNodes, 2);
         assertEquals(expected.getCode(), actual.getCode());
         assertEquals(expected.getMsg(), actual.getMsg());
         assertEquals(expected.getResult().getTotalPhonesCount(),

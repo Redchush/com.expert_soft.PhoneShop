@@ -4,8 +4,6 @@ package com.expert_soft.helper.impl;
 import com.expert_soft.exception.service.ajax.AjaxException;
 import com.expert_soft.helper.JsonResponsible;
 import com.expert_soft.model.AjaxResponseCart;
-
-import com.expert_soft.model.order.Cart;
 import org.apache.log4j.Logger;
 import org.codehaus.jackson.annotate.JsonAutoDetect;
 import org.codehaus.jackson.map.DeserializationConfig;
@@ -26,8 +24,6 @@ public class JsonResponsibleImpl implements JsonResponsible {
     public void setMapper(ObjectMapper mapper) {
         this.mapper = mapper;
     }
-
-
 
 
     @Override
@@ -64,8 +60,6 @@ public class JsonResponsibleImpl implements JsonResponsible {
                                           .withGetterVisibility(JsonAutoDetect.Visibility.NONE)
                                           .withSetterVisibility(JsonAutoDetect.Visibility.NONE)
                                           .withCreatorVisibility(JsonAutoDetect.Visibility.NONE));
-        mapper.getSerializationConfig()
-              .addMixInAnnotations(Cart.class, CartMixIn.class);
         LOGGER.debug("Mapper configured");
 
     }

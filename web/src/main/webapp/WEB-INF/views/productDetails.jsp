@@ -24,8 +24,8 @@
 <div class="container">
   <div class="row">
     <a href="<c:url value="/products"/> ">
-       <button class="btn btn-default pnf" type="button"><spring:message
-               code="button.backToMain"/></button>
+      <button class="btn btn-default pnf" type="button"><spring:message
+              code="button.backToMain"/></button>
     </a>
     <div class="col-lg-12 pnf">
       <h1><span data-save="${phone.key}"><c:out value="${phone.model}"/></span></h1>
@@ -36,14 +36,14 @@
         <td><spring:message code="product.displaySize"/></td>
         <td><fmt:formatNumber value="${phone.displaySize/10}"
                               maxFractionDigits="1"/>
-            <spring:message code="product.displaySize.dimension"/></td>
+          <spring:message code="product.displaySize.dimension"/></td>
       </tr>
       <tr>
         <td><spring:message code="product.length"/></td>
         <td><c:out value="${phone.length}" default="unknown" escapeXml="true"/>
-           <c:if test="${not empty phone.length}">
-             <spring:message code="product.dimension.mm"/>
-           </c:if>
+          <c:if test="${not empty phone.length}">
+            <spring:message code="product.dimension.mm"/>
+          </c:if>
         </td>
       </tr>
       <tr>
@@ -65,14 +65,16 @@
         <td><spring:message code="product.camera"/></td>
         <td><c:out value="${requestScope.phone.camera}" default="unknown"
                    escapeXml="true"/><c:if test="${not empty requestScope.phone.length}">
-            <spring:message code="product.dimension.mm"/></c:if></td>
+          <spring:message code="product.camera.dimension"/></c:if></td>
       </tr>
       </tbody>
     </table>
     <c:url value="/add_to_cart" var="ajaxPath"/>
 
     <form action="${ajaxPath}" id="addToCartForm<c:out value="${phone.key}"/>" name="doAddToCartForm">
-      <input name="quantity" class="input-sm" value="1" title="quantity">
+      <div class="form-group">
+        <input name="quantity" class="input-sm" value="1" title="quantity">
+      </div>
       <input name="phoneId" type="hidden" value="${phone.key}">
       <button class="btn btn-default btn-sm pnf" type="submit"
       ><spring:message code="button.addToCart"/></button>

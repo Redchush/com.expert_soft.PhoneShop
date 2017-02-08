@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-4.3.xsd">
+
+  <import resource="classpath:context/core_root-context.xml"/>
+
+  <!--controllers dependencies-->
+  <bean id="jsonResponsible" class="com.expert_soft.helper.impl.JsonResponsibleImpl">
+    <property name="mapper">
+      <bean class="org.codehaus.jackson.map.ObjectMapper"/>
+    </property>
+  </bean>
+
+  <bean id="ajaxResponseService"
+        class="com.expert_soft.service.impl.AjaxResponseServiceImpl"
+        p:jsonResponsible-ref="jsonResponsible"/>
+
+
+
+  <!--controllers-->
+  <bean id="cartController" class="com.expert_soft.controller.cart.CartController"
+        p:cartService-ref="cartService"/>
+
+  <bean id="updateCartController" class="com.expert_soft.controller.cart.UpdateCartController"
+        p:cartService-ref="cartService"/>
+
+  <bean id="ajaxAddToCartController" class="com.expert_soft.controller.cart.AjaxAddToCartController"
+        p:cartService-ref="cartService"
+        p:responseService-ref="ajaxResponseService"/>
+
+  <bean id="orderController" class="com.expert_soft.controller.order.OrderController"
+        p:orderService-ref="orderService"/>
+
+  <bean id="saveOrderController" class="com.expert_soft.controller.order.SaveOrderController"
+        p:orderService-ref="orderService"/>
+
+  <bean id="orderDetailsController" class="com.expert_soft.controller.order.OrderConfirmationController"
+        p:orderService-ref="orderService"/>
+
+
+  <bean id="productDetailsController" class="com.expert_soft.controller.product.ProductDetailsController"
+        p:service-ref="phoneService"/>
+
+  <bean id="productListController" class="com.expert_soft.controller.product.ProductListController"
+        p:service-ref="phoneService"/>
+
+</beans>

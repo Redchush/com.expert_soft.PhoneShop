@@ -8,6 +8,7 @@ import com.expert_soft.model.order.Order;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Comparator;
 
 public class Comparators {
 
@@ -103,4 +104,14 @@ public class Comparators {
     }
 
 
+    protected static String failMsg(Object o1, Object o2){
+        return String.format("The objects not equals:\nEXPECTED:\n%s\nACTUAL:\n%s", o1, o2);
+    }
+
+    public static class PhoneByKey implements Comparator<Phone> {
+        @Override
+        public int compare(Phone o1, Phone o2) {
+            return o1.getKey().compareTo(o2.getKey());
+        }
+    }
 }

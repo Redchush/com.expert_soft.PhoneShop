@@ -1,19 +1,10 @@
 $(function() {
 
-// public class AjaxResponseCart implements Serializable {
-//     private String msg;
-//     private String code;
-//     private CartCurriculum result;
-// public class CartCurriculum implements Serializable{
-//     private Integer cartSize;
-//     private BigDecimal cartSubtotal;
-
-
-
     var  _$output = $("#msg").hide();
     var _$cartInfo = $("#cart_info");
     var _$size = _$cartInfo.find('span[data-out="size"]');
     var _$subtotal = _$cartInfo.find('span[data-out="subtotal"]');
+    var _$form_groups = $(".form-group");
 
     console.log(" size: " + _$size.html() + "subtotal: " + _$subtotal.html());
 
@@ -21,6 +12,7 @@ $(function() {
     $('form[name=doAddToCartForm]').submit(function (evt) {
         console.log("ajax called outForm");
         _$output.hide();
+        _$form_groups.removeClass("has-error");
 
         evt.preventDefault();
 
@@ -43,6 +35,9 @@ $(function() {
         sendAjaxToCart(phoneId, quantity, _$quantityInput, model, url);
     });
 
+    // private String msg;
+    // private String code;
+    // private ShortCart result;
     function sendAjaxToCart(phoneId, quantity, _$input, model, url) {
         $.ajax({
             url: url,
@@ -56,33 +51,25 @@ $(function() {
                  changeCartCurriculum(data.result.totalPhonesCount,
                                       data.result.subtotal,
                                       data.msg);
-                 _$input.val('1');
-
+                _$input.val('1');
             },
             500 : function (data) {
                 _$output.html(data.msg);
             },
             error: function (jqXHR) {
-                // var jsonData = jQuery.parseJSON(data);
-                //
-                // var patternMsg = jsonData.msg;
                 console.log(jqXHR.responseText);
 
                 var msg = jqXHR.responseText + '';
                 var outMsg = msg.split('{model}').join(model);
                 _$output.html(outMsg);
                 _$output.show();
-                _$input.val('1');
+                _$input.parent(".form-group").addClass("has-error");
             },
             timeout: function () {
                 _$output.html("Sorry, your request can't be executed");
                 _$input.val('1');
             }
         });
-
-        // private String msg;
-        // private String code;
-        // private CartCurriculum result;
     }
 
    
@@ -92,39 +79,5 @@ $(function() {
         _$subtotal.html(subtotal);
         _$output.html(msg).show(); 
     }
-
-     function test(){
-         changeCartCurriculum(10, 10, "msg");  
-     }
-
 });
 
-
-
-// $("button[name = doAddToCartOutForm]").on("submit", function (evt) {
-//     console.log("ajax called");
-//     evt.stopPropagation();
-//
-//     var phoneId = $(this).val();
-//     var formId = $(this).attr('form');
-//     var inputQualifier = "input[form=" + formId;
-//     var quantity = $(inputQualifier).val();
-//
-//     console.log("Receive in doAjaxAddToCart: phoneId "
-//         + phoneId + ", quantity : " + quantity);
-//     sendAjaxToCart(phoneId, quantity);
-// });
-//
-//
-// $("button[name = doAddToCartInForm]").on("submit", function (evt) {
-//     console.log("ajax called inForm");
-//     evt.stopPropagation();
-//
-//     var phoneId = $(this).val();
-//     var _$parent = $(this).parent('form');
-//     var quantity = _$parent.find('input[name=quantity]').val();
-//
-//     console.log("Receive in doAjaxAddToCart: phoneId "
-//         + phoneId + ", quantity : " + quantity);
-//     sendAjaxToCart(phoneId, quantity);
-// });

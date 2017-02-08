@@ -1,10 +1,13 @@
 package com.expert_soft.controller;
 
 
-class ServletConstants {
+public class ServletConstants {
+
+    public static final String PHONE_LIST = "phones";
 
     public static final String CART_ATTR = "cart";
     public static final String CART_ITEMS = "cartItems";
+
 
     public static final String PHONE_TO_DELETE = "deleteId";
     public static final String PHONE_ID_TO_ADD = "phoneId";

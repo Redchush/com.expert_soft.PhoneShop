@@ -24,13 +24,15 @@
           <element id="library" level="project" name="Maven: org.springframework:spring-webmvc:4.3.5.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework:spring-web:4.3.5.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework:spring-aspects:4.3.5.RELEASE" />
-          <element id="library" level="project" name="Maven: org.aspectj:aspectjweaver:1.8.9" />
           <element id="library" level="project" name="Maven: org.springframework:spring-aop:4.3.5.RELEASE" />
           <element id="library" level="project" name="Maven: javax.inject:javax.inject:1" />
           <element id="library" level="project" name="Maven: org.springframework:spring-test:4.3.5.RELEASE" />
           <element id="library" level="project" name="Maven: org.codehaus.jackson:jackson-core-asl:1.9.13" />
           <element id="library" level="project" name="Maven: org.codehaus.jackson:jackson-mapper-asl:1.9.13" />
-          <element id="library" level="project" name="Maven: org.apache.tomcat.embed:tomcat-embed-core:8.5.2" />
+          <element id="library" level="project" name="Maven: cglib:cglib:3.1" />
+          <element id="library" level="project" name="Maven: org.ow2.asm:asm:4.2" />
+          <element id="library" level="project" name="Maven: org.aspectj:aspectjrt:1.6.11" />
+          <element id="library" level="project" name="Maven: org.aspectj:aspectjweaver:1.6.11" />
           <element id="library" level="project" name="Maven: javax.el:javax.el-api:2.2.4" />
           <element id="library" level="project" name="Maven: org.glassfish.web:javax.el:2.2.4" />
           <element id="library" level="project" name="Maven: javax.validation:validation-api:1.1.0.CR3" />

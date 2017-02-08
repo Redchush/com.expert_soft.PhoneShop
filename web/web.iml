@@ -17,12 +17,15 @@
     </facet>
     <facet type="Spring" name="Spring">
       <configuration>
-        <fileset id="fileset" name="Spring Application Context" removed="false">
-          <file>file://$MODULE_DIR$/src/test/resources/root-context.xml</file>
-          <file>file://$MODULE_DIR$/src/main/webapp/WEB-INF/spring/root-context.xml</file>
-          <file>file://$MODULE_DIR$/src/test/resources/servlet-context.xml</file>
-          <file>file://$MODULE_DIR$/src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml</file>
-          <file>file://$MODULE_DIR$/src/test/resources/test-data.xml</file>
+        <fileset id="fileset" name="Spring Application Context" removed="false" profiles="dev,test,production">
+          <dependency>web application context</dependency>
+          <file>file://$MODULE_DIR$/src/main/webapp/WEB-INF/config/root-context.xml</file>
+          <file>file://$MODULE_DIR$/src/main/webapp/WEB-INF/config/appServlet/servlet-context.xml</file>
+          <file>file://$MODULE_DIR$/../core/src/main/resources/context/common_context.xml</file>
+          <file>file://$MODULE_DIR$/../core/src/main/resources/context/core_root-context.xml</file>
+          <file>file://$MODULE_DIR$/../core/src/main/resources/context/dataSource-context.xml</file>
+          <file>file://$MODULE_DIR$/../core/src/main/resources/context/persistence-context.xml</file>
+          <file>file://$MODULE_DIR$/../core/src/main/resources/context/service-context.xml</file>
         </fileset>
       </configuration>
     </facet>
@@ -39,6 +42,24 @@
     </content>
     <orderEntry type="jdk" jdkName="1.8" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module-library" scope="TEST">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../core/src/main/resources" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" scope="TEST">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/src/main/resources" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
     <orderEntry type="module" module-name="core" />
     <orderEntry type="library" name="Maven: org.springframework:spring-jdbc:4.3.5.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-tx:4.3.5.RELEASE" level="project" />
@@ -55,13 +76,16 @@
     <orderEntry type="library" name="Maven: org.springframework:spring-webmvc:4.3.5.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-web:4.3.5.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-aspects:4.3.5.RELEASE" level="project" />
-    <orderEntry type="library" name="Maven: org.aspectj:aspectjweaver:1.8.9" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-aop:4.3.5.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: javax.inject:javax.inject:1" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-test:4.3.5.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.codehaus.jackson:jackson-core-asl:1.9.13" level="project" />
     <orderEntry type="library" name="Maven: org.codehaus.jackson:jackson-mapper-asl:1.9.13" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.tomcat.embed:tomcat-embed-core:8.5.2" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.apache.tomcat.embed:tomcat-embed-core:8.5.2" level="project" />
+    <orderEntry type="library" name="Maven: cglib:cglib:3.1" level="project" />
+    <orderEntry type="library" name="Maven: org.ow2.asm:asm:4.2" level="project" />
+    <orderEntry type="library" name="Maven: org.aspectj:aspectjrt:1.6.11" level="project" />
+    <orderEntry type="library" name="Maven: org.aspectj:aspectjweaver:1.6.11" level="project" />
     <orderEntry type="library" name="Maven: javax.el:javax.el-api:2.2.4" level="project" />
     <orderEntry type="library" name="Maven: org.glassfish.web:javax.el:2.2.4" level="project" />
     <orderEntry type="library" name="Maven: javax.validation:validation-api:1.1.0.CR3" level="project" />
@@ -75,14 +99,5 @@
     <orderEntry type="library" name="Maven: log4j:log4j:1.2.14" level="project" />
     <orderEntry type="library" name="Maven: org.slf4j:slf4j-log4j12:1.7.7" level="project" />
     <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.7.7" level="project" />
-    <orderEntry type="module-library" scope="TEST">
-      <library>
-        <CLASSES>
-          <root url="file://$MODULE_DIR$/../core/src/main/resources" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
   </component>
 </module>

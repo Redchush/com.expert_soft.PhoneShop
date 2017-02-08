@@ -7,20 +7,9 @@
   <display-name>Phonify</display-name>
 
   <context-param>
-    <param-name>contextClass</param-name>
-    <param-value>
-      org.springframework.web.context.support.AnnotationConfigWebApplicationContext
-    </param-value>
-  </context-param>
-  <context-param>
     <param-name>contextConfigLocation</param-name>
-    <param-value>com.expert_soft.config.ApplicationConfig</param-value>
+    <param-value>WEB-INF/config/root-context.xml</param-value>
   </context-param>
-
-  <!--<context-param>-->
-    <!--<param-name>contextConfigLocation</param-name>-->
-    <!--<param-value>/WEB-INF/spring/root-context.xml</param-value>-->
-  <!--</context-param>-->
 
   <context-param>
     <param-name>spring.profiles.default</param-name>
@@ -73,13 +62,8 @@
     </init-param>
     <init-param>
       <param-name>contextConfigLocation</param-name>
-      <param-value>com.expert_soft.config.ServletConfig</param-value>
+      <param-value>WEB-INF/config/appServlet/servlet-context.xml</param-value>
     </init-param>
-
-    <!--<init-param>-->
-      <!--<param-name>contextConfigLocation</param-name>-->
-      <!--<param-value>/WEB-INF/spring/appServlet/servlet-context.xml</param-value>-->
-    <!--</init-param>-->
     <load-on-startup>1</load-on-startup>
   </servlet>
 
@@ -88,8 +72,23 @@
     <url-pattern>/</url-pattern>
   </servlet-mapping>
 
+  <listener>
+    <listener-class>
+      org.springframework.web.context.request.RequestContextListener
+    </listener-class>
+  </listener>
 
+  <filter>
+    <filter-name>requestContextFilter</filter-name>
+    <filter-class>org.springframework.web.filter.RequestContextFilter</filter-class>
+  </filter>
 
-
+  <filter-mapping>
+    <filter-name>requestContextFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+    <dispatcher>REQUEST</dispatcher>
+    <dispatcher>INCLUDE</dispatcher>
+    <dispatcher>FORWARD</dispatcher>
+  </filter-mapping>
 
 </web-app>

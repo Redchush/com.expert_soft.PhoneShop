@@ -1,8 +1,6 @@
 package com.expert_soft.model;
 
 
-import com.expert_soft.model.order.Cart;
-
 import java.io.Serializable;
 import java.math.BigDecimal;
 

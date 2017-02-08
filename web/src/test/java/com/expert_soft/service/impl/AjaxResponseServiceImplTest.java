@@ -1,13 +1,12 @@
 package com.expert_soft.service.impl;
 
-import com.expert_soft.config.ApplicationConfig;
-import com.expert_soft.controller.AjaxCartController;
+import com.expert_soft.controller.cart.AjaxAddToCartController;
 import com.expert_soft.model.AjaxResponseCart;
-
 import com.expert_soft.model.order.Cart;
 import com.expert_soft.service.AjaxResponseService;
 import com.expert_soft.test_util.DataBuilder;
 import com.expert_soft.test_util.JsonTestHelper;
+import com.expert_soft.test_util.TestConstants;
 import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.Test;
@@ -27,7 +26,9 @@ import static org.junit.Assert.assertTrue;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {ApplicationConfig.class} )
+@ContextConfiguration(locations = {
+        TestConstants.ROOT_CONTEXT,
+        TestConstants.SERVLET_CONTEXT})
 @WebAppConfiguration
 @ActiveProfiles("test")
 public class AjaxResponseServiceImplTest {
@@ -40,7 +41,7 @@ public class AjaxResponseServiceImplTest {
     @Before
     public void setUp() throws Exception {
         this.mockMvc = MockMvcBuilders
-                    .standaloneSetup(new AjaxCartController()).build();
+                .standaloneSetup(new AjaxAddToCartController()).build();
     }
 
     @Test

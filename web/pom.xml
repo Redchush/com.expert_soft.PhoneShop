@@ -125,20 +125,12 @@
     <!--<version>2.8.6</version>-->
     <!--</dependency>-->
 
-
-    <!--&lt;!&ndash;ava.lang.NoClassDefFoundError: com/fasterxml/jackson/core/com.expert_soft.test_util_util/DefaultIndenter since 2.5!!&ndash;&gt;-->
-    <!--<dependency>-->
-    <!--<groupId>io.joynr.java.core</groupId>-->
-    <!--<artifactId>clustercontroller-standalone</artifactId>-->
-    <!--<version>0.15.1</version>-->
-    <!--</dependency>-->
-
-
     <!--solve missing javax.servlet.SessionCookieConfig-->
     <dependency>
       <groupId>org.apache.tomcat.embed</groupId>
       <artifactId>tomcat-embed-core</artifactId>
       <version>8.5.2</version>
+      <scope>provided</scope>
     </dependency>
 
 
@@ -158,7 +150,6 @@
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-dependency-plugin</artifactId>
           <version>3.0.0</version>
-          <!--<exclude>${project.groupId}:core-1.0-RELEASE</exclude>-->
           <executions>
             <execution>
               <id>purge-local-dependencies</id>
@@ -221,11 +212,11 @@
           <version>2.2</version>
           <configuration>
             <!--<url>http://localhost:8080/manager/**text**/deploy</url>-->
-            <!--<server>TomcatServer</server>-->
+            <server>TomcatServer</server>
             <url>http://localhost:8080/manager/text</url>
             <path>/phonify</path>
-            <!--<username>admin</username>-->
-            <!--<password>admin</password>-->
+            <username>admin</username>
+            <password>admin</password>
           </configuration>
         </plugin>
 
