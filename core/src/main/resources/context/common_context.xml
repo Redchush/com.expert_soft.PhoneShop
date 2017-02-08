@@ -1,20 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+     " >
 
   <bean id="conversationService"
         class="org.springframework.core.convert.support.DefaultConversionService">
   </bean>
 
-  <!--org.springframework.beans.factory.config.PropertyPlaceholderConfigurer is old-->
-  <beans profile="production">
-    <bean id="propertyConfigure_prod"
-          class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
-      <property name="location" value="classpath:config/application.properties" />
-    </bean>
-  </beans>
-
+  <!-- NOTE: org.springframework.beans.factory.config.PropertyPlaceholderConfigurer is old-->
   <beans profile="test">
     <bean id="propertyConfigurer_test"
           class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">

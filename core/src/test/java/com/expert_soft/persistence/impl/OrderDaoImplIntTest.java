@@ -1,9 +1,11 @@
 package com.expert_soft.persistence.impl;
 
+import com.expert_soft.model.OrderItem;
 import com.expert_soft.model.order.Order;
 import com.expert_soft.persistence.OrderDao;
-import com.expert_soft.test_util.db.CountRowResponsible;
 import com.expert_soft.test_util.DataBuilder;
+import com.expert_soft.test_util.asserts.Comparators;
+import com.expert_soft.test_util.db.CountRowResponsible;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,6 +20,8 @@ import org.springframework.test.context.transaction.TransactionalTestExecutionLi
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.sql.DataSource;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -58,6 +62,16 @@ public class OrderDaoImplIntTest {
     }
 
     @Test
+    public void findAll_checkOrder() throws Exception {
+        Order order = dao.getOrder(4L);
+        List<OrderItem> actual = order.getOrderItems();
+        List<OrderItem> expected = new ArrayList<>(actual);
+        Collections.sort(expected, new Comparators.OrderItemsByKey());
+        assertEquals(actual, expected);
+
+    }
+
+    @Test
     public void saveOrder() throws Exception {
         Long orderKeyExpected = rowCounter.getOrders() + 1L;
         Long itemKeyExpected = rowCounter.getOrderItems() + 1L;
@@ -79,5 +93,7 @@ public class OrderDaoImplIntTest {
                                             .collect(Collectors.joining(" ")) + "\n ALL \n" + all,
                 rowCounter.getOrders(), all.size());
     }
+
+
 
 }

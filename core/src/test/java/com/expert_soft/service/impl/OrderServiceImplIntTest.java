@@ -1,14 +1,12 @@
 package com.expert_soft.service.impl;
 
-import com.expert_soft.model.*;
-import com.expert_soft.model.calculator.OrderCalculator;
+import com.expert_soft.model.UserInfo;
 import com.expert_soft.model.order.Cart;
 import com.expert_soft.model.order.Order;
 import com.expert_soft.service.OrderService;
-import com.expert_soft.test_util.db.CountRowResponsible;
 import com.expert_soft.test_util.DataBuilder;
+import com.expert_soft.test_util.db.CountRowResponsible;
 import org.apache.log4j.Logger;
-import org.hamcrest.CoreMatchers;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,15 +19,10 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 
 import javax.sql.DataSource;
-import javax.validation.ConstraintViolationException;
-import java.math.BigDecimal;
 import java.util.List;
-import java.util.regex.Matcher;
 
 import static com.expert_soft.test_util.asserts.ModelAsserts._assertEquals;
-import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 
@@ -43,10 +36,9 @@ import static org.junit.Assert.assertTrue;
 @ActiveProfiles("test")
 public class OrderServiceImplIntTest {
 
-    private static final Logger logger = Logger.getLogger(OrderServiceImplTest.class);
+    private static final Logger logger = Logger.getLogger(CartServiceImplTest.class);
 
     @Autowired private OrderService service;
-    @Autowired private OrderCalculator calculator;
     @Autowired private DataSource source;
 
     private CountRowResponsible rowCounter;
@@ -110,51 +102,4 @@ public class OrderServiceImplIntTest {
         assertEquals(order_actual_2, order_actual_1);
     }
 
-    @Test
-    public void addToCart_CalculatorMerge(){
-        OrderItem first = DataBuilder.Order_2.getItem_1();
-        OrderItem second = DataBuilder.Order_2.getItem_2();
-        Cart expected = DataBuilder.Carts.byOrder_2();
-
-        Cart actual = new Cart();
-        service.addToCart(actual, first.getPhone(), first.getQuantity());
-        service.addToCart(actual, second.getPhone(), second.getQuantity());
-
-        assertEquals("Fail to calculate new quantity", 2, actual.getOrderItems().size());
-        assertEquals("Fail to calculate new subtotal", expected.getSubtotal(), actual.getSubtotal());
-    }
-
-    @Test
-    public void deleteFromCart_CalculatorMerge(){
-        Cart expected = DataBuilder.Carts.byOrder_1();
-        Cart actual = DataBuilder.Carts.byOrder_2();
-        OrderItem second = DataBuilder.Order_2.getItem_2();
-        BigDecimal prevousSubtotal =  actual.getSubtotal();
-
-        OrderItem itemDeleted = service.deleteFromCart(actual, second.getPhone().getKey());
-        BigDecimal currentSubtotal =  actual.getSubtotal();
-
-        assertEquals("Returned incorrect item", second, itemDeleted);
-        assertThat("Subtotal after deleted item not lessen",
-                currentSubtotal, lessThan(prevousSubtotal));
-        assertEquals("Subtotal incorrect. Try test OrderCalculator",
-                expected.getSubtotal(), actual.getSubtotal());
-        _assertEquals(expected, actual);
-
-    }
-
-    @Test
-    public void deleteFromCart_Last_CalculatorMerge(){
-        Cart actual = DataBuilder.Carts.byOrder_1();
-        OrderItem item = DataBuilder.Order_1.getItem_1_new();
-
-        service.deleteFromCart(actual, item.getPhone().getKey());
-        assertEquals(actual.getSubtotal(), new BigDecimal("0.00"));
-    }
-
-
-    @Test(expected = NullPointerException.class)
-    public void addToCart_NonExistentPhone() throws Exception {
-       service.addToCart(new Cart(), 100L, 3);
-    }
 }

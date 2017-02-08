@@ -3,10 +3,12 @@ package com.expert_soft.persistence.impl;
 import com.expert_soft.model.Phone;
 import com.expert_soft.model.UserInfoValidationTest;
 import com.expert_soft.persistence.PhoneDao;
-import com.expert_soft.test_util.db.CountRowResponsible;
 import com.expert_soft.test_util.DataBuilder;
+import com.expert_soft.test_util.asserts.Comparators;
+import com.expert_soft.test_util.db.CountRowResponsible;
 import org.apache.log4j.Logger;
 import org.hamcrest.collection.IsEmptyCollection;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -22,16 +24,13 @@ import org.springframework.test.context.transaction.TransactionalTestExecutionLi
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.sql.DataSource;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 import static com.expert_soft.test_util.asserts.ModelAsserts._assertEquals;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.collection.IsIterableContainingInOrder.contains;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -52,6 +51,7 @@ public class PhoneDaoImplIntTest {
     @Autowired private DataSource dataSource;
     private CountRowResponsible rowCounter;
 
+    private Comparator<Phone> keyComparator;
     private Phone phone_id_1;
     private Phone phone_id_2;
 
@@ -60,6 +60,7 @@ public class PhoneDaoImplIntTest {
         rowCounter = new CountRowResponsible(new JdbcTemplate(dataSource));
         phone_id_1 = DataBuilder.getPhoneId_1();
         phone_id_2 = DataBuilder.getPhoneId_2();
+        keyComparator =  new Comparators.PhoneByKey();
     }
 
     @Test
@@ -130,4 +131,15 @@ public class PhoneDaoImplIntTest {
         List<Phone> actual = dao.getPhones(new HashSet<Long>());
         assertThat(actual, is(IsEmptyCollection.empty()));
     }
+
+    @Test
+    public void findAll_checkOrder(){
+        List<Phone> actual = dao.findAll();
+        List<Phone> ordered = new ArrayList<>(actual);
+        Collections.sort(ordered, keyComparator);
+        Assert.assertEquals(ordered, actual);
+
+    }
+
+
 }

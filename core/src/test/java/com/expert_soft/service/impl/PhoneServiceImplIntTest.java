@@ -2,8 +2,8 @@ package com.expert_soft.service.impl;
 
 import com.expert_soft.model.Phone;
 import com.expert_soft.service.PhoneService;
-import com.expert_soft.test_util.db.CountRowResponsible;
 import com.expert_soft.test_util.DataBuilder;
+import com.expert_soft.test_util.db.CountRowResponsible;
 import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.Test;
@@ -39,7 +39,7 @@ import static junit.framework.TestCase.assertTrue;
 @ActiveProfiles("test")
 public class PhoneServiceImplIntTest {
 
-    private static final Logger logger = Logger.getLogger(OrderServiceImplTest.class);
+    private static final Logger logger = Logger.getLogger(CartServiceImplTest.class);
 
     @Autowired private PhoneService service;
     @Autowired private DataSource dataSource;

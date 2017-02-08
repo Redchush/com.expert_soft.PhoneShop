@@ -11,16 +11,17 @@ import org.junit.Test;
 import org.mockito.Mockito;
 
 import static com.expert_soft.test_util.MockData.getMockTrueValidator;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
-public class OrderServiceImplTest {
-    private static final Logger logger = Logger.getLogger(OrderServiceImplTest.class);
+public class CartServiceImplTest {
+    private static final Logger logger = Logger.getLogger(CartServiceImplTest.class);
 
-    private static OrderServiceImpl service;
+    private static CartServiceImpl service;
 
     @BeforeClass
     public static void beforeClass(){
-        service = new OrderServiceImpl();
+        service = new CartServiceImpl();
         service.setCalculator(Mockito.mock(OrderCalculatorImpl.class));
         service.setValidator(getMockTrueValidator());
     }

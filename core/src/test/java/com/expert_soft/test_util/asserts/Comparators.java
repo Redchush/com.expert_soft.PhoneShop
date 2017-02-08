@@ -2,15 +2,30 @@ package com.expert_soft.test_util.asserts;
 
 
 import com.expert_soft.model.OrderItem;
+import com.expert_soft.model.Phone;
 import com.expert_soft.model.order.Cart;
 import com.expert_soft.model.order.Order;
-import com.expert_soft.model.Phone;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Comparator;
 
-class Comparators {
+public class Comparators {
 
+
+    public static class PhoneByKey implements Comparator<Phone> {
+        @Override
+        public int compare(Phone o1, Phone o2) {
+            return o1.getKey().compareTo(o2.getKey());
+        }
+    }
+
+    public static class OrderItemsByKey implements Comparator<OrderItem> {
+        @Override
+        public int compare(OrderItem o1, OrderItem o2) {
+            return o1.getKey().compareTo(o2.getKey());
+        }
+    }
     /**
      * NOTE: map.values() return own implementation of AbstractCollection, where equals not
      * implemented

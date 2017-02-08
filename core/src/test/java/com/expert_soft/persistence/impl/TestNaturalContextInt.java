@@ -3,7 +3,6 @@ package com.expert_soft.persistence.impl;
 
 import org.apache.log4j.Logger;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +31,7 @@ public class TestNaturalContextInt {
     private static final Logger logger = Logger.getLogger(TestNaturalContextInt.class);
 
     @Autowired
-    private ApplicationContext applicationContext;
+    private ApplicationContext apCtx;
 
     @BeforeClass
     public static void setUp() throws Exception {
@@ -40,9 +39,8 @@ public class TestNaturalContextInt {
     }
 
     @Test
-    @Ignore
     public void isSchemaValid()  {
-        DataSource schema = applicationContext.getBean(DataSource.class);
+        DataSource schema = apCtx.getBean(DataSource.class);
         try(Connection connection = schema.getConnection()) {
             String url =  connection.getMetaData().getURL();
             logger.info("\nProduction DataSource in use with URL " + url);

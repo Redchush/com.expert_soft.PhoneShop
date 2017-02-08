@@ -3,30 +3,34 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:jdbc="http://www.springframework.org/schema/jdbc"
-       xsi:schemaLocation="http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd
-		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+       xsi:schemaLocation="http://www.springframework.org/schema/jdbc
+       http://www.springframework.org/schema/jdbc/spring-jdbc.xsd
+       http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd"
+>
 
-  <import resource="common_context.xml"/>
 
-  <bean id="dataSource"
-        class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-    <property name="url"
-              value="${db.url}" />
-    <property name="driverClassName"
-              value="${db.driver}" />
-    <property name="username"
-              value="${db.user}" />
-    <property name="password"
-              value="${db.password}" />
-   </bean>
+    <import resource="common_context.xml"/>
+    <bean id="dataSource"
+          class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+      <property name="url"
+                value="${db.url}" />
+      <property name="driverClassName"
+                value="${db.driver}" />
+      <property name="username"
+                value="${db.user}" />
+      <property name="password"
+                value="${db.password}" />
+    </bean>
 
-  <jdbc:initialize-database enabled="${db.insertSchema}" data-source="dataSource">
-    <jdbc:script location="${db.initSchema_location}" />
-  </jdbc:initialize-database>
+    <jdbc:initialize-database enabled="${db.insertSchema}" data-source="dataSource">
+      <jdbc:script location="${db.initSchema_location}" />
+    </jdbc:initialize-database>
 
-  <jdbc:initialize-database enabled="${db.insertDemoData}" data-source="dataSource">
-    <jdbc:script location="${db.initData_location}" />
-  </jdbc:initialize-database>
+    <jdbc:initialize-database enabled="${db.insertDemoData}" data-source="dataSource">
+      <jdbc:script location="${db.initData_location}" />
+    </jdbc:initialize-database>
+
 
 
 </beans>
