@@ -36,28 +36,39 @@
       <artifactId>cglib</artifactId>
       <version>3.1</version>
     </dependency>
-    <dependency>
-      <groupId>org.aspectj</groupId>
-      <artifactId>aspectjrt</artifactId>
-      <version>1.6.11</version>
-    </dependency>
-    <dependency>
-      <groupId>org.aspectj</groupId>
-      <artifactId>aspectjweaver</artifactId>
-      <version>1.6.11</version>
-    </dependency>
+    <!--<dependency>-->
+      <!--<groupId>org.aspectj</groupId>-->
+      <!--<artifactId>aspectjrt</artifactId>-->
+      <!--<version>1.6.11</version>-->
+    <!--</dependency>-->
+    <!--<dependency>-->
+      <!--<groupId>org.aspectj</groupId>-->
+      <!--<artifactId>aspectjweaver</artifactId>-->
+      <!--<version>1.6.11</version>-->
+    <!--</dependency>-->
 
     <!--validation-->
+  <!--org.hibernate demand: -->
     <dependency>
       <groupId>javax.el</groupId>
       <artifactId>javax.el-api</artifactId>
       <version>${javax.el.version}</version>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.glassfish.web</groupId>
       <artifactId>javax.el</artifactId>
       <version>2.2.4</version>
+      <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>org.jboss.logging</groupId>
+      <artifactId>jboss-logging-processor</artifactId>
+      <version>2.0.2.Final</version>
+      <scope>compile</scope>
+    </dependency>
+    <!--//org.hibernate demand: -->
+
     <dependency>
       <groupId>javax.validation</groupId>
       <artifactId>validation-api</artifactId>
@@ -114,6 +125,7 @@
     <finalName>phonify</finalName>
     <pluginManagement>
       <plugins>
+
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-compiler-plugin</artifactId>
@@ -122,6 +134,20 @@
             <target>1.8</target>
           </configuration>
         </plugin>
+
+        <plugin>
+          <groupId>org.apache.tomcat.maven</groupId>
+          <artifactId>tomcat7-maven-plugin</artifactId>
+          <version>2.2</version>
+          <configuration>
+            <!--<url>http://localhost:8080/manager/**text**/deploy</url>-->
+            <url>http://localhost:8080/manager/text</url>
+            <path>/phonify</path>
+            <!--<username>admin</username>-->
+            <!--<password>admin</password>-->
+          </configuration>
+        </plugin>
+
       </plugins>
     </pluginManagement>
   </build>

@@ -32,7 +32,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
-        TestConstants.ROOT_CONTEXT,
         TestConstants.SERVLET_CONTEXT})
 @WebAppConfiguration
 @ActiveProfiles("production")
@@ -73,7 +72,7 @@ public class ConnectionFromJarIntTest {
 
         DataSource dataSource = context.getBean(DataSource.class);
         DatabaseMetaData metaData = dataSource.getConnection().getMetaData();
-        logger.debug("URL: " + metaData.getURL());
+        logger.debug("URL: " + metaData.getURL() + "\n DRIVER " + metaData.getDriverName());
 
         ResultSet tables = metaData.getTables("PUBLIC", null, null, null);
         List<String> tablesNames = new ArrayList<>();

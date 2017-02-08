@@ -1,11 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:p="http://www.springframework.org/schema/p" xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-                           http://www.springframework.org/schema/beans/spring-beans-4.3.xsd">
-
+                           http://www.springframework.org/schema/beans/spring-beans-4.3.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
   <import resource="classpath:context/core_root-context.xml"/>
+  <import resource="../root-context.xml"/>
+
+  <context:component-scan base-package="com.expert_soft" />
+
+  <bean id="sessionCart" scope="session" class="com.expert_soft.model.order.Cart">
+    <aop:scoped-proxy/>
+  </bean>
 
   <!--controllers dependencies-->
   <bean id="jsonResponsible" class="com.expert_soft.helper.impl.JsonResponsibleImpl">
@@ -14,22 +21,21 @@
     </property>
   </bean>
 
-  <bean id="ajaxResponseService"
-        class="com.expert_soft.service.impl.AjaxResponseServiceImpl"
+  <bean id="responseService"
+        class="com.expert_soft.service.impl.ResponseServiceImpl"
         p:jsonResponsible-ref="jsonResponsible"/>
-
-
 
   <!--controllers-->
   <bean id="cartController" class="com.expert_soft.controller.cart.CartController"
         p:cartService-ref="cartService"/>
 
   <bean id="updateCartController" class="com.expert_soft.controller.cart.UpdateCartController"
-        p:cartService-ref="cartService"/>
+        p:cartService-ref="cartService"
+        p:responseService-ref="responseService"/>
 
   <bean id="ajaxAddToCartController" class="com.expert_soft.controller.cart.AjaxAddToCartController"
         p:cartService-ref="cartService"
-        p:responseService-ref="ajaxResponseService"/>
+        p:responseService-ref="responseService"/>
 
   <bean id="orderController" class="com.expert_soft.controller.order.OrderController"
         p:orderService-ref="orderService"/>
@@ -47,4 +53,15 @@
   <bean id="productListController" class="com.expert_soft.controller.product.ProductListController"
         p:service-ref="phoneService"/>
 
+  <beans profile="production">
+    <bean id="propertyOverrider" class="com.expert_soft.aspect.AppPropertyOverrider"
+          p:dbUrlPrefix="jdbc:hsqldb:file:"
+          p:pathToSource="classpath:db_root/phonify_db"
+          p:varToReplace="db.url"/>
+
+    <bean id="propertyPlaceholder" depends-on="propertyOverrider"
+          class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer"
+          p:ignoreUnresolvablePlaceholders="true"
+          p:locations="classpath:config/application.properties"/>
+  </beans>
 </beans>

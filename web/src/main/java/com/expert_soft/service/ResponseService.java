@@ -6,9 +6,15 @@ import com.expert_soft.model.OrderItem;
 import com.expert_soft.model.order.Cart;
 import org.springframework.context.MessageSourceAware;
 
-public interface AjaxResponseService extends MessageSourceAware{
+public interface ResponseService extends MessageSourceAware{
 
-    String buildAjaxSuccess(Cart cart, String modelAdded) throws AjaxException;
+    String buildJsonSuccess(Cart cart, String modelAdded) throws AjaxException;
+
+    String getUpdateSuccessMsg();
+
+    String getFailUpdateMsg();
+
+    String getInvalidFormatMsg();
 
     String buildFailToWrite();
 

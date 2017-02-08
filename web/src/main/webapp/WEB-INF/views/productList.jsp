@@ -42,10 +42,10 @@
                                   currencySymbol="$"/></td>
             <td>
               <form id="addToCartForm<c:out value="${phone.key}"/>" name="doAddToCartForm">
-                <div class="form-group">
-                    <input name="quantity" class="input-sm" value="1" title="quantity">
-                    <input name="phoneId" type="hidden" value="${phone.key}">
-               </div>
+                <div class="form-group-sm">
+                    <input name="quantity" class="form-control" value="1" title="quantity">
+                </div>
+                <input name="phoneId" type="hidden" value="${phone.key}">
               </form>
             </td>
             <td>

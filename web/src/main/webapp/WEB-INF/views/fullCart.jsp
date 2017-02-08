@@ -30,7 +30,11 @@
 <span id="restore_msg" class="holder"><spring:message code="button.restore"/></span>
 <span id="delete_msg" class="holder"><spring:message code="button.delete"/></span>
 <span id="delete_msg" class="holder"><spring:message code="button.delete"/></span>
-
+<style>
+  div.form-group-sm.has-error p{
+    display: none;
+  }
+</style>
 <div class="container">
   <div class="row">
     <div class="col-lg-12 pnf">
@@ -55,7 +59,7 @@
       <table class="table table-striped">
         <%@ include file="part/table/cart_thead.jsp" %>
         <tbody>
-        <c:forEach var="item" items="${sessCartItems}" varStatus="status">
+        <c:forEach var="item" items="${sessCartItems}" varStatus="iterStatus">
           <fmt:formatNumber var="currentDisplay" value="${(item.phone.displaySize)/10}"
                             maxFractionDigits="1"/>
           <fmt:formatNumber var="currentPrice" value="${item.phone.price}" type="currency"
@@ -66,14 +70,17 @@
             <td><c:out value="${currentDisplay}''"/></td>
             <td><c:out value="${currentPrice}"/></td>
           <td>
-            <c:set var="ind" value="${status.index}"/>
+            <c:set var="ind" value="${iterStatus.index}"/>
             <spring:bind path="items[${ind}].quantity">
-              <form:input path="items[${ind}].phone.key" cssClass="hidden"
-                          value="${item.phone.key}"/>
-              <form:input path="items[${ind}].quantity" class="input-sm"
-                          value="${item.quantity}" title="quantity"/>
-              <p><form:errors path="items[${ind}].quantity"
-                              class="control-label" /></p>
+              <c:set var = "currentValue" value="${status.error ?  status.value : item.quantity}"/>
+              <div class="form-group-sm ${status.error ? 'has-error' : ''}">
+                    <form:input path="items[${ind}].phone.key" cssClass="hidden"
+                                value="${item.phone.key}"/>
+                    <form:input path="items[${ind}].quantity" class="form-control"
+                                value="${currentValue}" title="quantity"/>
+                    <p><form:errors path="items[${ind}].quantity" cssClass="help-block"
+                                    class="control-label" /></p>
+                </div>
             </spring:bind>
           </td>
             <td>
@@ -94,7 +101,7 @@
         </a>
       </p>
     </form:form>
-    <output id="msg"></output>
+    <output id="msg"><c:out value="${tempMsg}"/></output>
   </div>
 </div>
 <script src="<c:url value="/resources/js/jquery.js"/>"></script>

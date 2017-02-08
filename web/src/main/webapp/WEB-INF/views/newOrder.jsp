@@ -76,7 +76,7 @@
          display: block;
       }
     </style>
-    <spring:url value="/saveOrder" var="userActionUrl" />
+    <spring:url value="/order" var="userActionUrl" />
     <spring:hasBindErrors name="userInfo">
 
       <c:set var="group_error_class" value="has-feedback has-error"/>

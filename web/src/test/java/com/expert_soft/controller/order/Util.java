@@ -18,8 +18,8 @@ class Util {
         return requestBuilder;
     }
 
-    static MockHttpServletRequestBuilder postDoOrder(UserInfo info, Cart cart){
-        MockHttpServletRequestBuilder requestBuilder  = MockMvcRequestBuilders.post("/saveOrder");
+    static MockHttpServletRequestBuilder postSaveOrder(UserInfo info, Cart cart){
+        MockHttpServletRequestBuilder requestBuilder  = MockMvcRequestBuilders.post("/order");
         Util.addUserInfo(requestBuilder, info)
             .sessionAttr("cart", cart);
         return requestBuilder;

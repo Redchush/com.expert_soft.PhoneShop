@@ -26,8 +26,9 @@ import org.springframework.web.context.WebApplicationContext;
 import java.math.BigDecimal;
 import java.util.Collection;
 
-import static com.expert_soft.controller.ServletConstants.MSG_CODE;
+
 import static com.expert_soft.controller.ServletConstants.PHONE_TO_DELETE;
+import static com.expert_soft.controller.ServletConstants.TEMP_MSG;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.flash;
@@ -35,7 +36,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
-        TestConstants.ROOT_CONTEXT,
         TestConstants.SERVLET_CONTEXT})
 @WebAppConfiguration
 @ActiveProfiles("test")
@@ -43,8 +43,7 @@ public class UpdateCartControllerIntTest {
 
     private static final Logger logger = Logger.getLogger(UpdateCartControllerIntTest.class);
 
-    @Autowired
-    private WebApplicationContext context;
+    @Autowired private WebApplicationContext context;
     @Autowired private UpdateCartController controller;
 
     private MockMvc mockMvc;
@@ -72,7 +71,7 @@ public class UpdateCartControllerIntTest {
         mockMvc.perform(requestBuilder)
                .andExpect(status().is(302))
                .andExpect(flash()
-                       .attribute(MSG_CODE, ServletConstants.MsgCodes.SUCCESS_UPDATE));
+                       .attributeExists(TEMP_MSG));
     }
 
     @Test
@@ -91,7 +90,7 @@ public class UpdateCartControllerIntTest {
         mockMvc.perform(requestBuilder)
                .andExpect(status().is(302))
                .andExpect(flash()
-                       .attribute(MSG_CODE, ServletConstants.MsgCodes.SUCCESS_UPDATE));
+                       .attributeExists(TEMP_MSG));
         Collection<OrderItem> orderItems = cartWithOneItem.getOrderItems();
         assertThat(orderItems, Matchers.empty());
         assertEquals(cartWithOneItem.getSubtotal(), new BigDecimal("0.00"));

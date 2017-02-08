@@ -5,7 +5,7 @@ import com.expert_soft.exception.service.ajax.AjaxException;
 import com.expert_soft.model.OrderItem;
 import com.expert_soft.model.order.Cart;
 import com.expert_soft.model.result.ValidationResult;
-import com.expert_soft.service.AjaxResponseService;
+import com.expert_soft.service.ResponseService;
 import com.expert_soft.service.CartService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +29,7 @@ public class AjaxAddToCartController {
     private static final Logger LOGGER = Logger.getLogger(AjaxAddToCartController.class);
 
     private CartService cartService;
-    private AjaxResponseService responseService;
+    private ResponseService responseService;
     @Autowired
     private Cart cart;
 
@@ -37,7 +37,7 @@ public class AjaxAddToCartController {
         this.cartService = cartService;
     }
 
-    public void setResponseService(AjaxResponseService responseService) {
+    public void setResponseService(ResponseService responseService) {
         this.responseService = responseService;
     }
 
@@ -53,7 +53,7 @@ public class AjaxAddToCartController {
         if (validationResult.isSuccess()) {
             model.put(CART_ATTR, cart);
             LOGGER.debug("cart changed: " + cart);
-            String body = responseService.buildAjaxSuccess(cart, cartService.getPhone(cart, phoneId).getModel());
+            String body = responseService.buildJsonSuccess(cart, cartService.getPhone(cart, phoneId).getModel());
             return new ResponseEntity<>(body, HttpStatus.OK);
         } else {
             return ajaxItemViolation(validationResult);

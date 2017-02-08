@@ -44,7 +44,7 @@ public class SaveOrderControllerIntTest {
     public void doOrder_Valid() throws Exception {
         Cart cartWithOneItem = DataBuilder.Carts.byOrder_1();
         UserInfo info = DataBuilder.Order_1.getUserInfo();
-        mockMvc.perform(Util.postDoOrder(info, cartWithOneItem))
+        mockMvc.perform(Util.postSaveOrder(info, cartWithOneItem))
                .andExpect(status().is(302));
 
     }
@@ -55,7 +55,7 @@ public class SaveOrderControllerIntTest {
         UserInfo info = DataBuilder.Order_1.getUserInfo();
         info.setContactPhoneNo("InvalidPhone");
 
-        mockMvc.perform(Util.postDoOrder(info, cartWithOneItem))
+        mockMvc.perform(Util.postSaveOrder(info, cartWithOneItem))
                .andExpect(status().isOk());
     }
 }

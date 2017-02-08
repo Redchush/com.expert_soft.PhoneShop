@@ -23,8 +23,7 @@ public class CartController {
     private static final Logger LOGGER = Logger.getLogger(CartController.class);
 
     private CartService cartService;
-    @Autowired
-    private Cart cart;
+    @Autowired   private Cart cart;
 
     public void setCartService(CartService orderService) {
         this.cartService = orderService;

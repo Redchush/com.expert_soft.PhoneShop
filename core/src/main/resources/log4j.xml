@@ -8,9 +8,8 @@
         </layout>
     </appender>
 
-
     <logger name="org.springframework" additivity="false">
-        <level value="userInfo"/>
+        <level value="info"/>
         <appender-ref ref="Appender1"/>
     </logger>
     <logger name="com.expert_soft" additivity="false">
@@ -18,7 +17,7 @@
     </logger>
 
     <root>
-        <priority value="userInfo"/>
+        <priority value="info"/>
         <appender-ref ref="Appender1" />
     </root>
     <!--<logger name="org.springframework.web">-->
@@ -33,7 +32,5 @@
         <!--<level value="debug"/>-->
         <!--<appender-ref ref="Appender1"/>-->
     <!--</logger>-->
-
-
 
 </log4j:configuration>

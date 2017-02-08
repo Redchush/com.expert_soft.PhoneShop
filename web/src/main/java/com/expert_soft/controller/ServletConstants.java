@@ -16,6 +16,8 @@ public class ServletConstants {
 
     public static final String MSG_CODE = "msgCode";
 
+    public static final String TEMP_MSG = "tempMsg";
+
     public static class MsgCodes{
             public static final String FAIL_UPDATE = "cart.action.fail_update";
             public static final String SUCCESS_UPDATE = "cart.action.success_update";

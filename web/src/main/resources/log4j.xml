@@ -14,7 +14,7 @@
     </logger>
 
     <logger name="org.springframework" additivity="false">
-        <level value="info"/>
+        <level value="error"/>
         <appender-ref ref="Appender1"/>
     </logger>
 

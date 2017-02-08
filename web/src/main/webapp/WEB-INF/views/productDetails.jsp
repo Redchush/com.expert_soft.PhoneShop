@@ -20,6 +20,15 @@
 </head>
 <body>
 
+<style>
+  tfoot > tr> td.frame {
+    padding: 15px 0;
+  }
+  .form-group-sm{
+    margin-bottom:15px;
+  }
+</style>
+
 <c:import url="/WEB-INF/views/part/header_with_cart.jsp"/>
 <div class="container">
   <div class="row">
@@ -68,18 +77,23 @@
           <spring:message code="product.camera.dimension"/></c:if></td>
       </tr>
       </tbody>
+      <tfoot class="emptyCelled">
+      <tr>
+        <td colspan="2" class="frame">
+          <c:url value="/add_to_cart" var="ajaxPath"/>
+          <form action="${ajaxPath}" id="addToCartForm<c:out value="${phone.key}"/>"
+                name="doAddToCartForm">
+            <div class="form-group-sm">
+              <input name="quantity" class="form-control" value="1" title="quantity">
+            </div>
+            <input name="phoneId" type="hidden" value="${phone.key}">
+            <button class="btn btn-default btn-sm pnf" type="submit"
+            ><spring:message code="button.addToCart"/></button>
+          </form>
+        </td>
+      </tr>
+      </tfoot>
     </table>
-    <c:url value="/add_to_cart" var="ajaxPath"/>
-
-    <form action="${ajaxPath}" id="addToCartForm<c:out value="${phone.key}"/>" name="doAddToCartForm">
-      <div class="form-group">
-        <input name="quantity" class="input-sm" value="1" title="quantity">
-      </div>
-      <input name="phoneId" type="hidden" value="${phone.key}">
-      <button class="btn btn-default btn-sm pnf" type="submit"
-      ><spring:message code="button.addToCart"/></button>
-    </form>
-
     <output id="msg"></output>
   </div>
 </div>

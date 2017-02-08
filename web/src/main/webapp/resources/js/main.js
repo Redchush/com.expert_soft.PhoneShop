@@ -20,6 +20,7 @@ $(function() {
         var _$quantityInput = $(this).find('input[name=quantity]');
         var quantity = _$quantityInput.val();
 
+
         var modelQualifier = 'span[data-save="' + phoneId + '"]';
         var model = $(modelQualifier).html();
         console.log("Model: " + model);
@@ -39,6 +40,7 @@ $(function() {
     // private String code;
     // private ShortCart result;
     function sendAjaxToCart(phoneId, quantity, _$input, model, url) {
+        removeErrorClass(_$input); 
         $.ajax({
             url: url,
             dataType: "json",
@@ -63,13 +65,24 @@ $(function() {
                 var outMsg = msg.split('{model}').join(model);
                 _$output.html(outMsg);
                 _$output.show();
-                _$input.parent(".form-group").addClass("has-error");
+                addErrorClassClass(_$input);
+
             },
             timeout: function () {
                 _$output.html("Sorry, your request can't be executed");
                 _$input.val('1');
             }
         });
+    }
+
+    function addErrorClassClass(_$input) {
+        _$input.parent(".form-group").addClass("has-error");
+        _$input.parent(".form-group-sm").addClass("has-error");
+    }
+
+    function removeErrorClass(_$input) {
+        _$input.parent(".form-group").removeClass("has-error");
+        _$input.parent(".form-group-sm").removeClass("has-error");
     }
 
    
