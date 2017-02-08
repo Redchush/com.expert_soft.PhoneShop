@@ -3,7 +3,7 @@ package com.expert_soft.service;
 
 
 
-import com.expert_soft.exception.service.NotUniqueEntityException;
+
 import com.expert_soft.model.Phone;
 import com.expert_soft.validator.group.G_Phone;
 import org.springframework.validation.annotation.Validated;
@@ -45,6 +45,6 @@ public interface PhoneService {
     Phone getPhone(Long key);
 
     @Validated({G_Phone.Save.class, Default.class})
-    Number savePhone(@NotNull @Valid Phone phone)
-            throws NotUniqueEntityException;
+    Number savePhone(@NotNull @Valid Phone phone);
+
 }
