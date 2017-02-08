@@ -5,47 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8b1ccc4a-ad9b-4925-afd9-d846e13c79cf" name="Default" comment="devide controllers,">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_jboss_jdeparser_jdeparser_2_0_2_Final.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_jboss_logging_jboss_logging_annotations_2_0_2_Final.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_jboss_logging_jboss_logging_processor_2_0_2_Final.xml" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_aspectj_aspectjrt_1_6_11.xml" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/artifacts/web_war_exploded.xml" afterPath="$PROJECT_DIR$/.idea/artifacts/web_war_exploded.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/core.iml" afterPath="$PROJECT_DIR$/core/core.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/pom.xml" afterPath="$PROJECT_DIR$/core/pom.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/main/resources/log4j.xml" afterPath="$PROJECT_DIR$/core/src/main/resources/log4j.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pom.xml" afterPath="$PROJECT_DIR$/pom.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/pom.xml" afterPath="$PROJECT_DIR$/web/pom.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/src/main/java/com/expert_soft/controller/ServletConstants.java" afterPath="$PROJECT_DIR$/web/src/main/java/com/expert_soft/controller/ServletConstants.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/src/main/java/com/expert_soft/controller/cart/AjaxAddToCartController.java" afterPath="$PROJECT_DIR$/web/src/main/java/com/expert_soft/controller/cart/AjaxAddToCartController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/src/main/java/com/expert_soft/controller/cart/CartController.java" afterPath="$PROJECT_DIR$/web/src/main/java/com/expert_soft/controller/cart/CartController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/src/main/java/com/expert_soft/controller/cart/UpdateCartController.java" afterPath="$PROJECT_DIR$/web/src/main/java/com/expert_soft/controller/cart/UpdateCartController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/src/main/java/com/expert_soft/controller/order/SaveOrderController.java" afterPath="$PROJECT_DIR$/web/src/main/java/com/expert_soft/controller/order/SaveOrderController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/src/main/resources/log4j.xml" afterPath="$PROJECT_DIR$/web/src/main/resources/log4j.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/src/main/webapp/WEB-INF/config/appServlet/servlet-context.xml" afterPath="$PROJECT_DIR$/web/src/main/webapp/WEB-INF/config/appServlet/servlet-context.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/src/main/webapp/WEB-INF/config/application.properties" afterPath="$PROJECT_DIR$/web/src/main/webapp/WEB-INF/config/application.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/src/main/webapp/WEB-INF/config/root-context.xml" afterPath="$PROJECT_DIR$/web/src/main/webapp/WEB-INF/config/root-context.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/src/main/webapp/WEB-INF/i18n/messages.properties" afterPath="$PROJECT_DIR$/web/src/main/webapp/WEB-INF/i18n/messages.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/src/main/webapp/WEB-INF/views/fullCart.jsp" afterPath="$PROJECT_DIR$/web/src/main/webapp/WEB-INF/views/fullCart.jsp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/src/main/webapp/WEB-INF/views/newOrder.jsp" afterPath="$PROJECT_DIR$/web/src/main/webapp/WEB-INF/views/newOrder.jsp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/src/main/webapp/WEB-INF/views/productDetails.jsp" afterPath="$PROJECT_DIR$/web/src/main/webapp/WEB-INF/views/productDetails.jsp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/src/main/webapp/WEB-INF/views/productList.jsp" afterPath="$PROJECT_DIR$/web/src/main/webapp/WEB-INF/views/productList.jsp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/src/main/webapp/WEB-INF/web.xml" afterPath="$PROJECT_DIR$/web/src/main/webapp/WEB-INF/web.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/src/main/webapp/resources/js/main.js" afterPath="$PROJECT_DIR$/web/src/main/webapp/resources/js/main.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/src/test/java/com/expert_soft/controller/cart/AjaxAddToCartControllerTest.java" afterPath="$PROJECT_DIR$/web/src/test/java/com/expert_soft/controller/cart/AjaxAddToCartControllerTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/src/test/java/com/expert_soft/controller/cart/UpdateCartControllerIntTest.java" afterPath="$PROJECT_DIR$/web/src/test/java/com/expert_soft/controller/cart/UpdateCartControllerIntTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/src/test/java/com/expert_soft/controller/cart/UpdateCartControllerTest.java" afterPath="$PROJECT_DIR$/web/src/test/java/com/expert_soft/controller/cart/UpdateCartControllerTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/src/test/java/com/expert_soft/controller/order/SaveOrderControllerIntTest.java" afterPath="$PROJECT_DIR$/web/src/test/java/com/expert_soft/controller/order/SaveOrderControllerIntTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/src/test/java/com/expert_soft/controller/order/SaveOrderControllerTest.java" afterPath="$PROJECT_DIR$/web/src/test/java/com/expert_soft/controller/order/SaveOrderControllerTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/src/test/java/com/expert_soft/controller/order/Util.java" afterPath="$PROJECT_DIR$/web/src/test/java/com/expert_soft/controller/order/Util.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/src/test/java/com/expert_soft/integration/ConnectionFromJarIntTest.java" afterPath="$PROJECT_DIR$/web/src/test/java/com/expert_soft/integration/ConnectionFromJarIntTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/src/test/java/com/expert_soft/test_util/MockData.java" afterPath="$PROJECT_DIR$/web/src/test/java/com/expert_soft/test_util/MockData.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/src/test/java/com/expert_soft/test_util/TestConstants.java" afterPath="$PROJECT_DIR$/web/src/test/java/com/expert_soft/test_util/TestConstants.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/web.iml" afterPath="$PROJECT_DIR$/web/web.iml" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_aspectj_aspectjweaver_1_6_11.xml" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_aspectj_aspectjweaver_1_8_9.xml" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/web/src/main/java/com/expert_soft/service/AjaxResponseService.java" afterPath="$PROJECT_DIR$/web/src/main/java/com/expert_soft/service/ResponseService.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/web/src/main/java/com/expert_soft/service/impl/AjaxResponseServiceImpl.java" afterPath="$PROJECT_DIR$/web/src/main/java/com/expert_soft/service/impl/ResponseServiceImpl.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/web/src/test/java/com/expert_soft/service/impl/AjaxResponseServiceImplTest.java" afterPath="$PROJECT_DIR$/web/src/test/java/com/expert_soft/service/impl/ResponseServiceImplTest.java" />
     </list>
     <list id="c5e71b34-f7a9-45a1-8606-27feebd5bcc1" name="Rejected commit: Default" comment="devide order and cart serviece" />
     <ignored path="PhoneShop.iws" />
@@ -85,7 +46,7 @@
         <entry file="file://$PROJECT_DIR$/pom.xml">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="321">
-              <caret line="145" column="1" selection-start-line="145" selection-start-column="1" selection-end-line="146" selection-end-column="42" />
+              <caret line="145" column="5" selection-start-line="145" selection-start-column="5" selection-end-line="145" selection-end-column="5" />
               <folding />
             </state>
           </provider>
@@ -1400,7 +1361,7 @@
       <workItem from="1486402788314" duration="578000" />
       <workItem from="1486414669052" duration="19013000" />
       <workItem from="1486481559634" duration="31699000" />
-      <workItem from="1486560081818" duration="27511000" />
+      <workItem from="1486560081818" duration="27920000" />
     </task>
     <task id="LOCAL-00001" summary="restore after delete">
       <created>1484160689876</created>
@@ -1564,7 +1525,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="550315000" />
+    <option name="totallyTimeSpent" value="550724000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1576,7 +1537,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="0" width="1932" height="1052" extended-state="1" />
+    <frame x="-8" y="0" width="1932" height="1052" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -2374,7 +2335,7 @@
     <entry file="file://$PROJECT_DIR$/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="321">
-          <caret line="145" column="1" selection-start-line="145" selection-start-column="1" selection-end-line="146" selection-end-column="42" />
+          <caret line="145" column="5" selection-start-line="145" selection-start-column="5" selection-end-line="145" selection-end-column="5" />
           <folding />
         </state>
       </provider>
