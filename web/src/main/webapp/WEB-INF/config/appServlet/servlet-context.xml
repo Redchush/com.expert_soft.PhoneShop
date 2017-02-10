@@ -10,7 +10,9 @@
 
   <context:component-scan base-package="com.expert_soft" />
 
-  <bean id="sessionCart" scope="session" class="com.expert_soft.model.order.Cart">
+  <bean id="sessionCart" scope="session"
+        factory-bean="cartService"
+        factory-method="getCart">
     <aop:scoped-proxy/>
   </bean>
 
