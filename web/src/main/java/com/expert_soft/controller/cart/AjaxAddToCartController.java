@@ -2,10 +2,10 @@ package com.expert_soft.controller.cart;
 
 
 import com.expert_soft.exception.service.ajax.AjaxException;
-import com.expert_soft.model.OrderItem;
 import com.expert_soft.model.order.Cart;
+import com.expert_soft.model.order.OrderItem;
 import com.expert_soft.model.result.ValidationResult;
-import com.expert_soft.service.ResponseService;
+import com.expert_soft.service.CartResponseService;
 import com.expert_soft.service.CartService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,31 +29,22 @@ public class AjaxAddToCartController {
     private static final Logger LOGGER = Logger.getLogger(AjaxAddToCartController.class);
 
     private CartService cartService;
-    private ResponseService responseService;
-    @Autowired
-    private Cart cart;
+    private CartResponseService cartResponseService;
 
-    public void setCartService(CartService cartService) {
-        this.cartService = cartService;
-    }
-
-    public void setResponseService(ResponseService responseService) {
-        this.responseService = responseService;
-    }
-
-    public void setCart(Cart cart) {this.cart = cart;}
 
     @RequestMapping(value = "/add_to_cart",
             produces = {MediaType.APPLICATION_JSON_UTF8_VALUE, MediaType.TEXT_PLAIN_VALUE},
             method = RequestMethod.GET)
     public @ResponseBody ResponseEntity<String> addToCart(ModelMap model,
-                                     @RequestParam(PHONE_ID_TO_ADD) Long phoneId,
-                                     @RequestParam(QUANTITY_PARAM) Integer quantity){
-        ValidationResult<OrderItem> validationResult = cartService.addToCart(cart, phoneId, quantity);
+                                                          @RequestParam(PHONE_ID_TO_ADD) Long phoneId,
+                                                          @RequestParam(QUANTITY_PARAM) Integer quantity){
+        ValidationResult<OrderItem> validationResult = cartService.addToCart(phoneId, quantity);
         if (validationResult.isSuccess()) {
+            Cart cart = cartService.getCart();
+
             model.put(CART_ATTR, cart);
             LOGGER.debug("cart changed: " + cart);
-            String body = responseService.buildJsonSuccess(cart, cartService.getPhone(cart, phoneId).getModel());
+            String body = cartResponseService.buildJsonSuccess(cart, cartService.getPhone(phoneId).getModel());
             return new ResponseEntity<>(body, HttpStatus.OK);
         } else {
             return ajaxItemViolation(validationResult);
@@ -65,7 +56,7 @@ public class AjaxAddToCartController {
         String constrainMsg = result.getViolations()
                                     .iterator()
                                     .next().getMessage();
-        String body = responseService.buildFail(constrainMsg, result.getInfoObject());
+        String body = cartResponseService.buildFail(constrainMsg, result.getInfoObject());
         return new ResponseEntity<>(body, HttpStatus.UNPROCESSABLE_ENTITY);
     }
 
@@ -77,14 +68,14 @@ public class AjaxAddToCartController {
         LOGGER.debug(format("Number format exception for input '%s' and '%s'.",
                 req.getParameter(PHONE_ID_TO_ADD),
                 req.getParameter(QUANTITY_PARAM)), e);
-        return responseService.buildInvalidFormat();
+        return cartResponseService.buildInvalidFormat();
     }
 
     @ExceptionHandler(value = AjaxException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public String ajaxIO(AjaxException e){
         LOGGER.error("Ajax response can't be sent to client", e);
-        return responseService.buildFailToWrite();
+        return cartResponseService.buildFailToWrite();
     }
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -92,7 +83,17 @@ public class AjaxAddToCartController {
     public @ResponseBody String ajaxUnexpectedError(HttpServletRequest req, Exception e){
         LOGGER.error(String.format("Request: %s%s raised %s", req.getRequestURL(),
                 req.getQueryString(), e));
-        return responseService.buildFailUnexpected();
+        return cartResponseService.buildFailUnexpected();
+    }
+
+    @Autowired
+    public void setCartService(CartService cartService) {
+        this.cartService = cartService;
+    }
+
+    @Autowired
+    public void setCartResponseService(CartResponseService cartResponseService) {
+        this.cartResponseService = cartResponseService;
     }
 
 

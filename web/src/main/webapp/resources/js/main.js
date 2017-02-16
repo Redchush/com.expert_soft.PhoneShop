@@ -62,7 +62,7 @@ $(function() {
                 console.log(jqXHR.responseText);
 
                 var msg = jqXHR.responseText + '';
-                var outMsg = msg.split('{model}').join(model);
+                var outMsg = msg.split('{form}').join(model);
                 _$output.html(outMsg);
                 _$output.show();
                 addErrorClassClass(_$input);

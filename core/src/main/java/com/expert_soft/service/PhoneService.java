@@ -1,21 +1,13 @@
 package com.expert_soft.service;
 
 
-
-
-
 import com.expert_soft.model.Phone;
-import com.expert_soft.validator.group.G_Phone;
-import org.springframework.validation.annotation.Validated;
 
-import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import javax.validation.groups.Default;
 import java.util.Collection;
 import java.util.List;
 
 
-@Validated(G_Phone.Save.class)
 public interface PhoneService {
 
     List<Phone> findAll();
@@ -44,7 +36,11 @@ public interface PhoneService {
      */
     Phone getPhone(Long key);
 
-    @Validated({G_Phone.Save.class, Default.class})
-    Number savePhone(@NotNull @Valid Phone phone);
+    /**
+     *
+     * @param phone
+     * @return key of phone, null if not saved
+     */
+    Number savePhone(@NotNull Phone phone) throws NullPointerException;
 
 }

@@ -1,19 +1,19 @@
 package com.expert_soft.service;
 
 
-import com.expert_soft.model.UserInfo;
 import com.expert_soft.model.order.Cart;
 import com.expert_soft.model.order.Order;
+import com.expert_soft.model.order.OrderStatus;
+import com.expert_soft.model.order.UserInfo;
 
 import javax.validation.ConstraintViolationException;
-import javax.validation.Valid;
 import java.util.List;
 
 public interface OrderService {
 
     Order getOrder(Long key);
 
-    Long saveOrder(@Valid Order order);
+    Long saveOrder(Order order);
 
     List<Order> findAll();
 
@@ -27,8 +27,6 @@ public interface OrderService {
     Order buildOrder(Cart cart, UserInfo info, boolean deep)
                                 throws ConstraintViolationException;
 
-
-
-
+    void changeStatus(Long key, OrderStatus status);
 
 }

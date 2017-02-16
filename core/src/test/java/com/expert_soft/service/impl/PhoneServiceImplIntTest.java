@@ -2,10 +2,12 @@ package com.expert_soft.service.impl;
 
 import com.expert_soft.model.Phone;
 import com.expert_soft.service.PhoneService;
+import com.expert_soft.test_util.Context;
 import com.expert_soft.test_util.DataBuilder;
-import com.expert_soft.test_util.db.CountRowResponsible;
+import com.expert_soft.test_util.db.DbInfo;
 import org.apache.log4j.Logger;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +30,7 @@ import static junit.framework.TestCase.assertTrue;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations={
-        "classpath:context/core_root-context.xml"
+        Context.ROOT_WITH_CART
 })
 @TestPropertySource(locations =
         "classpath:config/applicationTest.properties")
@@ -44,12 +46,12 @@ public class PhoneServiceImplIntTest {
     @Autowired private PhoneService service;
     @Autowired private DataSource dataSource;
 
-    private CountRowResponsible rowCounter;
+    private DbInfo rowCounter;
     private Phone phone_id_1;
 
     @Before
     public void setUp() throws Exception {
-        rowCounter = new CountRowResponsible(new JdbcTemplate(dataSource));
+        rowCounter = new DbInfo(new JdbcTemplate(dataSource));
         phone_id_1 = DataBuilder.getPhoneId_1();
     }
 
@@ -69,13 +71,15 @@ public class PhoneServiceImplIntTest {
     }
 
     @Test
-    public void savePhone() throws Exception {
+    public void savePhone_Invalid() throws Exception {
         Number number = service.savePhone(phone_id_1);
         assertNull(number);
     }
 
     @Test
+    @Ignore
     public void saveInvalidPhone() throws Exception {
+        //validation must be on controller layer
         phone_id_1.setKey(null);
         phone_id_1.setModel("myModel");
         service.savePhone(phone_id_1);
@@ -85,7 +89,7 @@ public class PhoneServiceImplIntTest {
             Arrays.fill(chars, 's');
             phone_id_1.setModel(new String(chars));
             service.savePhone(phone_id_1);
-            assertTrue("Phone with invalid model was saved", false);
+            assertTrue("Phone with invalid form was saved", false);
         } catch (ConstraintViolationException e){
             assertEquals(e.getConstraintViolations().iterator().next()
                           .getInvalidValue(),
@@ -93,7 +97,7 @@ public class PhoneServiceImplIntTest {
         }
     }
 
-    @Test(expected = ConstraintViolationException.class)
+    @Test(expected = NullPointerException.class)
     public void saveNullPhone() throws Exception {
        service.savePhone(null);
     }

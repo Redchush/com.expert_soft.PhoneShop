@@ -7,31 +7,19 @@
 <!--use phf class to change default bootstrap css-->
 <!DOCTYPE html>
 <html lang="en">
+<jsp:include page="/WEB-INF/views/part/head_template.jsp">
+  <jsp:param name="head_title" value="Phonify customer order"/>
+</jsp:include>
 
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="">
-  <meta name="author" content="">
-
-  <title>Phonify customer order</title>
-  <link href="<c:url value="/resources/css/bootstrap.min.css"/>" rel="stylesheet">
-  <link href="<c:url value="/resources/css/main.css"/>" rel="stylesheet">
-</head>
 <body>
-<c:import url="/WEB-INF/views/part/header_without_cart.jsp"/>
-
-<div class="container">
+<%@ include file="/WEB-INF/views/part/header/header_without_cart.jsp" %>
+<div class="container order_page">
   <div class="row">
     <div class="col-lg-12 pnf">
-      <h1>Order</h1>
+      <h1><spring:message code="order.header"/></h1>
     </div>
     <p>
-      <a href="<c:url value="/products"/> ">
-        <button class="btn btn-default pnf" type="button"><spring:message
-                code="button.backToMain"/> </button>
-      </a>
+      <%@ include file="part/button/backMainBtn.jsp" %>
     </p>
     <table class="table table-responsive">
       <%@ include file="part/table/order_thead.jsp" %>
@@ -67,18 +55,7 @@
 
   </div>
   <div class="row">
-    <style>
-      .form-group span{
-        display: none;
-      }
-      .form-group.has-feedback.has-error span,
-      .form-group.has-feedback.has-success span.glyphicon-ok{
-         display: block;
-      }
-    </style>
-    <spring:url value="/order" var="userActionUrl" />
     <spring:hasBindErrors name="userInfo">
-
       <c:set var="group_error_class" value="has-feedback has-error"/>
       <c:set var="group_success_class" value="has-feedback has-success"/>
 
@@ -122,6 +99,8 @@
         <c:set var="addInfo_icon" value="${invalid_icon}"/>
       </c:if>
     </spring:hasBindErrors>
+
+    <spring:url value="/order" var="userActionUrl" />
     <form:form class="form-horizontal pnf" modelAttribute="userInfo"
                method="POST" action="${userActionUrl}" htmlEscape="true">
 
@@ -163,8 +142,9 @@
             <form:input path="deliveryAddress" cssClass="form-control"
                         id="address" placeholder="${addrMsg}"/>
             <c:out value="${delivery_icon}" escapeXml="false"/>
-            <span id="usernameStatus" class="help-block"><form:errors
-                    path="deliveryAddress"/></span>
+            <span id="usernameStatus" class="help-block">
+              <form:errors path="deliveryAddress"/>
+            </span>
           </div>
         </div>
       </spring:bind>
@@ -176,10 +156,10 @@
             <form:input path="contactPhoneNo" cssClass="form-control"
                         id="phone" placeholder="${phone_msg}"/>
             <c:out value="${phone_icon}" escapeXml="false"/>
-            <span id="usernameStatus" class="help-block"><form:errors
-                    path="contactPhoneNo"/></span>
+            <span id="usernameStatus" class="help-block">
+              <form:errors path="contactPhoneNo"/>
+            </span>
           </div>
-
         </div>
       </spring:bind>
       <spring:bind path="additionalInfo">
@@ -189,15 +169,17 @@
             <form:textarea path="additionalInfo" cssClass="form-control"
                            id="add_info" placeholder="${addInfo_msg}"/>
             <c:out value="${addInfo_icon}" escapeXml="false"/>
-            <span id="usernameStatus" class="help-block"><form:errors
-                    path="additionalInfo"/></span>
+            <span id="usernameStatus" class="help-block">
+              <form:errors path="additionalInfo"/>
+            </span>
           </div>
         </div>
       </spring:bind>
       <div class="form-group">
         <div class="col-sm-2">
-          <button type="submit" class="btn btn-default btn-block pnf"><spring:message
-                  code="button.order"/> </button>
+          <button type="submit" class="btn btn-default btn-block pnf">
+            <spring:message code="button.order"/>
+          </button>
         </div>
       </div>
     </form:form>
@@ -206,6 +188,5 @@
 
 <script src="<c:url value="/resources/js/jquery.js"/>"></script>
 <script src="<c:url value="/resources/js/bootstrap.min.js"/>" ></script>
-
 </body>
 </html>

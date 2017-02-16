@@ -3,7 +3,8 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:p="http://www.springframework.org/schema/p"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/context
        http://www.springframework.org/schema/context/spring-context.xsd">
@@ -29,22 +30,7 @@
         class="org.springframework.validation.beanvalidation.MethodValidationPostProcessor"
         p:validator-ref="validator"/>
 
-  <bean id="orderCalculator" class="com.expert_soft.model.calculator.OrderCalculatorImpl"/>
+  <bean id="orderCalculator" class="com.expert_soft.model.calculator.impl.OrderCalculatorImpl"/>
 
-  <bean id="phoneService" class="com.expert_soft.service.impl.PhoneServiceImpl"
-        p:dao-ref="phoneDao"/>
-
-  <bean id="deliveryService" class="com.expert_soft.service.impl.DeliveryServiceImpl"/>
-
-  <bean id="orderService" class="com.expert_soft.service.impl.OrderServiceImpl"
-        p:calculator-ref="orderCalculator"
-        p:deliveryService-ref="deliveryService"
-        p:orderDao-ref="orderDao"
-        p:phoneDao-ref="phoneDao"/>
-
-  <bean id="cartService" class="com.expert_soft.service.impl.CartServiceImpl"
-        p:calculator-ref="orderCalculator"
-        p:validator-ref="validator"
-        p:phoneDao-ref="phoneDao"/>
 
 </beans>

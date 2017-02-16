@@ -1,6 +1,7 @@
 package com.expert_soft.persistence.impl;
 
 
+import com.expert_soft.test_util.Context;
 import org.apache.log4j.Logger;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -23,7 +24,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations={
-      "classpath:context/core_root-context.xml"
+        Context.ROOT_WITH_CART
 })
 @ActiveProfiles("dev")
 public class TestNaturalContextInt {

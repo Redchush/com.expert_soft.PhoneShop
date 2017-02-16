@@ -1,16 +1,14 @@
 package com.expert_soft.service.impl;
 
 
-import com.expert_soft.model.OrderItem;
 import com.expert_soft.model.Phone;
-import com.expert_soft.model.UserInfo;
 import com.expert_soft.model.calculator.OrderCalculator;
-import com.expert_soft.model.order.Cart;
-import com.expert_soft.model.order.Order;
+import com.expert_soft.model.order.*;
 import com.expert_soft.persistence.OrderDao;
 import com.expert_soft.persistence.PhoneDao;
 import com.expert_soft.service.DeliveryService;
 import com.expert_soft.service.OrderService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -25,21 +23,6 @@ public class OrderServiceImpl implements OrderService {
     private PhoneDao phoneDao;
     private DeliveryService deliveryService;
     private OrderCalculator calculator;
-
-
-    public void setOrderDao(OrderDao orderDao) {
-        this.orderDao = orderDao;
-    }
-
-    public void setPhoneDao(PhoneDao phoneDao) {
-        this.phoneDao = phoneDao;
-    }
-
-    public void setCalculator(OrderCalculator calculator) {this.calculator = calculator;}
-
-    public void setDeliveryService(DeliveryService deliveryService) {
-        this.deliveryService = deliveryService;
-    }
 
     @Override
     public Order getOrder(Long key) {
@@ -56,7 +39,10 @@ public class OrderServiceImpl implements OrderService {
         return orderDao.findAll();
     }
 
-
+    @Override
+    public void changeStatus(Long key, OrderStatus status) {
+        orderDao.changeStatus(key, status);
+    }
 
     @Override
     public Order buildOrder(Cart cart, UserInfo info, boolean deep){
@@ -81,6 +67,26 @@ public class OrderServiceImpl implements OrderService {
         Collection<OrderItem> allItems = cart.getOrderItems();
         order.setOrderItems(new ArrayList<>(allItems));
         return order;
+    }
+
+    @Autowired
+    public void setOrderDao(OrderDao orderDao) {
+        this.orderDao = orderDao;
+    }
+
+    @Autowired
+    public void setPhoneDao(PhoneDao phoneDao) {
+        this.phoneDao = phoneDao;
+    }
+
+    @Autowired
+    public void setCalculator(OrderCalculator calculator) {
+        this.calculator = calculator;
+    }
+
+    @Autowired
+    public void setDeliveryService(DeliveryService deliveryService) {
+        this.deliveryService = deliveryService;
     }
 
 

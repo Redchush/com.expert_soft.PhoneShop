@@ -1,9 +1,8 @@
 package com.expert_soft.controller.cart;
 
 import com.expert_soft.exception.service.ajax.AjaxException;
-import com.expert_soft.model.order.Cart;
 import com.expert_soft.model.result.ValidationResult;
-import com.expert_soft.service.ResponseService;
+import com.expert_soft.service.CartResponseService;
 import com.expert_soft.service.CartService;
 import com.expert_soft.test_util.MockData;
 import org.apache.log4j.Logger;
@@ -11,8 +10,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -32,9 +29,6 @@ public class AjaxAddToCartControllerTest {
     private static final Logger logger = Logger.getLogger(AjaxAddToCartControllerTest.class);
 
     private AjaxAddToCartController controller;
-
-
-
     private MockMvc mockMvc;
 
     @Before
@@ -42,12 +36,11 @@ public class AjaxAddToCartControllerTest {
         controller = new AjaxAddToCartController();
         MockitoAnnotations.initMocks(this);
         CartService mock = Mockito.mock(CartService.class, Mockito.RETURNS_DEEP_STUBS);
-        when(mock.addToCart(any(), any(Long.class), any(Integer.class)))
+        when(mock.addToCart(any(Long.class), any(Integer.class)))
                 .thenReturn(ValidationResult.SUCCESS_VALIDATION_RESULT);
 
         controller.setCartService(mock);
-        controller.setResponseService(MockData.getSingleAnswerResponseService());
-        controller.setCart(Mockito.mock(Cart.class, Mockito.RETURNS_DEEP_STUBS));
+        controller.setCartResponseService(MockData.getSingleAnswerResponseService());
         this.mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
     }
 
@@ -64,12 +57,12 @@ public class AjaxAddToCartControllerTest {
     @Test
     public void ajaxIO() throws Exception {
         try{
-            ResponseService result = Mockito.mock(ResponseService.class);
+            CartResponseService result = Mockito.mock(CartResponseService.class);
             doThrow(AjaxException.class)
                     .when(result)
                     .buildJsonSuccess(anyObject(), anyString());
 
-            controller.setResponseService(result);
+            controller.setCartResponseService(result);
             mockMvc.perform(MockMvcRequestBuilders.get("/add_to_cart")
                                                   .param(PHONE_ID_TO_ADD, "1")
                                                   .param(QUANTITY_PARAM, "1")
@@ -77,7 +70,7 @@ public class AjaxAddToCartControllerTest {
                    .andExpect(status().isInternalServerError());
 
         } finally {
-            controller.setResponseService(MockData.getSingleAnswerResponseService());
+            controller.setCartResponseService(MockData.getSingleAnswerResponseService());
         }
     }
 

@@ -1,13 +1,12 @@
 package com.expert_soft.model;
 
-
 import com.expert_soft.validator.group.G_Cart;
 import com.expert_soft.validator.group.G_Phone;
 
 import javax.validation.constraints.*;
 import java.math.BigDecimal;
 
-@SuppressWarnings("ALL")
+
 public class Phone {
 
     @NotNull(message = "{common.key}", groups = G_Cart.Item.class)

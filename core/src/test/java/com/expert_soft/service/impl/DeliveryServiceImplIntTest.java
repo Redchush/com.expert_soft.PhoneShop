@@ -1,6 +1,7 @@
 package com.expert_soft.service.impl;
 
 import com.expert_soft.service.DeliveryService;
+import com.expert_soft.test_util.Context;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,11 +13,11 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 
 import java.math.BigDecimal;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations={
-        "classpath:context/core_root-context.xml"
+       Context.ROOT_WITH_CART
 })
 @TestExecutionListeners({
         DependencyInjectionTestExecutionListener.class,

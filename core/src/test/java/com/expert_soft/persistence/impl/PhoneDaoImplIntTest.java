@@ -1,11 +1,12 @@
 package com.expert_soft.persistence.impl;
 
 import com.expert_soft.model.Phone;
-import com.expert_soft.model.UserInfoValidationTest;
+import com.expert_soft.model.order.UserInfoValidationTest;
 import com.expert_soft.persistence.PhoneDao;
+import com.expert_soft.test_util.Context;
 import com.expert_soft.test_util.DataBuilder;
 import com.expert_soft.test_util.asserts.Comparators;
-import com.expert_soft.test_util.db.CountRowResponsible;
+import com.expert_soft.test_util.db.DbInfo;
 import org.apache.log4j.Logger;
 import org.hamcrest.collection.IsEmptyCollection;
 import org.junit.Assert;
@@ -35,7 +36,7 @@ import static org.junit.Assert.assertNull;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations={
-        "classpath:context/persistence-context.xml",
+        Context.ROOT_WITH_CART,
 })
 @TestExecutionListeners({
         DependencyInjectionTestExecutionListener.class,
@@ -49,7 +50,7 @@ public class PhoneDaoImplIntTest {
 
     @Autowired private PhoneDao dao;
     @Autowired private DataSource dataSource;
-    private CountRowResponsible rowCounter;
+    private DbInfo rowCounter;
 
     private Comparator<Phone> keyComparator;
     private Phone phone_id_1;
@@ -57,7 +58,7 @@ public class PhoneDaoImplIntTest {
 
     @Before
     public void setUp() throws Exception {
-        rowCounter = new CountRowResponsible(new JdbcTemplate(dataSource));
+        rowCounter = new DbInfo(new JdbcTemplate(dataSource));
         phone_id_1 = DataBuilder.getPhoneId_1();
         phone_id_2 = DataBuilder.getPhoneId_2();
         keyComparator =  new Comparators.PhoneByKey();

@@ -1,11 +1,13 @@
 package com.expert_soft.persistence.impl;
 
-import com.expert_soft.model.OrderItem;
 import com.expert_soft.model.order.Order;
+import com.expert_soft.model.order.OrderItem;
+import com.expert_soft.model.order.OrderStatus;
 import com.expert_soft.persistence.OrderDao;
+import com.expert_soft.test_util.Context;
 import com.expert_soft.test_util.DataBuilder;
 import com.expert_soft.test_util.asserts.Comparators;
-import com.expert_soft.test_util.db.CountRowResponsible;
+import com.expert_soft.test_util.db.DbInfo;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,12 +28,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.expert_soft.test_util.asserts.ModelAsserts._assertEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations={
-        "classpath:context/persistence-context.xml",
+        Context.ROOT_WITH_CART
 })
 @TestExecutionListeners({
         DependencyInjectionTestExecutionListener.class,
@@ -43,11 +44,11 @@ public class OrderDaoImplIntTest {
 
     @Autowired private OrderDao dao;
     @Autowired private DataSource dataSource;
-    private CountRowResponsible rowCounter;
+    private DbInfo rowCounter;
 
     @Before
     public void setUp() throws Exception {
-        rowCounter = new CountRowResponsible(new JdbcTemplate(dataSource));
+        rowCounter = new DbInfo(new JdbcTemplate(dataSource));
     }
 
     @Test
@@ -68,20 +69,17 @@ public class OrderDaoImplIntTest {
         List<OrderItem> expected = new ArrayList<>(actual);
         Collections.sort(expected, new Comparators.OrderItemsByKey());
         assertEquals(actual, expected);
-
     }
 
     @Test
     public void saveOrder() throws Exception {
-        Long orderKeyExpected = rowCounter.getOrders() + 1L;
-        Long itemKeyExpected = rowCounter.getOrderItems() + 1L;
-
-        Order expected = DataBuilder.Order_1.getOrder(orderKeyExpected, itemKeyExpected);
-        dao.saveOrder(expected);
-
-        Order actual = dao.getOrder(orderKeyExpected);
-        assertTrue("Order not saved at all",true);
-        assertEquals("Order not saved with correct id expected", orderKeyExpected, actual.getKey());
+        Order saveExpected = DataBuilder.Order_1.getOrder_DB();
+        Long key = dao.saveOrder(saveExpected);
+        Order actual = dao.getOrder(key);
+        Order expected =
+                DataBuilder.Order_1.getOrder(actual.getKey(), actual.getOrderItems().get(0).getKey());
+        assertTrue("Order not saved all",true);
+        assertNotNull(actual);
         _assertEquals(expected, actual);
     }
 
@@ -94,6 +92,18 @@ public class OrderDaoImplIntTest {
                 rowCounter.getOrders(), all.size());
     }
 
+    @Test
+    public void checkStatus() throws Exception{
+        Order order = dao.getOrder(1L);
+        assertEquals(order.getStatus(), OrderStatus.NEW);
+    }
+
+    @Test
+    public void changeStatus() throws Exception {
+        dao.changeStatus(2L, OrderStatus.DELIVERED);
+        Order order = dao.getOrder(2L);
+        assertEquals(order.getStatus(), OrderStatus.DELIVERED);
+    }
 
 
 }

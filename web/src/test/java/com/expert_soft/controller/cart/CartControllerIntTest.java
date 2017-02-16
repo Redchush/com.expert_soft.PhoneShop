@@ -15,12 +15,12 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.util.HashMap;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -34,8 +34,7 @@ public class CartControllerIntTest {
 
     private static final Logger logger = Logger.getLogger(CartControllerIntTest.class);
 
-    @Autowired
-    private WebApplicationContext context;
+    @Autowired private WebApplicationContext context;
     @Autowired private CartController controller;
 
     private MockMvc mockMvc;
@@ -54,8 +53,7 @@ public class CartControllerIntTest {
         sessionattr.put("cart", cartWithOneItem);
 
         MockHttpServletRequestBuilder requestBuilder  =
-                MockMvcRequestBuilders.get("/cart")
-                                      .sessionAttrs(sessionattr);
+                get("/cart").sessionAttrs(sessionattr);
         mockMvc.perform(requestBuilder)
                .andExpect(status().isOk())
                .andExpect(model().attribute("cart", cartWithOneItem));

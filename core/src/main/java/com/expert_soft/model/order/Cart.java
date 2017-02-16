@@ -1,7 +1,6 @@
 package com.expert_soft.model.order;
 
 
-import com.expert_soft.model.OrderItem;
 import com.expert_soft.validator.group.G_Cart;
 
 import javax.validation.Valid;
@@ -14,7 +13,6 @@ import java.util.Map;
 
 public class Cart extends AbstractOrder implements Serializable {
 
-
     private static final long serialVersionUID = 1L;
 
     private Long id;
@@ -24,6 +22,7 @@ public class Cart extends AbstractOrder implements Serializable {
     private Map<Long, OrderItem> orderItems;
 
     private Integer totalPhonesCount;
+
 
     public Cart() {
         super();
@@ -45,6 +44,7 @@ public class Cart extends AbstractOrder implements Serializable {
     public void addItem(OrderItem item){
         orderItems.put(item.getPhone().getKey(), item);
     }
+
     @Override
     public void removeItem(OrderItem item){
         orderItems.remove(item.getPhone().getKey());

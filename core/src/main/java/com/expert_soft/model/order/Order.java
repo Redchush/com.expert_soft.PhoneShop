@@ -1,9 +1,6 @@
 package com.expert_soft.model.order;
 
 
-import com.expert_soft.model.OrderItem;
-import com.expert_soft.model.UserInfo;
-
 import javax.validation.Valid;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -17,6 +14,7 @@ public class Order extends AbstractOrder{
 
     private BigDecimal deliveryPrice;
     private BigDecimal totalPrice;
+    private OrderStatus status;
 
     private @Valid UserInfo userInfo;
 
@@ -118,6 +116,13 @@ public class Order extends AbstractOrder{
         userInfo.setAdditionalInfo(additionalInfo);
     }
 
+    public OrderStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(OrderStatus status) {
+        this.status = status;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -127,11 +132,9 @@ public class Order extends AbstractOrder{
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-
         Order order = (Order) o;
 
         return key != null ? key.equals(order.key) : order.key == null;
-
     }
 
     @Override
@@ -142,12 +145,13 @@ public class Order extends AbstractOrder{
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("Order{");
+        sb.append(super.toString()).append(" ");
 
         sb.append("key=").append(key);
         sb.append(", orderItems=").append(orderItems);
         sb.append(", deliveryPrice=").append(deliveryPrice);
-        sb.append(", subtotal=").append(subtotal);
         sb.append(", totalPrice=").append(totalPrice);
+        sb.append(", status=").append(status);
         sb.append(", userInfo=").append(userInfo);
         sb.append('}');
         return sb.toString();

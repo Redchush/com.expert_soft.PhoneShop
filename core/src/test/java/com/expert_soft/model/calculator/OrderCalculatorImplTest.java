@@ -1,14 +1,14 @@
 package com.expert_soft.model.calculator;
 
-import com.expert_soft.model.OrderItem;
+import com.expert_soft.model.calculator.impl.OrderCalculatorImpl;
 import com.expert_soft.model.order.Cart;
 import com.expert_soft.model.order.Order;
+import com.expert_soft.model.order.OrderItem;
 import com.expert_soft.test_util.DataBuilder;
 import org.junit.Test;
 
-
 import static com.expert_soft.test_util.asserts.ModelAsserts._assertEquals;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class OrderCalculatorImplTest {
 

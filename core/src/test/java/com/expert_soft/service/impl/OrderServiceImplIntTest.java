@@ -1,11 +1,11 @@
 package com.expert_soft.service.impl;
 
-import com.expert_soft.model.UserInfo;
 import com.expert_soft.model.order.Cart;
 import com.expert_soft.model.order.Order;
-import com.expert_soft.service.OrderService;
+import com.expert_soft.model.order.UserInfo;
+import com.expert_soft.test_util.Context;
 import com.expert_soft.test_util.DataBuilder;
-import com.expert_soft.test_util.db.CountRowResponsible;
+import com.expert_soft.test_util.db.DbInfo;
 import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,13 +22,12 @@ import javax.sql.DataSource;
 import java.util.List;
 
 import static com.expert_soft.test_util.asserts.ModelAsserts._assertEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations={
-        "classpath:context/core_root-context.xml"
+        Context.ROOT_WITH_CART
 })
 @TestExecutionListeners({
         DependencyInjectionTestExecutionListener.class,
@@ -36,20 +35,23 @@ import static org.junit.Assert.assertTrue;
 @ActiveProfiles("test")
 public class OrderServiceImplIntTest {
 
-    private static final Logger logger = Logger.getLogger(CartServiceImplTest.class);
+    private static final Logger logger = Logger.getLogger(OrderServiceImplIntTest.class);
 
-    @Autowired private OrderService service;
+    @Autowired private OrderServiceImpl service;
     @Autowired private DataSource source;
 
-    private CountRowResponsible rowCounter;
+    private DbInfo rowCounter;
     private Order order;
     private Cart fullCart;
+
+    private long orders;
+    private long items;
 
     @Before
     public void setUp() throws Exception {
         order = DataBuilder.Order_2.getOrderByCart();
         fullCart = DataBuilder.Carts.byOrder_2();
-        rowCounter = new CountRowResponsible(new JdbcTemplate(source));
+        rowCounter = new DbInfo(new JdbcTemplate(source));
     }
 
     @Test
@@ -65,16 +67,27 @@ public class OrderServiceImplIntTest {
 
     @Test
     public void saveOrder() throws Exception {
-        long orders = rowCounter.getOrders() +1L;
-        long items = rowCounter.getOrderItems() + 1L;
-        Order expected = DataBuilder.Order_1.getOrder(orders,  items);
-        Long aLong = service.saveOrder(expected);
+        Order saveExpected = DataBuilder.Order_1.getOrder_DB();
+        Long key = service.saveOrder(saveExpected);
+        Order actual = service.getOrder(key);
 
-        Order actual = service.getOrder(aLong);
-        assertTrue("Order not saved at all",true);
-        assertEquals("Order not saved with correct id expected", aLong, actual.getKey());
+        assertTrue("Order not saved all",true);
+        assertNotNull(actual);
+
+        Order expected =
+                DataBuilder.Order_1.getOrder(actual.getKey(), actual.getOrderItems()
+                                                                    .get(0).getKey());
         _assertEquals(expected, actual);
     }
+//
+//    /**
+//     * NOTE:THIS EXECUTES BEFORE SET_UP (@Before TEST ANNOTATION)
+//     */
+//    @BeforeTransaction
+//    void beforeSaveOrder(){
+//
+//    }
+
 
     @Test
     public void findAll() throws Exception {

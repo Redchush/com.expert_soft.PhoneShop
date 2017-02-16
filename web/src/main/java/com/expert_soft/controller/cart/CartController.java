@@ -1,7 +1,7 @@
 package com.expert_soft.controller.cart;
 
 
-import com.expert_soft.model.CartItemsContainer;
+import com.expert_soft.form.UpdateCartForm;
 import com.expert_soft.model.order.Cart;
 import com.expert_soft.service.CartService;
 import org.apache.log4j.Logger;
@@ -23,26 +23,26 @@ public class CartController {
     private static final Logger LOGGER = Logger.getLogger(CartController.class);
 
     private CartService cartService;
-    @Autowired   private Cart cart;
-
-    public void setCartService(CartService orderService) {
-        this.cartService = orderService;
-    }
-
-    public void setCart(Cart cart) {this.cart = cart;}
 
     @RequestMapping( value = "/cart", method = RequestMethod.GET)
     public ModelAndView cart(ModelMap model){
         Cart cart = (Cart) model.get(CART_ATTR);
-        if (cartService.isCartEmpty(cart)){
+        if (cartService.isCartEmpty()){
             return new ModelAndView("emptyCart");
         }
         ModelAndView fullCart = new ModelAndView("fullCart",
                 CART_ITEMS,
-                new CartItemsContainer(cartService.getCartSize(cart)));
+                new UpdateCartForm(cartService.getCartSize()));
         fullCart.addObject(CART_ATTR, cart);
         return fullCart;
     }
+
+    @Autowired
+    public void setCartService(CartService orderService) {
+        this.cartService = orderService;
+    }
+
+
 
 
 }

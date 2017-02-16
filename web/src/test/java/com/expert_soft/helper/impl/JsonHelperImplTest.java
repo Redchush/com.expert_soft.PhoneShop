@@ -1,6 +1,6 @@
 package com.expert_soft.helper.impl;
 
-import com.expert_soft.model.AjaxResponseCart;
+import com.expert_soft.form.AjaxResponseCart;
 import com.expert_soft.model.order.Cart;
 import com.expert_soft.test_util.DataBuilder;
 import org.codehaus.jackson.JsonNode;
