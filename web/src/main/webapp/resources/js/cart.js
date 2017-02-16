@@ -12,13 +12,13 @@ $(function() {
 		var _$tr= _$this.parents("tr");
 		var _$input = _$this.children("input[type='checkbox']");
 
-		_$input.prop( "checked", function( i, val ) {
+		_$input.prop("checked", function( i, val ) {
 			var result = !val;
 			_$tr.toggleClass("_deleted");
 			if(result){
-				$(this).html(restoreMsg);
+				$(this).next().html(restoreMsg);
 			} else{
-				$(this).html(deleteMsg);
+				$(this).next().html(deleteMsg);
 			}
 			return result;
 		});

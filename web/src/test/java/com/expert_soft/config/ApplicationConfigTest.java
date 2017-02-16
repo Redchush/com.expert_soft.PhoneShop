@@ -25,9 +25,8 @@ import static org.junit.Assert.assertNotNull;
 @ActiveProfiles("test")
 public class ApplicationConfigTest {
 
-    @Autowired
-    WebApplicationContext ctx;
-    @Autowired Cart cart;
+    @Autowired private WebApplicationContext ctx;
+    @Autowired private Cart cart;
 
     @Test
     public void testSource(){

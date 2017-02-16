@@ -1,4 +1,4 @@
-package com.expert_soft.model;
+package com.expert_soft.form;
 
 
 import java.io.Serializable;

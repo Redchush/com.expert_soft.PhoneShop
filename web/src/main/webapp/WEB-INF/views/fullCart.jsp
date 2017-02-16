@@ -1,40 +1,38 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="">
-  <meta name="author" content="">
-  <title><spring:message code="cart.title"/></title>
-
-  <link href="<c:url value="/resources/css/bootstrap.min.css"/>" rel="stylesheet">
-  <link href="<c:url value="/resources/css/main.css"/>" rel="stylesheet">
-</head>
-
+<spring:message var="this_title" code="cart.title"/>
+<jsp:include page="/WEB-INF/views/part/head_template.jsp">
+  <jsp:param name="head_title" value="${this_title}"/>
+</jsp:include>
 <body>
-<c:import url="/WEB-INF/views/part/header_with_cart.jsp"/>
+<c:import url="/WEB-INF/views/part/header/header_with_cart.jsp"/>
 <c:set var="sessCartItems" value="${sessionScope.cart.orderItems}" />
-
-<%--<c:out value="${sessCartItems}"/>--%>
 
 <span id="restore_msg" class="holder"><spring:message code="button.restore"/></span>
 <span id="delete_msg" class="holder"><spring:message code="button.delete"/></span>
-<span id="delete_msg" class="holder"><spring:message code="button.delete"/></span>
+
 <style>
-  div.form-group-sm.has-error p{
+  div.form-group-sm div{
     display: none;
   }
+  div.form-group-sm.has-error div{
+    display: block;
+  }
+  div.form-group-sm.has-error div .help-block{
+    font-size:12px;
+    margin-bottom: 0;
+  }
 </style>
+
+<c:url var="orderUrl" value="/order"/>
+
 <div class="container">
   <div class="row">
     <div class="col-lg-12 pnf">
@@ -44,13 +42,11 @@
       </c:if>
     </div>
     <p>
-      <a href="<c:url value="/products"/> ">
-        <button class="btn btn-default pnf" type="button"><spring:message
-                code="button.backToMain"/></button>
-      </a>
-      <a href="<c:url value="/order"/> ">
-        <button class="btn btn-default pnf" type="submit" value="order"><spring:message
-                code="button.order"/></button>
+      <%@ include file="part/button/backMainBtn.jsp" %>
+      <a href="${orderUrl}">
+        <button class="btn btn-default pnf" type="submit" value="order">
+          <spring:message code="button.order"/>
+        </button>
       </a>
     </p>
     <spring:url value="/update_cart" var="userActionUrl" />
@@ -69,20 +65,20 @@
             <td><c:out value="${item.phone.color}"/> </td>
             <td><c:out value="${currentDisplay}''"/></td>
             <td><c:out value="${currentPrice}"/></td>
-          <td>
-            <c:set var="ind" value="${iterStatus.index}"/>
-            <spring:bind path="items[${ind}].quantity">
-              <c:set var = "currentValue" value="${status.error ?  status.value : item.quantity}"/>
-              <div class="form-group-sm ${status.error ? 'has-error' : ''}">
-                    <form:input path="items[${ind}].phone.key" cssClass="hidden"
-                                value="${item.phone.key}"/>
-                    <form:input path="items[${ind}].quantity" class="form-control"
-                                value="${currentValue}" title="quantity"/>
-                    <p><form:errors path="items[${ind}].quantity" cssClass="help-block"
-                                    class="control-label" /></p>
+            <td>
+              <c:set var="ind" value="${iterStatus.index}"/>
+              <spring:bind path="items[${ind}].quantity">
+                <c:set var = "currentValue" value="${status.error ?  status.value : item.quantity}"/>
+                <div class="form-group-sm ${status.error ? 'has-error' : ''}">
+                  <form:input path="items[${ind}].phone.key" cssClass="hidden"
+                              value="${item.phone.key}"/>
+                  <form:input path="items[${ind}].quantity" class="form-control"
+                              value="${currentValue}" title="quantity"/>
+                  <div><form:errors path="items[${ind}].quantity" cssClass="help-block"
+                                    class="control-label" /></div>
                 </div>
-            </spring:bind>
-          </td>
+              </spring:bind>
+            </td>
             <td>
               <label class="btn btn-default btn-sm pnf" data-action = "delete">
                 <input type="checkbox" name="deleteId" value="${item.phone.key}" autocomplete="off"

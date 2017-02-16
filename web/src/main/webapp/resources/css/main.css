@@ -33,14 +33,23 @@ thead.pnf{
 .table>tbody>tr>td, .table>tbody>tr>th,
 .table>tfoot>tr>td, .table>tfoot>tr>th,
 .table>thead>tr>td, .table>thead>tr>th{
-    border: 1px solid #72747A;
-    border-top: 1px;
+    border: 1px solid #72747A !important;
     vertical-align: middle;
 }
 table.fit, table.fit td, table.fit th{
     white-space: nowrap;
     width: 1%;
     min-width: 100px;
+}
+.table > thead > tr._deleted > td,
+.table > tbody > tr._deleted > td,
+.table > tfoot > tr._deleted > td{
+    background-color: #C4D0D9;
+    text-decoration: line-through;
+}
+
+table>tfoot.emptyCelled tr, table>tfoot.emptyCelled td[colspan] {
+    border: none !important;
 }
 
 h1 {
@@ -50,14 +59,10 @@ h1 {
 footer {
     margin: 50px 0;
 }
-
 .form-inline{
     margin-top: 30px;
 }
 
-.emptyCelled tr, .emptyCelled td[colspan] {
-    border: none;
-}
 .form-horizontal.pnf label{
     text-align: left;
 }
@@ -68,14 +73,27 @@ footer {
     display: none;
 }
 
-.table > thead > tr._deleted > td,
-.table > tbody > tr._deleted > td,
-.table > tfoot > tr._deleted > td{
-    background-color: #C4D0D9; 
-    text-decoration: line-through;
-}
 
-/*.form-horizontal.pnf .btn-default.pnf{*/
-    /*padding-left: 40px;*/
-    /*padding-right: 40px;*/
-/*}*/
+/*admin page*/
+.admin_page td button:first-child{
+    margin-bottom: 5px;
+}
+.admin_page select.form-control.xs{
+    height: auto;
+    font-size: 12px;
+    padding: 4px 10px;
+}
+/*order page*/
+.order_page .form-group span{
+    display: none;
+}
+.order_page .form-group.has-feedback.has-error span,
+.order_page .form-group.has-feedback.has-success span.glyphicon-ok{
+    display: block;
+}
+form.pnf_inline{
+    display: inline-block !important;
+}
+a.inline{
+    display: inline-block;
+}

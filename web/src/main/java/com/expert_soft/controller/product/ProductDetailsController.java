@@ -3,6 +3,7 @@ package com.expert_soft.controller.product;
 import com.expert_soft.model.Phone;
 import com.expert_soft.service.PhoneService;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -16,11 +17,6 @@ public class ProductDetailsController {
     private static final Logger logger = Logger.getLogger(ProductDetailsController.class);
 
     private PhoneService service;
-
-    public void setService(PhoneService service) {
-        this.service = service;
-    }
-
 
     @RequestMapping(value = "/products/{id}", method = RequestMethod.GET)
     public ModelAndView product(@PathVariable(value = "id") Long id,
@@ -57,4 +53,10 @@ public class ProductDetailsController {
         mav.setViewName("/error/notFound");
         return mav;
     }
+
+    @Autowired
+    public void setService(PhoneService service) {
+        this.service = service;
+    }
+
 }

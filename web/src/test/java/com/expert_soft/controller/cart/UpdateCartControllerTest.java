@@ -1,9 +1,6 @@
 package com.expert_soft.controller.cart;
 
-import com.expert_soft.controller.ServletConstants;
-import com.expert_soft.model.order.Cart;
 import com.expert_soft.service.CartService;
-import com.expert_soft.service.ResponseService;
 import com.expert_soft.test_util.MockData;
 import org.apache.log4j.Logger;
 import org.junit.Before;
@@ -18,27 +15,25 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import static com.expert_soft.controller.ServletConstants.TEMP_MSG;
-import static javafx.beans.binding.Bindings.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.flash;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class UpdateCartControllerTest {
 
     private static final Logger logger = Logger.getLogger(UpdateCartControllerTest.class);
-    private final static String STUB_STRING = "STUB";
 
     private MockMvc mockMvc;
 
     @InjectMocks
     private UpdateCartController controller;
-    @Mock
+    @Mock(answer = Answers.RETURNS_SMART_NULLS)
     private CartService service;
 
     @Before
     public void setup() {
         controller = new UpdateCartController();
         MockitoAnnotations.initMocks(this);
-        controller.setResponseService(MockData.getSingleAnswerResponseService());
+        controller.setCartResponseService(MockData.getSingleAnswerResponseService());
         this.mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
     }
 
@@ -47,8 +42,7 @@ public class UpdateCartControllerTest {
         MockHttpServletRequestBuilder requestBuilder  =
                 MockMvcRequestBuilders.post("/update_cart")
                                       .param("items[0].phone.key", "1")
-                                      .param("items[0].quantity", "2")
-                                      .sessionAttr("cart", new Cart());
+                                      .param("items[0].quantity", "2");
         mockMvc.perform(requestBuilder)
                .andExpect(status().is(302))
                .andExpect(flash().attribute(TEMP_MSG, MockData.STUB_ANSWER));

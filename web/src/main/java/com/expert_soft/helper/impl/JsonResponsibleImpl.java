@@ -2,19 +2,17 @@ package com.expert_soft.helper.impl;
 
 
 import com.expert_soft.exception.service.ajax.AjaxException;
+import com.expert_soft.form.AjaxResponseCart;
 import com.expert_soft.helper.JsonResponsible;
-import com.expert_soft.model.AjaxResponseCart;
 import org.apache.log4j.Logger;
 import org.codehaus.jackson.annotate.JsonAutoDetect;
 import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.SerializationConfig;
-import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
 
-@Component("jsonResponsible")
 public class JsonResponsibleImpl implements JsonResponsible {
 
     private static final Logger LOGGER = Logger.getLogger(JsonResponsibleImpl.class);

@@ -2,11 +2,11 @@ package com.expert_soft.service.impl;
 
 
 import com.expert_soft.exception.service.ajax.AjaxException;
+import com.expert_soft.form.AjaxResponseCart;
 import com.expert_soft.helper.JsonResponsible;
-import com.expert_soft.model.AjaxResponseCart;
-import com.expert_soft.model.OrderItem;
 import com.expert_soft.model.order.Cart;
-import com.expert_soft.service.ResponseService;
+import com.expert_soft.model.order.OrderItem;
+import com.expert_soft.service.CartResponseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
@@ -16,27 +16,13 @@ import org.springframework.stereotype.Service;
 import java.util.Locale;
 
 @Service("responseService")
-public class ResponseServiceImpl implements ResponseService {
+public class CartResponseServiceImpl implements CartResponseService {
 
     private JsonResponsible jsonResponsible;
     private MessageSource msgSource;
 
     @Value("${orderItem.max}")
     private int maxItems;
-
-    public void setMaxItems(Integer maxItems) {
-        this.maxItems = maxItems;
-    }
-
-    @Override
-    public void setMessageSource(MessageSource messageSource) {
-        this.msgSource = messageSource;
-    }
-
-    @Autowired
-    public void setJsonResponsible(JsonResponsible jsonResponsible) {
-        this.jsonResponsible = jsonResponsible;
-    }
 
     private static final String FAIL_TO_WRITE_CODE = "ajaxCart.error.writeFail";
     private static final String ERROR_CODE = "ajaxCart.error";
@@ -48,7 +34,7 @@ public class ResponseServiceImpl implements ResponseService {
 
     private static final String SUCCESS_CODE = "ajaxCart.success";
     private static final String INVALID_FORMAT = "ajaxCart.error.invalidFormat";
-    private static final String MODEL_REPLACEMENT = "{model}";
+    private static final String MODEL_REPLACEMENT = "{form}";
     private static final String ERROR_INTERNAL = "error.internal";
 
     @Override
@@ -143,5 +129,17 @@ public class ResponseServiceImpl implements ResponseService {
         return jsonResponsible.simpleWrite(response);
     }
 
+    public void setMaxItems(Integer maxItems) {
+        this.maxItems = maxItems;
+    }
 
+    @Override
+    public void setMessageSource(MessageSource messageSource) {
+        this.msgSource = messageSource;
+    }
+
+    @Autowired
+    public void setJsonResponsible(JsonResponsible jsonResponsible) {
+        this.jsonResponsible = jsonResponsible;
+    }
 }

@@ -2,11 +2,11 @@ package com.expert_soft.service;
 
 
 import com.expert_soft.exception.service.ajax.AjaxException;
-import com.expert_soft.model.OrderItem;
 import com.expert_soft.model.order.Cart;
+import com.expert_soft.model.order.OrderItem;
 import org.springframework.context.MessageSourceAware;
 
-public interface ResponseService extends MessageSourceAware{
+public interface CartResponseService extends MessageSourceAware{
 
     String buildJsonSuccess(Cart cart, String modelAdded) throws AjaxException;
 

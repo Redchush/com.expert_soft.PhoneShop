@@ -1,7 +1,7 @@
 package com.expert_soft.test_util;
 
 
-import com.expert_soft.service.ResponseService;
+import com.expert_soft.service.CartResponseService;
 import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
@@ -23,8 +23,8 @@ public class MockData {
         return mockValidator;
     }
 
-    public static ResponseService getSingleAnswerResponseService(){
-        return Mockito.mock(ResponseService.class, new Answer() {
+    public static CartResponseService getSingleAnswerResponseService(){
+        return Mockito.mock(CartResponseService.class, new Answer() {
             @Override
             public Object answer(InvocationOnMock invocation) throws Throwable {
                 return STUB_ANSWER;

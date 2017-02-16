@@ -1,11 +1,11 @@
 package com.expert_soft.service.impl;
 
 import com.expert_soft.controller.cart.AjaxAddToCartController;
-import com.expert_soft.model.AjaxResponseCart;
-import com.expert_soft.model.OrderItem;
+import com.expert_soft.form.AjaxResponseCart;
 import com.expert_soft.model.Phone;
 import com.expert_soft.model.order.Cart;
-import com.expert_soft.service.ResponseService;
+import com.expert_soft.model.order.OrderItem;
+import com.expert_soft.service.CartResponseService;
 import com.expert_soft.test_util.DataBuilder;
 import com.expert_soft.test_util.JsonTestHelper;
 import com.expert_soft.test_util.TestConstants;
@@ -15,7 +15,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -24,7 +23,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.io.IOException;
-import java.util.Locale;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -35,11 +33,11 @@ import static org.junit.Assert.assertTrue;
         TestConstants.SERVLET_CONTEXT})
 @WebAppConfiguration
 @ActiveProfiles("test")
-public class ResponseServiceImplTest {
+public class CartResponseServiceImplTest {
 
-    private static final Logger LOGGER = Logger.getLogger(ResponseServiceImplTest.class);
+    private static final Logger LOGGER = Logger.getLogger(CartResponseServiceImplTest.class);
 
-    @Autowired private ResponseService service;
+    @Autowired private CartResponseService service;
     @Autowired private MessageSource messageSource;
     private MockMvc mockMvc;
 
@@ -85,7 +83,7 @@ public class ResponseServiceImplTest {
         String s = service.buildAjaxFailInvalidFormat(422);
 
         AjaxResponseCart cart_actual = JsonTestHelper.parseToObj(s, AjaxResponseCart.class);
-        String msgExpected = "Model of phone {model} cant be saved in cart." +
+        String msgExpected = "Model of phone {form} cant be saved in cart." +
                 "\nThe quantity of ordered phones must be positive integer number.";
 
         assertEquals(true, cart_actual.getPattern());

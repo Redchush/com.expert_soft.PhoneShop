@@ -1,19 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:p="http://www.springframework.org/schema/p" xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-                           http://www.springframework.org/schema/beans/spring-beans-4.3.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
-  <import resource="classpath:context/core_root-context.xml"/>
+       http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd">
+
   <import resource="../root-context.xml"/>
+  <import resource="classpath:context/core_root-context.xml"/>
 
-  <context:component-scan base-package="com.expert_soft" />
+  <bean id="viewResolver"
+        class="org.springframework.web.servlet.view.InternalResourceViewResolver"
+        p:prefix="/WEB-INF/views/" p:suffix=".jsp">
+    <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
+  </bean>
 
-  <bean id="sessionCart" scope="session"
-        factory-bean="cartService"
-        factory-method="getCart">
-    <aop:scoped-proxy/>
+
+  <bean id="localeResolver" class="org.springframework.web.servlet.i18n.CookieLocaleResolver"
+        p:cookieName="myLocaleCookie" p:cookieMaxAge="4800">
+    <property name="defaultLocale">
+      <bean class="java.util.Locale">
+        <constructor-arg value="en"/>
+      </bean>
+    </property>
   </bean>
 
   <!--controllers dependencies-->
@@ -23,47 +34,7 @@
     </property>
   </bean>
 
-  <bean id="responseService"
-        class="com.expert_soft.service.impl.ResponseServiceImpl"
-        p:jsonResponsible-ref="jsonResponsible"/>
+  <context:component-scan base-package="com.expert_soft.service"/>
+  <context:component-scan base-package="com.expert_soft.controller"/>
 
-  <!--controllers-->
-  <bean id="cartController" class="com.expert_soft.controller.cart.CartController"
-        p:cartService-ref="cartService"/>
-
-  <bean id="updateCartController" class="com.expert_soft.controller.cart.UpdateCartController"
-        p:cartService-ref="cartService"
-        p:responseService-ref="responseService"/>
-
-  <bean id="ajaxAddToCartController" class="com.expert_soft.controller.cart.AjaxAddToCartController"
-        p:cartService-ref="cartService"
-        p:responseService-ref="responseService"/>
-
-  <bean id="orderController" class="com.expert_soft.controller.order.OrderController"
-        p:orderService-ref="orderService"/>
-
-  <bean id="saveOrderController" class="com.expert_soft.controller.order.SaveOrderController"
-        p:orderService-ref="orderService"/>
-
-  <bean id="orderDetailsController" class="com.expert_soft.controller.order.OrderConfirmationController"
-        p:orderService-ref="orderService"/>
-
-
-  <bean id="productDetailsController" class="com.expert_soft.controller.product.ProductDetailsController"
-        p:service-ref="phoneService"/>
-
-  <bean id="productListController" class="com.expert_soft.controller.product.ProductListController"
-        p:service-ref="phoneService"/>
-
-  <beans profile="production">
-    <bean id="propertyOverrider" class="com.expert_soft.aspect.AppPropertyOverrider"
-          p:dbUrlPrefix="jdbc:hsqldb:file:"
-          p:pathToSource="classpath:db_root/phonify_db"
-          p:varToReplace="db.url"/>
-
-    <bean id="propertyPlaceholder" depends-on="propertyOverrider"
-          class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer"
-          p:ignoreUnresolvablePlaceholders="true"
-          p:locations="classpath:config/application.properties"/>
-  </beans>
 </beans>

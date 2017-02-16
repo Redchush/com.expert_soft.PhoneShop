@@ -8,31 +8,20 @@
 
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="">
-  <meta name="author" content="">
-  <title>Phonify client cart</title>
-
-  <link href="<c:url value="/resources/css/bootstrap.min.css"/>" rel="stylesheet">
-  <link href="<c:url value="/resources/css/main.css"/>" rel="stylesheet">
-</head>
-
+<spring:message var="this_title" code="cart.title"/>
+<jsp:include page="/WEB-INF/views/part/head_template.jsp">
+  <jsp:param name="head_title" value="${this_title}"/>
+</jsp:include>
 <body>
-<c:import url="/WEB-INF/views/part/header_with_cart.jsp"/>
+<c:import url="/WEB-INF/views/part/header/header_with_cart.jsp"/>
 
 <div class="container">
   <div class="row">
     <div class="col-lg-12 pnf">
-      <h1>Cart</h1>
-      <p>You cart is empty!!!</p>
+      <h1><spring:message code="cart.header"/></h1>
+      <p><spring:message code="cart.empty"/></p>
     </div>
-    <a href="<c:url value="/products"/> ">
-      <button class="btn btn-default pnf" type="button">Back to product list</button>
-    </a>
+    <%@ include file="part/button/backMainBtn.jsp" %>
     <p>
       <table class="table table-striped">
         <%@ include file="part/table/cart_thead.jsp" %>

@@ -2,20 +2,19 @@ package com.expert_soft.controller.order;
 
 import com.expert_soft.model.order.Order;
 import com.expert_soft.service.OrderService;
-import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-@Controller("orderDetailsController")
+@Controller("orderConfirmationController")
 public class OrderConfirmationController {
-
-    private static final Logger LOGGER = Logger.getLogger(OrderConfirmationController.class);
 
     private OrderService orderService;
 
+    @Autowired
     public void setOrderService(OrderService orderService) {
         this.orderService = orderService;
     }

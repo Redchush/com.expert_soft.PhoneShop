@@ -1,8 +1,8 @@
 package com.expert_soft.controller.order;
 
 
-import com.expert_soft.model.UserInfo;
 import com.expert_soft.model.order.Cart;
+import com.expert_soft.model.order.UserInfo;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 

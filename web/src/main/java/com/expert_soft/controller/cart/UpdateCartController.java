@@ -1,10 +1,10 @@
 package com.expert_soft.controller.cart;
 
 
-import com.expert_soft.model.CartItemsContainer;
-import com.expert_soft.model.order.Cart;
+import com.expert_soft.form.UpdateCartForm;
+import com.expert_soft.model.order.OrderItem;
+import com.expert_soft.service.CartResponseService;
 import com.expert_soft.service.CartService;
-import com.expert_soft.service.ResponseService;
 import com.expert_soft.validator.group.G_Cart;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,23 +26,11 @@ import static java.lang.String.format;
 @Controller("updateCartController")
 @SessionAttributes({CART_ATTR})
 public class UpdateCartController {
+
     private static final Logger LOGGER = Logger.getLogger(UpdateCartController.class);
 
     private CartService cartService;
-    private ResponseService responseService;
-
-    @Autowired
-    private Cart cart;
-
-    public void setCart(Cart cart) {this.cart = cart;}
-
-    public void setCartService(CartService cartService) {
-        this.cartService = cartService;
-    }
-
-    public void setResponseService(ResponseService responseService) {
-        this.responseService = responseService;
-    }
+    private CartResponseService cartResponseService;
 
     /**
      * 1) Validate new items
@@ -52,25 +40,26 @@ public class UpdateCartController {
     @RequestMapping(value = "/update_cart", method = RequestMethod.POST)
     public String updateCart(ModelMap model,
                              @Validated(G_Cart.Item.class)
-                             @ModelAttribute(CART_ITEMS) CartItemsContainer lightCart,
+                             @ModelAttribute(CART_ITEMS) UpdateCartForm form,
                              BindingResult result,
-                             @ModelAttribute(CART_ATTR) Cart cart,
                              @RequestParam(value = PHONE_TO_DELETE, required = false)
                                      Long[] phoneIds,
                              RedirectAttributes redirectAttributes){
         if (result.hasErrors()){
-            model.addAttribute(TEMP_MSG, responseService.getFailUpdateMsg());
-            LOGGER.debug("invalid lightCart: " + lightCart);
+            model.addAttribute(TEMP_MSG, cartResponseService.getFailUpdateMsg());
+            LOGGER.debug("invalid form: " + form + "\n BR: \n" + result.getFieldErrors());
+            cartService.deleteFromCart(phoneIds);
+            model.addAttribute(CART_ATTR, cartService.getCart());
             return "fullCart";
         }
-        LOGGER.debug(String.format("Changes: %s\nDelete ids:%s",
-                Arrays.asList(lightCart.getItems()), Arrays.toString(phoneIds)));
-        cartService.updatePhoneQuantity(cart, lightCart.getItems());
-        cartService.deleteFromCart(cart, phoneIds);
-        model.addAttribute(CART_ATTR, cart);
+        LOGGER.debug(String.format("Changes: %s\nDelete ids:%s", form, Arrays.toString(phoneIds)));
 
-        redirectAttributes.addFlashAttribute(TEMP_MSG, responseService.getUpdateSuccessMsg());
-        LOGGER.debug("ValidationResult cart : " + model.get(CART_ATTR));
+        for (OrderItem item : form.getItems()){
+            cartService.updatePhoneQuantity(item.getPhone().getKey(), item.getQuantity());
+        }
+        cartService.deleteFromCart(phoneIds);
+        model.addAttribute(CART_ATTR, cartService.getCart());
+        redirectAttributes.addFlashAttribute(TEMP_MSG, cartResponseService.getUpdateSuccessMsg());
         return "redirect:cart";
     }
 
@@ -79,7 +68,17 @@ public class UpdateCartController {
             NullPointerException.class})
     public String numberFormatViolation(ModelMap model, HttpServletRequest req, Exception e){
         LOGGER.debug(format("Number format exception for input '%s'.", req.getParameterMap()), e);
-        model.addAttribute(TEMP_MSG, responseService.getInvalidFormatMsg());
+        model.addAttribute(TEMP_MSG, cartResponseService.getInvalidFormatMsg());
         return "fullCart";
+    }
+
+    @Autowired
+    public void setCartService(CartService cartService) {
+        this.cartService = cartService;
+    }
+
+    @Autowired
+    public void setCartResponseService(CartResponseService cartResponseService) {
+        this.cartResponseService = cartResponseService;
     }
 }

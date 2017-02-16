@@ -1,14 +1,19 @@
-
-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"         xmlns="http://java.sun.com/xml/ns/javaee"
-         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://java.sun.com/xml/ns/javaee"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+          http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
          version="3.0">
 
+  <welcome-file-list>
+    <welcome-file>/index.jsp</welcome-file>
+    <welcome-file>/productList.jsp</welcome-file>
+  </welcome-file-list>
 
   <display-name>Phonify</display-name>
 
   <context-param>
     <param-name>contextConfigLocation</param-name>
-    <param-value>WEB-INF/config/root-context.xml</param-value>
+    <param-value>WEB-INF/config/root-context.xml WEB-INF/config/security/spring-security.xml</param-value>
   </context-param>
 
   <context-param>
@@ -60,8 +65,6 @@
     <load-on-startup>1</load-on-startup>
   </servlet>
 
-  <!--D:\!project\my\expert_soft\com.expert_soft\PhoneShop\web\src\main\webapp\WEB-INF\config\appServlet\servlet-context.xml-->
-
   <servlet-mapping>
     <servlet-name>appServlet</servlet-name>
     <url-pattern>/</url-pattern>
@@ -84,6 +87,15 @@
     <dispatcher>REQUEST</dispatcher>
     <dispatcher>INCLUDE</dispatcher>
     <dispatcher>FORWARD</dispatcher>
+  </filter-mapping>
+
+  <filter>
+    <filter-name>springSecurityFilterChain</filter-name>
+    <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>springSecurityFilterChain</filter-name>
+    <url-pattern>/*</url-pattern>
   </filter-mapping>
 
 </web-app>
