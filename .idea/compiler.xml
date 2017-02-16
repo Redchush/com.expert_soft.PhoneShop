@@ -24,7 +24,6 @@
         <processorPath useClasspath="true" />
         <module name="core" />
         <module name="core_" />
-        <module name="excluded" />
         <module name="web" />
       </profile>
     </annotationProcessing>
