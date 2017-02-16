@@ -6,7 +6,6 @@ import com.expert_soft.model.order.Order;
 
 public interface OrderCalculator {
 
-   void recalculate(Cart cart);
-   void recalculate(Order order);
-
+    void recalculate(Cart cart);
+    void recalculate(Order order);
 }

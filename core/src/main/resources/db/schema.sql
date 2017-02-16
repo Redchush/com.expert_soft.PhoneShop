@@ -28,7 +28,8 @@ create table orders (
   last_name varchar(100) not null,
   delivery_address VARCHAR(500) not null,
   contact_phone_no VARCHAR(50) not null,
-  additional_info VARCHAR(500)
+  additional_info VARCHAR(500),
+  status VARCHAR(32) DEFAULT 'NEW'
 );
 
 create table order_items (

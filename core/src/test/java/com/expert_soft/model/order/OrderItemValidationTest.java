@@ -1,9 +1,9 @@
-package com.expert_soft.model;
+package com.expert_soft.model.order;
 
 
+import com.expert_soft.model.Phone;
 import com.expert_soft.test_util.DataBuilder;
 import com.expert_soft.validator.group.G_Cart;
-import org.apache.log4j.Logger;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -13,7 +13,6 @@ import static com.expert_soft.test_util.asserts.ValidationAsserts._assertOneInva
 
 public class OrderItemValidationTest {
 
-    private static final Logger LOGGER = Logger.getLogger(UserInfoValidationTest.class);
     public static Properties properties;
 
     @BeforeClass

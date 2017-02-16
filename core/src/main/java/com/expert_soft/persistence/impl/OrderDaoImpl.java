@@ -1,8 +1,9 @@
 package com.expert_soft.persistence.impl;
 
 
-import com.expert_soft.model.OrderItem;
 import com.expert_soft.model.order.Order;
+import com.expert_soft.model.order.OrderItem;
+import com.expert_soft.model.order.OrderStatus;
 import com.expert_soft.persistence.OrderDao;
 import com.expert_soft.persistence.impl.util.DataConverter;
 import org.springframework.jdbc.core.ResultSetExtractor;
@@ -32,12 +33,13 @@ public class OrderDaoImpl implements OrderDao {
 
     private static final String INSERT_ONE_ITEM_QUERY =
             "INSERT INTO order_items(phone_id, order_id, quantity, subtotal) " +
-            "VALUES (:phone_id, :order_id, :quantity, :subtotal)";
+                    "VALUES (:phone_id, :order_id, :quantity, :subtotal)";
 
     private static final String BASE_QUERY =
             " SELECT orders.id, orders.delivery_price, orders.subtotal, orders.total " +
                     ",orders.first_name, orders.last_name\n" +
-                    ",orders.delivery_address, orders.contact_phone_no, orders.additional_info  " +
+                    ",orders.delivery_address, orders.contact_phone_no, orders.additional_info" +
+                    ",orders.status " +
                     ",order_items.id, order_items.quantity, order_items.subtotal \n" +
                     ",phones.id, phones.model, phones.color, phones.displaySize, phones.width " +
                     ",phones.length " +
@@ -49,10 +51,12 @@ public class OrderDaoImpl implements OrderDao {
                     "ON phones.id = order_items.PHONE_ID \n";
 
     private static final String GET_ONE_QUERY = BASE_QUERY + " WHERE ORDERS.id = ? ORDER BY ORDER_ITEMS.ID";
+    private static final String UPDATE_STATUS_QUERY = "UPDATE ORDERS SET STATUS = ? WHERE ID = ?";
 
     private NamedParameterJdbcTemplate jdbcTemplate;
     private ResultSetExtractor<Order> singleOrderExtractor;
     private ResultSetExtractor<List<Order>> listOrderExtractor;
+
 
 
     public void setJdbcTemplate(NamedParameterJdbcTemplate jdbcTemplate) {
@@ -79,6 +83,16 @@ public class OrderDaoImpl implements OrderDao {
                                 .query(con -> con.prepareStatement(BASE_QUERY,
                                         ResultSet.TYPE_SCROLL_SENSITIVE,
                                         ResultSet.CONCUR_READ_ONLY), listOrderExtractor);
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void changeStatus(final Long orderId, final OrderStatus status){
+        jdbcTemplate.getJdbcOperations().update(UPDATE_STATUS_QUERY,
+                ps -> {
+                    ps.setString(1, status.toString());
+                    ps.setLong(2, orderId);
+                });
     }
 
     @Override

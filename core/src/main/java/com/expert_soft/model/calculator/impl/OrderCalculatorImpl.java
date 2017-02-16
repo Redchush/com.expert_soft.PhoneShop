@@ -1,19 +1,15 @@
-package com.expert_soft.model.calculator;
+package com.expert_soft.model.calculator.impl;
 
 
-import com.expert_soft.model.OrderItem;
+import com.expert_soft.model.calculator.OrderCalculator;
 import com.expert_soft.model.order.AbstractOrder;
 import com.expert_soft.model.order.Cart;
 import com.expert_soft.model.order.Order;
-import org.springframework.beans.factory.config.ConfigurableBeanFactory;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
+import com.expert_soft.model.order.OrderItem;
 
 import java.math.BigDecimal;
 
-@Component("orderCalculator")
-@Scope(ConfigurableBeanFactory.SCOPE_SINGLETON)
-public class OrderCalculatorImpl implements OrderCalculator {
+public class OrderCalculatorImpl implements OrderCalculator{
 
     @Override
     public void recalculate(Cart cart){
@@ -27,14 +23,13 @@ public class OrderCalculatorImpl implements OrderCalculator {
         calculateAndSetTotal(order);
     }
 
-    private BigDecimal calculateAndSetSubtotal(AbstractOrder order){
+    private void calculateAndSetSubtotal(AbstractOrder order){
         BigDecimal result = new BigDecimal("0.00");
         for (OrderItem item : order.getOrderItems()){
             BigDecimal itemSubtotal = calculateAndSetSubtotal(item);
             result = result.add(itemSubtotal);
         }
         order.setSubtotal(result);
-        return result;
     }
 
     private BigDecimal calculateAndSetSubtotal(OrderItem item){
@@ -57,6 +52,4 @@ public class OrderCalculatorImpl implements OrderCalculator {
         }
         cart.setTotalPhonesCount(result);
     }
-
-
 }

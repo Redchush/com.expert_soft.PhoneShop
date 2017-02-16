@@ -1,7 +1,7 @@
-package com.expert_soft.model;
+package com.expert_soft.model.order;
 
 
-import com.expert_soft.model.order.Order;
+import com.expert_soft.model.Phone;
 import com.expert_soft.validator.group.G_Cart;
 import com.expert_soft.validator.group.G_Order;
 
@@ -16,7 +16,8 @@ public class OrderItem {
 
     private Long key;
 
-    private @Valid Phone phone;
+    private @Valid
+    Phone phone;
     private Order order;
 
     private BigDecimal subtotal;

@@ -1,9 +1,10 @@
 package com.expert_soft.persistence.impl.util;
 
 
-import com.expert_soft.model.OrderItem;
 import com.expert_soft.model.Phone;
 import com.expert_soft.model.order.Order;
+import com.expert_soft.model.order.OrderItem;
+import com.expert_soft.model.order.OrderStatus;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
@@ -15,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * com.expert_soft.test_util class encapsulate classes which deal with assembling model entities from ResultSet,
+ * com.expert_soft.test_util class encapsulate classes which deal with assembling form entities from ResultSet,
  * such as mappers, extractors and other classes from Spring JDBC API
  *
  */
@@ -60,6 +61,8 @@ public class Collectors {
 
             BigDecimal total = rs.getBigDecimal("orders.total");
             order.setTotalPrice(DataConverter.getPriceForModel(total));
+
+            order.setStatus(OrderStatus.valueOf(rs.getString("orders.status")));
 
             order.setFirstName(rs.getString("orders.first_name"));
             order.setLastName(rs.getString("orders.last_name"));

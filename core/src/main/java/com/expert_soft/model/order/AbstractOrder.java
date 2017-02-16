@@ -1,8 +1,6 @@
 package com.expert_soft.model.order;
 
 
-import com.expert_soft.model.OrderItem;
-
 import java.math.BigDecimal;
 import java.util.Collection;
 

@@ -1,7 +1,6 @@
-package com.expert_soft.model;
+package com.expert_soft.model.order;
 
 
-import com.expert_soft.model.order.Cart;
 import com.expert_soft.test_util.DataBuilder;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,8 +11,8 @@ import static org.junit.Assert.assertEquals;
 
 public class AbstractOrderTest {
 
-    Cart cart;
-    OrderItem item;
+    private Cart cart;
+    private OrderItem item;
 
     @Before
     public void setUp() throws Exception {
@@ -29,8 +28,8 @@ public class AbstractOrderTest {
 
     @Test(expected = UnsupportedOperationException.class)
     public void getItems(){
-       Collection<OrderItem> orderItems = cart.getOrderItems();
-       orderItems.remove(item);
+        Collection<OrderItem> orderItems = cart.getOrderItems();
+        orderItems.remove(item);
     }
 
 

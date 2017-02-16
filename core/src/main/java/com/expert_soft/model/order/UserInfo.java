@@ -1,4 +1,4 @@
-package com.expert_soft.model;
+package com.expert_soft.model.order;
 
 
 import com.expert_soft.validator.group.G_Order;
