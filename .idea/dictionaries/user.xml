@@ -2,11 +2,14 @@
   <dictionary name="user">
     <words>
       <w>beanvalidation</w>
+      <w>clearfix</w>
       <w>colspan</w>
       <w>curriculumpair</w>
+      <w>glyphicon</w>
       <w>jstl</w>
       <w>karlovna</w>
       <w>matchers</w>
+      <w>navbar</w>
       <w>phonify</w>
       <w>samsung</w>
       <w>tfoot</w>
